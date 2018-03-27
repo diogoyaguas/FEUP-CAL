@@ -98,6 +98,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Graph2.cpp" />
     <ClCompile Include="src\connection.cpp" />
     <ClCompile Include="src\Dijkstra.cpp" />
     <ClCompile Include="src\FichaJUNG.cpp" />
@@ -465,12 +466,14 @@
     <ClInclude Include="cute\ide_listener.h" />
     <ClInclude Include="cute\ostream_listener.h" />
     <ClInclude Include="cute\xml_listener.h" />
+    <ClInclude Include="Graph2.h" />
     <ClInclude Include="src\connection.h" />
     <ClInclude Include="src\edgetype.h" />
     <ClInclude Include="src\Graph.h" />
     <ClInclude Include="src\graphviewer.h" />
     <ClInclude Include="src\Line.h" />
     <ClInclude Include="src\Link.h" />
+    <ClInclude Include="src\MutablePriorityQueue.h" />
     <ClInclude Include="src\Station.h" />
     <ClInclude Include="src\Stop.h" />
   </ItemGroup>

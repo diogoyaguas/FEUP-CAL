@@ -6,17 +6,13 @@ Station::Station()
 {
 }
 
-Station::Station(int stationID, string name)
+Station::Station(int stationID, double x, double y, string name) : stationID(stationID), x(x), y(y), name(name)
 {
-	this->stationID = stationID;
-	this->name = name;
 }
 
-Station::Station(int stationID, vector<Stop> stops, string name)
+Station::Station(int stationID, double x, double y, vector<Stop> stops, string name) : stationID(stationID), x(x), y(y), name(name)
 {
-	this->stationID = stationID;
 	this->stops = stops;
-	this->name = name;
 }
 
 

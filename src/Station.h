@@ -8,8 +8,10 @@
 class Station
 {
 	int stationID;
-	std::vector<Stop> stops;
+	double x;
+	double y;
 	string name;
+	std::vector<Stop> stops;
 	std::vector<Link> connections;
 
 	double dist = 0;
@@ -17,15 +19,15 @@ class Station
 	int queueIndex = 0; 		// required by MutablePriorityQueue
 public:
 	Station();
-	Station(int stationID, string name);
-	Station(int stationID, vector<Stop> stops, string name);
+	Station(int stationID, double x, double y, string name);
+	Station(int stationID, double x, double y, vector<Stop> stops, string name);
 	~Station();
 
 	bool operator<(Station & station) const; // // required by MutablePriorityQueue
 	double getDist() const;
 	Station *getPath() const;
 
-	friend class Graph;
+	friend class Graph2;
 	friend class MutablePriorityQueue<Station>;
 };
 

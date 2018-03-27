@@ -10,7 +10,7 @@ public:
 	Link();
 	~Link();
 
-	friend class Graph;
+	friend class Graph2;
 	friend class Station;
 };
 
