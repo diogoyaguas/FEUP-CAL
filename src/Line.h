@@ -28,6 +28,11 @@ struct LineID
 {
 	int lineID;
 	char type; //0 - On foot (possible future update), 1 - Bus, 2 - Metro, 3 - Train
+
+	bool operator==(const LineID& other) const
+	{
+		return (lineID == other.lineID && type == other.type);
+	}
 };
 
 #endif /* SRC_LINE_H_ */
