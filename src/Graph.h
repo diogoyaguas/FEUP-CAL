@@ -23,12 +23,25 @@ class Vertex {
 	bool processing;       // auxiliary field used by isDAG
 	int indegree;          // auxiliary field used by topsort
 
+	double dist = 0;
+	Vertex<T> *path = NULL;
+	int queueIndex = 0; 		// required by MutablePriorityQueue
+
 	void addEdge(Vertex<T> *dest, double w);
 	bool removeEdgeTo(Vertex<T> *d);
 public:
 	Vertex(T in);
+	bool operator<(Vertex<T> & vertex) const; // // required by MutablePriorityQueue
+	double getDist() const;
+	Vertex *getPath() const;
 	friend class Graph<T>;
+	friend class MutablePriorityQueue<Vertex<T>>;
 };
+
+template <class T>
+bool Vertex<T>::operator<(Vertex<T> & vertex) const {
+	return this->dist < vertex.dist;
+}
 
 template <class T>
 class Edge {
@@ -58,6 +71,7 @@ public:
 	vector<T> topsort() const;
 	int maxNewChildren(const T &source, T &inf) const;
 	bool isDAG() const;
+
 };
 
 /****************** Provided constructors and functions ********************/
