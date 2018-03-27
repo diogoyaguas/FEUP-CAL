@@ -9,5 +9,8 @@ class Link
 public:
 	Link();
 	~Link();
+
+	friend class Graph;
+	friend class Station;
 };
 

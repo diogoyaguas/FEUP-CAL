@@ -12,6 +12,12 @@ Line::Line() {
 
 }
 
+ Line::Line(LineID lineID, vector<int> stopsID)
+ {
+	 this->lineID = lineID;
+	 this->stopsID = stopsID;
+ }
+
 Line::~Line() {
 	// TODO Auto-generated destructor stub
 }

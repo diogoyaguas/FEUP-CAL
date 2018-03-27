@@ -9,6 +9,7 @@
 #define SRC_LINE_H_
 
 #include "Graph.h"
+#include "Station.h"
 #include <vector>
 
 struct LineID;
@@ -16,6 +17,7 @@ struct LineID;
 class Line {
 public:
 	Line();
+	Line(LineID lineID, vector<int> stopsID);
 	virtual ~Line();
 private:
 	LineID lineID;
