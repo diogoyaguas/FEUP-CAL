@@ -34,3 +34,28 @@ Station * Station::getPath() const
 {
 	return path;
 }
+
+void Station::addLinkTo(Station * dest, LineID lineID)
+{
+	connections.push_back(Link(lineID, dest));
+}
+
+bool Station::removeLinksTo(Station * dest)
+{
+	for (auto it = connections.begin(); it != connections.end(); it++)
+		if (it->dest == dest) {
+			connections.erase(it);
+			return true;
+		}
+	return false;
+}
+
+bool Station::removeLinkTo(Station * dest, LineID lineID)
+{
+	for (auto it = connections.begin(); it != connections.end(); it++)
+		if (it->dest == dest && it->lineID == lineID) {
+			connections.erase(it);
+			return true;
+		}
+	return false;
+}

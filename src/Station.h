@@ -27,6 +27,10 @@ public:
 	double getDist() const;
 	Station *getPath() const;
 
+	void addLinkTo(Station* dest, LineID lineID);
+	bool removeLinksTo(Station * dest);
+	bool removeLinkTo(Station * dest, LineID lineID);
+
 	friend class Graph2;
 	friend class MutablePriorityQueue<Station>;
 };

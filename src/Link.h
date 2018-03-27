@@ -8,6 +8,8 @@ class Link
 	double travelTime;
 public:
 	Link();
+	Link(LineID lineID, Station* dest);
+	Link(LineID lineID, Station* dest, double travelTime);
 	~Link();
 
 	friend class Graph2;

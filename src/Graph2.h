@@ -9,5 +9,11 @@ class Graph2
 public:
 	Graph2();
 	~Graph2();
+
+	int getNumStations() const;
+	bool addStation(Station* station);
+	bool removeStation(Station* station);
+	bool addLink(LineID lineID, Station* source, Station* dest);
+	bool removeLink(Station* source, Station* dest, LineID lineID);
 };
 
