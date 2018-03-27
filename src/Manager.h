@@ -38,6 +38,10 @@ public:
      */
     void loadEdges();
 
+	/**
+	* Function that loads the data from the lines file into the structures in Graph.h.
+	*/
+	void loadLines();
 };
 
 

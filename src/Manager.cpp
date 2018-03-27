@@ -50,6 +50,44 @@ void Manager::loadStations() {
     return;
 }
 
+void Manager::loadLines() {
+
+	string line;
+
+	ifstream file("lines.txt");
+
+	if (file.is_open()) {
+		while (getline(file, line)) {
+
+			stringstream linestream(line);
+			string data;
+
+			LineID lineId;
+			vector<int> stopsId;
+			int stopID;
+
+			linestream >> lineId.lineID;
+			getline(linestream, data, ';');
+			linestream >> lineId.type;
+
+			while (data != "") {
+				getline(linestream, data, ';'); // read up-to the first ; (discard ;).
+				linestream >> stopID;
+				stopsId.push_back(stopID);
+				
+			}
+			Line line = Line(lineId, stopsId);
+
+		}
+
+		file.close();
+	}
+	else {
+		cerr << "n File not found!\n";
+	}
+	return;
+}
+
 void Manager::loadEdges() {
 
     string line;
