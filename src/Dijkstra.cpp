@@ -1,5 +1,7 @@
 //O algoritmo desenvolvido na prática, não testado!
 
+#include "Graph.h"
+
 template<class T>
 void Graph<T>::dijkstraShortestPath(const T &origin) {
 	
