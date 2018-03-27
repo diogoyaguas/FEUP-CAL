@@ -29,10 +29,13 @@ public:
     ~Manager();
 
     /**
-	 * A function that loads the data from the node file, creating objects of the Station class and adding to the respective vertex in myGraph.
-    */
+     * A function that loads the data from the node file, creating objects of the Station class and adding to the respective vertex in myStation.
+     */
     void loadStations();
 
+    /**
+     * Function that loads the data from the edge file into the structures in Graph.h.
+     */
     void loadEdges();
 
 };
