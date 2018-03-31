@@ -1,7 +1,5 @@
-//
-// Created by diogo on 27/03/2018.
-//
 
+#include <cmath>
 #include "Manager.h"
 
 Manager::Manager() {
@@ -16,7 +14,7 @@ void Manager::loadStations() {
 
     string line;
 
-    ifstream file("Stations.txt");
+    ifstream file("stations.txt");
 
     if (file.is_open()) {
         while (getline(file, line)) {
@@ -40,14 +38,13 @@ void Manager::loadStations() {
 
             Station station = Station(id, x, y, name);
 
-            myStation.addVertex(station);
+            myStation.push_back(station);
         }
 
         file.close();
     } else {
         cerr << "n File not found!\n";
     }
-    return;
 }
 
 void Manager::loadLines() {
@@ -70,13 +67,14 @@ void Manager::loadLines() {
 			getline(linestream, data, ';');
 			linestream >> lineId.type;
 
-			while (data != "") {
+			while (!data.empty()) {
 				getline(linestream, data, ';'); // read up-to the first ; (discard ;).
 				linestream >> stopID;
 				stopsId.push_back(stopID);
 				
 			}
-			Line line = Line(lineId, stopsId);
+            auto lines = Line(lineId, stopsId);
+            myLine.push_back(lines);
 
 		}
 
@@ -85,14 +83,13 @@ void Manager::loadLines() {
 	else {
 		cerr << "n File not found!\n";
 	}
-	return;
 }
 
-void Manager::loadEdges() {
+void Manager::loadLinks() {
 
     string line;
 
-    ifstream file("edges.txt");
+    ifstream file("links.txt");
 
     if (file.is_open()) {
         while (getline(file, line)) {
@@ -115,20 +112,21 @@ void Manager::loadEdges() {
             Station StationInit;
             Station StationFinal;
 
-            for (unsigned int i = 0; i < myStation.getVertexSet().size(); i++) {
+            for (unsigned int i = 0; i < myStation.size(); i++) {
 
-                if (idOriginStation == myStation.getVertexSet().at(i)->getInfo().getID())
-                    StationInit = myStation.getVertexSet().at(i)->getInfo();
+                if (idOriginStation == myStation.at(i).getID())
+                    StationInit = myStation.at(i);
 
-                if (idEndStation == myStation.getVertexSet().at(i)->getInfo().getID()) {
-                    StationFinal = myStation.getVertexSet().at(i)->getInfo();
+                if (idEndStation == myStation.at(i).getID()) {
+                    StationFinal = myStation..at(i);
                 }
             }
 
             double weight;
             weight = sqrt(pow(StationFinal.getX() - StationInit.getX(), 2)
                     + pow(StationFinal.getY() - StationInit.getY(), 2));
-            myStation.addEdge(StationInit, StationFinal, weight);
+
+
 
         }
 
@@ -136,5 +134,17 @@ void Manager::loadEdges() {
     } else {
         cerr << "e File not found!\n";
     }
-    return;
 }
+
+void Manager::loadStops() {
+
+}
+
+
+void Manager::loadData() {
+    loadStations();
+    loadLinks();
+    loadLines();
+}
+
+

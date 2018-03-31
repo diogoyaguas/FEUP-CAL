@@ -94,7 +94,7 @@ void exercicio3()
 	gv->defineEdgeColor("green");
 	gv->defineVertexColor("blue");
 	
-	inFile.open("nodes.txt");
+	inFile.open("stations.txt");
 	
 	if (!inFile) {
 		cerr << "Unable to open the input file";
@@ -119,7 +119,7 @@ void exercicio3()
 	inFile.close();
 
 
-	inFile.open("edges.txt");
+	inFile.open("links.txt");
 
 	if (!inFile) {
 		cerr << "Unable to open the input file";

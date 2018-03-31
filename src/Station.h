@@ -1,4 +1,6 @@
-#pragma once
+#ifndef FEUP_CAL_STATION_H
+#define FEUP_CAL_STATION_H
+
 #include "Stop.h"
 #include "MutablePriorityQueue.h"
 #include "Link.h"
@@ -24,8 +26,11 @@ public:
 	~Station();
 
 	bool operator<(Station & station) const; // // required by MutablePriorityQueue
+	double getX() { return this.x;}
+	double getY() { return this.y;}
 	double getDist() const;
 	Station *getPath() const;
+	int getID() { return this.stationID;}
 
 	void addLinkTo(Station* dest, LineID lineID);
 	bool removeLinksTo(Station * dest);
@@ -41,3 +46,4 @@ public:
 	friend class MutablePriorityQueue<Station>;
 };
 
+#endif //FEUP_CAL_STATION_H

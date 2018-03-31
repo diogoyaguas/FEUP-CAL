@@ -1,12 +1,5 @@
-/*
- * Line.h
- *
- *  Created on: Mar 26, 2018
- *      Author: ricar
- */
-
-#ifndef SRC_LINE_H_
-#define SRC_LINE_H_
+#ifndef FEUP_CAL_LINE_H_
+#define FEUP_CAL_LINE_H_
 
 #include "Graph.h"
 #include "Station.h"
@@ -19,6 +12,7 @@ public:
 	Line();
 	Line(LineID lineID, vector<int> stopsID);
 	virtual ~Line();
+	LineID getLineID() { return lineID;}
 private:
 	LineID lineID;
 	std::vector<int> stopsID;
@@ -35,4 +29,4 @@ struct LineID
 	}
 };
 
-#endif /* SRC_LINE_H_ */
+#endif /* FEUP_CAL_LINE_H_ */

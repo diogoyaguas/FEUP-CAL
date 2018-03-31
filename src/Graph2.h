@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Station.cpp"
 #include <vector>
 
@@ -19,5 +20,18 @@ public:
 	void calculateBaseTimeWeights();
 	void dijkstraTimePath(const int &stationID);
 	vector<Station*> getTimePath();
+
+	/*
+ * Class Edge
+ */
+	template <class T>
+	class Edge {
+		Vertex<T> * dest;      // destination vertex
+		double weight;         // edge weight
+	public:
+		Edge(Vertex<T> *d, double w);
+		friend class Graph<T>;
+		friend class Vertex<T>;
+	};
 };
 
