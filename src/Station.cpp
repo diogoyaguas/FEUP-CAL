@@ -1,5 +1,5 @@
 #include "Station.h"
-
+#include <cmath>
 
 
 Station::Station()
@@ -70,6 +70,11 @@ Stop * Station::findStop(LineID lineID)
 		}
 	}
 	return stop;
+}
+
+double Station::calculateDistanceTo(Station * dest)
+{
+	return sqrt(x*dest->x + y*dest->y);
 }
 
 void Station::updateTimeWeightsFrom(LineID lineID)

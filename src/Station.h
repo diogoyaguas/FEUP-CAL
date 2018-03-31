@@ -33,6 +33,8 @@ public:
 
 	Stop* findStop(LineID lineID);
 
+	double calculateDistanceTo(Station* dest);
+
 	void updateTimeWeightsFrom(LineID lineID);
 
 	friend class Graph2;

@@ -64,7 +64,20 @@ bool Graph2::removeLink(Station * source, Station * dest, LineID lineID)
 	return s1->removeLinkTo(s2, lineID);
 }
 
-void Graph2::dijkstraShortestPath(const int & stationID)
+void Graph2::calculateBaseTimeWeights()
+{
+	for (size_t i = 0; i < stationSet.size(); i++)
+	{
+		Station* s = stationSet.at(i);
+		for (size_t j = 0; j < s->connections.size(); j++)
+		{
+			Station* d = s->connections.at(i).dest;
+			s->connections.at(i).weight = s->calculateDistanceTo(d) / s->connections.at(i).travelSpeed;
+		}
+	}
+}
+
+void Graph2::dijkstraTimePath(const int & stationID)
 {
 	auto i = stationSet.begin();
 	for (; i != stationSet.end(); i++) {
@@ -94,7 +107,7 @@ void Graph2::dijkstraShortestPath(const int & stationID)
 	}
 }
 
-vector<Station*> Graph2::getShortestPath()
+vector<Station*> Graph2::getTimePath()
 {
 	//TODO
 	return vector<Station*>();
