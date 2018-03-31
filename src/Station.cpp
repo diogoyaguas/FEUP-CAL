@@ -40,6 +40,11 @@ void Station::addLinkTo(Station * dest, LineID lineID)
 	connections.push_back(Link(lineID, dest));
 }
 
+void Station::addStop(Stop stop) {
+
+	this->stops.push_back(stop);
+}
+
 bool Station::removeLinksTo(Station * dest)
 {
 	for (auto it = connections.begin(); it != connections.end(); it++)

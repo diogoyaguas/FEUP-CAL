@@ -33,6 +33,7 @@ public:
 	int getID() { return this.stationID;}
 
 	void addLinkTo(Station* dest, LineID lineID);
+	void addStop(Stop stop);
 	bool removeLinksTo(Station * dest);
 	bool removeLinkTo(Station * dest, LineID lineID);
 

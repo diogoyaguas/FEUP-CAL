@@ -1,11 +1,13 @@
 #include <iostream>
-#include "Interface.h"
+#include "Manager.h"
 
 using namespace std;
 
+Manager* Manager::singleton_instance = 0;
+
 int main() {
 
-    Interface interface = Interface();
-    interface.mainMenu();
+    Manager::instance()->loadData();
+
     return 0;
 }

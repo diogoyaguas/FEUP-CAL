@@ -1,5 +1,3 @@
-
-#include <cmath>
 #include "Manager.h"
 
 Manager::Manager() {
@@ -62,6 +60,7 @@ void Manager::loadLines() {
 			LineID lineId;
 			vector<int> stopsId;
 			int stopID;
+            int timeToStation;
 
 			linestream >> lineId.lineID;
 			getline(linestream, data, ';');
@@ -70,7 +69,18 @@ void Manager::loadLines() {
 			while (!data.empty()) {
 				getline(linestream, data, ';'); // read up-to the first ; (discard ;).
 				linestream >> stopID;
+                getline(linestream, data, ';'); // read up-to the first ; (discard ;).
+                linestream >> timeToStation;
 				stopsId.push_back(stopID);
+                Stop stop = Stop(lineId, timeToStation);
+
+                for(auto station: myStation){
+
+                    if(station.getID() == stopID){
+
+                        station.addStop(stop);
+                    }
+                }
 				
 			}
             auto lines = Line(lineId, stopsId);
@@ -97,36 +107,32 @@ void Manager::loadLinks() {
             std::stringstream linestream(line);
             string data;
 
-            int idEdge;
+            LineID lineId;
             int idOriginStation;
             int idEndStation;
 
-            linestream >> idEdge;
+            linestream >> lineId.lineID;
+            std::getline(linestream, data, ';'); // read up-to the first ; (discard ;).
+            linestream >> lineId.type;
 
             std::getline(linestream, data, ';'); // read up-to the first ; (discard ;).
             linestream >> idOriginStation;
             std::getline(linestream, data, ';'); // read up-to the first ; (discard ;).
             linestream >> idEndStation;
 
-            Station n;
-            Station StationInit;
-            Station StationFinal;
+            for(auto origin: myStation) {
 
-            for (unsigned int i = 0; i < myStation.size(); i++) {
+                if(idOriginStation == origin.getID()){
 
-                if (idOriginStation == myStation.at(i).getID())
-                    StationInit = myStation.at(i);
+                    for(auto final: myStation) {
 
-                if (idEndStation == myStation.at(i).getID()) {
-                    StationFinal = myStation..at(i);
+                        if(idEndStation == final.getID()) {
+
+                            origin.addLinkTo(&final,lineId);
+                        }
+                    }
                 }
             }
-
-            double weight;
-            weight = sqrt(pow(StationFinal.getX() - StationInit.getX(), 2)
-                    + pow(StationFinal.getY() - StationInit.getY(), 2));
-
-
 
         }
 
@@ -136,15 +142,22 @@ void Manager::loadLinks() {
     }
 }
 
-void Manager::loadStops() {
-
-}
-
-
 void Manager::loadData() {
     loadStations();
-    loadLinks();
     loadLines();
+    loadLinks();
 }
+
+void Manager::mainMenu() {
+
+    string origin, destination;
+
+    cout << "Where are you ?" << endl << "::: ";
+    cin >> origin;
+    cout << "Where do you want to go" << endl << "::: ";
+    cin >> destination;
+
+}
+
 
 
