@@ -31,6 +31,10 @@ public:
 	bool removeLinksTo(Station * dest);
 	bool removeLinkTo(Station * dest, LineID lineID);
 
+	Stop* findStop(LineID lineID);
+
+	void updateTimeWeightsFrom(LineID lineID);
+
 	friend class Graph2;
 	friend class MutablePriorityQueue<Station>;
 };

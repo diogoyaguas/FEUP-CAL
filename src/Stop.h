@@ -10,5 +10,6 @@ public:
 	Stop();
 	Stop(LineID lineID, double timeToStation);
 	~Stop();
+	friend class Station;
 };
 

@@ -15,5 +15,8 @@ public:
 	bool removeStation(Station* station);
 	bool addLink(LineID lineID, Station* source, Station* dest);
 	bool removeLink(Station* source, Station* dest, LineID lineID);
+
+	void dijkstraShortestPath(const int &stationID);
+	vector<Station*> getShortestPath();
 };
 

@@ -1,6 +1,10 @@
 #include "Graph2.h"
+#include <limits>
+#include <cmath>
 
+#define INF std::numeric_limits<double>::max()
 
+using namespace std;
 
 Station * Graph2::findStation(const int & stationID) const
 {
@@ -58,4 +62,40 @@ bool Graph2::removeLink(Station * source, Station * dest, LineID lineID)
 	if (s1 == NULL || s2 == NULL)
 		return false;
 	return s1->removeLinkTo(s2, lineID);
+}
+
+void Graph2::dijkstraShortestPath(const int & stationID)
+{
+	auto i = stationSet.begin();
+	for (; i != stationSet.end(); i++) {
+		Station* s = *i;
+		s->dist = INF;
+		s->path = NULL;
+	}
+
+	Station* orig = findStation(stationID);
+	orig->dist = 0;
+
+	MutablePriorityQueue< Station > q;
+	q.insert(orig);
+
+	while (!q.empty()) {
+		Station* s = q.extractMin();
+		for (auto i = s->connections.begin(); i != s->connections.end(); i++) {
+			Station* w = i->dest;
+			if (w->getDist() > s->getDist() + i->weight) {
+				double oldDist = w->dist;
+				w->dist = s->getDist() + i->weight;
+				w->path = s;
+				if (oldDist == INF) q.decreaseKey(w);
+				else q.insert(w);
+			}
+		}
+	}
+}
+
+vector<Station*> Graph2::getShortestPath()
+{
+	//TODO
+	return vector<Station*>();
 }

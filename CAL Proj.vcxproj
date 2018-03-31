@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -98,10 +98,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Graph2.cpp" />
     <ClCompile Include="src\connection.cpp" />
     <ClCompile Include="src\Dijkstra.cpp" />
     <ClCompile Include="src\FichaJUNG.cpp" />
+    <ClCompile Include="src\Graph2.cpp" />
     <ClCompile Include="src\graphviewer.cpp" />
     <ClCompile Include="src\Line.cpp" />
     <ClCompile Include="src\Link.cpp" />
@@ -466,10 +466,10 @@
     <ClInclude Include="cute\ide_listener.h" />
     <ClInclude Include="cute\ostream_listener.h" />
     <ClInclude Include="cute\xml_listener.h" />
-    <ClInclude Include="Graph2.h" />
     <ClInclude Include="src\connection.h" />
     <ClInclude Include="src\edgetype.h" />
     <ClInclude Include="src\Graph.h" />
+    <ClInclude Include="src\Graph2.h" />
     <ClInclude Include="src\graphviewer.h" />
     <ClInclude Include="src\Line.h" />
     <ClInclude Include="src\Link.h" />

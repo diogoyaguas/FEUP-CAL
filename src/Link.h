@@ -5,7 +5,8 @@ class Link
 {
 	LineID lineID;
 	Station* dest; //Destination Vertex
-	double travelTime;
+	double travelSpeed;
+	double weight; //Needs to be calculated depending on search parameters.
 public:
 	Link();
 	Link(LineID lineID, Station* dest);
