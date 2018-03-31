@@ -21,8 +21,6 @@ private:
     vector<Station>  myStation;
     vector<Line> myLine;
 
-    GraphViewer *graph;
-
 public:
 
     /**
@@ -41,7 +39,6 @@ public:
 
         return singleton_instance;
     }
-
 
     /**
      * A function that loads the data from the station file, creating objects of the Station class and adding to the respective vertex in myStation.

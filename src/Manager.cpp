@@ -1,12 +1,8 @@
 #include "Manager.h"
 
-Manager::Manager() {
+Manager::Manager() = default;
 
-}
-
-Manager::~Manager() {
-
-}
+Manager::~Manager() = default;
 
 void Manager::loadStations() {
 
@@ -47,52 +43,51 @@ void Manager::loadStations() {
 
 void Manager::loadLines() {
 
-	string line;
+    string line;
 
-	ifstream file("lines.txt");
+    ifstream file("lines.txt");
 
-	if (file.is_open()) {
-		while (getline(file, line)) {
+    if (file.is_open()) {
+        while (getline(file, line)) {
 
-			stringstream linestream(line);
-			string data;
+            stringstream linestream(line);
+            string data;
 
-			LineID lineId;
-			vector<int> stopsId;
-			int stopID;
+            LineID lineId{};
+            vector<int> stopsId;
+            int stopID;
             int timeToStation;
 
-			linestream >> lineId.lineID;
-			getline(linestream, data, ';');
-			linestream >> lineId.type;
+            linestream >> lineId.lineID;
+            getline(linestream, data, ';');
+            linestream >> lineId.type;
 
-			while (!data.empty()) {
-				getline(linestream, data, ';'); // read up-to the first ; (discard ;).
-				linestream >> stopID;
+            while (!data.empty()) {
+                getline(linestream, data, ';'); // read up-to the first ; (discard ;).
+                linestream >> stopID;
                 getline(linestream, data, ';'); // read up-to the first ; (discard ;).
                 linestream >> timeToStation;
-				stopsId.push_back(stopID);
+                stopsId.push_back(stopID);
                 Stop stop = Stop(lineId, timeToStation);
 
-                for(auto station: myStation){
+                for (auto station: myStation) {
 
-                    if(station.getID() == stopID){
+                    if (station.getID() == stopID) {
 
                         station.addStop(stop);
                     }
                 }
-				
-			}
+
+            }
             auto lines = Line(lineId, stopsId);
             myLine.push_back(lines);
 
-		}
+        }
 
-		file.close();
-	}
-	else {
-		cerr << "n File not found!\n";
-	}
+        file.close();
+    } else {
+        cerr << "n File not found!\n";
+    }
 }
 
 void Manager::loadLinks() {
@@ -107,7 +102,7 @@ void Manager::loadLinks() {
             std::stringstream linestream(line);
             string data;
 
-            LineID lineId;
+            LineID lineId{};
             int idOriginStation;
             int idEndStation;
 
@@ -120,15 +115,15 @@ void Manager::loadLinks() {
             std::getline(linestream, data, ';'); // read up-to the first ; (discard ;).
             linestream >> idEndStation;
 
-            for(auto origin: myStation) {
+            for (auto origin: myStation) {
 
-                if(idOriginStation == origin.getID()){
+                if (idOriginStation == origin.getID()) {
 
-                    for(auto final: myStation) {
+                    for (auto final: myStation) {
 
-                        if(idEndStation == final.getID()) {
+                        if (idEndStation == final.getID()) {
 
-                            origin.addLinkTo(&final,lineId);
+                            origin.addLinkTo(&final, lineId);
                         }
                     }
                 }
