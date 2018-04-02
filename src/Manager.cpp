@@ -57,18 +57,54 @@ void Manager::loadLines() {
             vector<int> stopsId;
             int stopID;
             int timeToStation;
+            int idOriginStation;
+            int idEndStation;
 
             linestream >> lineId.lineID;
             getline(linestream, data, ';');
             linestream >> lineId.type;
 
+            getline(linestream, data, ';'); // read up-to the first ; (discard ;).
+            linestream >> stopID;
+            getline(linestream, data, ';'); // read up-to the first ; (discard ;).
+            linestream >> timeToStation;
+
+            stopsId.push_back(stopID);
+            Stop stop = Stop(lineId, timeToStation);
+
+            for (auto station: myStation) {
+
+                if (station.getID() == stopID) {
+                    station.addStop(stop);
+                }
+            }
+
             while (!data.empty()) {
+
+                idOriginStation = stopID;
                 getline(linestream, data, ';'); // read up-to the first ; (discard ;).
-                linestream >> stopID;
+                linestream >> idEndStation;
                 getline(linestream, data, ';'); // read up-to the first ; (discard ;).
                 linestream >> timeToStation;
+
+                for (auto origin: myStation) {
+
+                    if (idOriginStation == origin.getID()) {
+
+                        for (auto final: myStation) {
+
+                            if (idEndStation == final.getID()) {
+
+                                origin.addLinkTo(&final, lineId);
+                            }
+                        }
+                    }
+                }
+
+                stopID = idEndStation;
+
                 stopsId.push_back(stopID);
-                Stop stop = Stop(lineId, timeToStation);
+                stop= Stop(lineId, timeToStation);
 
                 for (auto station: myStation) {
 
@@ -89,56 +125,9 @@ void Manager::loadLines() {
     }
 }
 
-void Manager::loadLinks() {
-
-    string line;
-
-    ifstream file("links.txt");
-
-    if (file.is_open()) {
-        while (getline(file, line)) {
-
-            std::stringstream linestream(line);
-            string data;
-
-            LineID lineId{};
-            int idOriginStation;
-            int idEndStation;
-
-            linestream >> lineId.lineID;
-            std::getline(linestream, data, ';'); // read up-to the first ; (discard ;).
-            linestream >> lineId.type;
-
-            std::getline(linestream, data, ';'); // read up-to the first ; (discard ;).
-            linestream >> idOriginStation;
-            std::getline(linestream, data, ';'); // read up-to the first ; (discard ;).
-            linestream >> idEndStation;
-
-            for (auto origin: myStation) {
-
-                if (idOriginStation == origin.getID()) {
-
-                    for (auto final: myStation) {
-
-                        if (idEndStation == final.getID()) {
-
-                            origin.addLinkTo(&final, lineId);
-                        }
-                    }
-                }
-            }
-        }
-
-        file.close();
-    } else {
-        cerr << "e File not found!\n";
-    }
-}
-
 void Manager::loadData() {
     loadStations();
     loadLines();
-    loadLinks();
 }
 
 void Manager::mainMenu() {
@@ -151,6 +140,3 @@ void Manager::mainMenu() {
     cin >> destination;
 
 }
-
-
-
