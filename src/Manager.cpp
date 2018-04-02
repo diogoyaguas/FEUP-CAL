@@ -2,8 +2,6 @@
 
 Manager::Manager() = default;
 
-Manager::~Manager() = default;
-
 void Manager::loadStations() {
 
     string line;
@@ -139,4 +137,9 @@ void Manager::mainMenu() {
     cout << "Where do you want to go" << endl << "::: ";
     cin >> destination;
 
+}
+
+Graph * Manager::parseGraphForPrice(Graph2 graph)
+{
+	return nullptr;
 }

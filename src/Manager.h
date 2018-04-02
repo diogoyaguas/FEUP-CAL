@@ -10,50 +10,37 @@
 
 #include "Station.h"
 #include "Graph2.h"
+#include "Graph.h"
 
 class Manager {
 
 private:
-
-    static Manager* singleton_instance;
-    vector<Station>  myStation;
-    vector<Line> myLine;
-
-public:
-
-    /**
+    static vector<Station>  myStation;
+    static vector<Line> myLine;
+/**
 	 * Construtor default.
 	 */
     Manager();
-
-    /**
-	 * Destrutor default.
-	 */
-    ~Manager();
-
-    static Manager* instance() {
-        if (!singleton_instance)
-            singleton_instance = new Manager;
-
-        return singleton_instance;
-    }
+public:
 
     /**
      * A function that loads the data from the station file, creating objects of the Station class and adding to the respective vertex in myStation.
      */
-    void loadStations();
+    static void loadStations();
 
 	/**
 	* Function that loads the data from the lines file into the structures in Graph.h.
 	*/
-	void loadLines();
+	static void loadLines();
 
     /**
 	* Function that loads all the data.
 	*/
-    void loadData();
+    static void loadData();
 
-    void mainMenu();
+    static void mainMenu();
+
+	static Graph * parseGraphForPrice(Graph2 graph);
 };
 
 

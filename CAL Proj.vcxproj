@@ -476,7 +476,6 @@
     <ClInclude Include="cute\ide_listener.h" />
     <ClInclude Include="cute\ostream_listener.h" />
     <ClInclude Include="cute\xml_listener.h" />
-    <ClInclude Include="Graph.h" />
     <ClInclude Include="src\connection.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
@@ -484,6 +483,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="src\ExcessaoBase.h" />
+    <ClInclude Include="src\Graph.h" />
     <ClInclude Include="src\Graph2.h" />
     <ClInclude Include="src\graphviewer.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -496,6 +496,10 @@
     <ClInclude Include="src\MutablePriorityQueue.h" />
     <ClInclude Include="src\Station.h" />
     <ClInclude Include="src\Stop.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\lines.txt" />
+    <Text Include="src\stations.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
