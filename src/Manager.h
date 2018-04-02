@@ -10,7 +10,7 @@
 
 #include "graphviewer.h"
 #include "Station.h"
-#include "Graph.h"
+#include "Graph2.h"
 
 
 class Manager {
@@ -44,11 +44,6 @@ public:
      * A function that loads the data from the station file, creating objects of the Station class and adding to the respective vertex in myStation.
      */
     void loadStations();
-
-    /**
-     * Function that loads the data from the links file into the structures in Graph.h.
-     */
-    void loadLinks();
 
 	/**
 	* Function that loads the data from the lines file into the structures in Graph.h.
