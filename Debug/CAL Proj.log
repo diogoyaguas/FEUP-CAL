@@ -1,17 +1,4 @@
-﻿  Manager.cpp
-C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.12.25827\include\vector(1979): error C2036: 'Link *': unknown size
-  C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.12.25827\include\vector(1962): note: while compiling class template member function 'bool std::vector<Link,std::allocator<_Ty>>::_Buy(const unsigned int)'
-          with
-          [
-              _Ty=Link
-          ]
-  C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.12.25827\include\vector(768): note: see reference to function template instantiation 'bool std::vector<Link,std::allocator<_Ty>>::_Buy(const unsigned int)' being compiled
-          with
-          [
-              _Ty=Link
-          ]
-  c:\users\ricar\desktop\github repos\cal proj\src\Station.h(18): note: see reference to class template instantiation 'std::vector<Link,std::allocator<_Ty>>' being compiled
-          with
-          [
-              _Ty=Link
-          ]
+﻿  Station.cpp
+  Graph2.cpp
+  Generating Code...
+  CAL Proj.vcxproj -> C:\Users\ricar\Desktop\GitHub Repos\CAL Proj\Debug\CAL Proj.exe

@@ -1,6 +1,7 @@
 #pragma once
 #include "Station.h"
 
+/*
 class Link
 {
 	LineID lineID;
@@ -15,5 +16,5 @@ public:
 
 	friend class Graph2;
 	friend class Station;
-};
+};*/
 

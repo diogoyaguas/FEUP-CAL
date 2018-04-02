@@ -1,5 +1,5 @@
 #include "Graph2.h"
-#include "Link.h"
+#include "Station.h"
 #include <limits>
 #include <cmath>
 
