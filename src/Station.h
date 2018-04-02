@@ -26,11 +26,11 @@ public:
 	~Station();
 
 	bool operator<(Station & station) const; // // required by MutablePriorityQueue
-	double getX() { return this.x;}
-	double getY() { return this.y;}
+	double getX() { return this->x;}
+	double getY() { return this->y;}
 	double getDist() const;
 	Station *getPath() const;
-	int getID() { return this.stationID;}
+	int getID() { return this->stationID;}
 
 	void addLinkTo(Station* dest, LineID lineID);
 	void addStop(Stop stop);

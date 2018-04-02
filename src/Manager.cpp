@@ -83,7 +83,6 @@ void Manager::loadLines() {
             myLine.push_back(lines);
 
         }
-
         file.close();
     } else {
         cerr << "n File not found!\n";
@@ -128,7 +127,6 @@ void Manager::loadLinks() {
                     }
                 }
             }
-
         }
 
         file.close();
