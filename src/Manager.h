@@ -8,10 +8,8 @@
 #include <sstream>
 #include <cstdio>
 
-#include "graphviewer.h"
 #include "Station.h"
 #include "Graph2.h"
-
 
 class Manager {
 
