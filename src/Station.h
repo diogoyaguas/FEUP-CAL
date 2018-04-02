@@ -3,9 +3,10 @@
 
 #include "Stop.h"
 #include "MutablePriorityQueue.h"
-#include "Link.h"
 #include <vector>
 #include <string>
+
+class Link;
 
 class Station
 {

@@ -1,1 +1,12 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Platforms\Win32\PlatformToolsets\v141\Toolset.targets(34,5): error MSB8036: The Windows SDK version 8.1 was not found. Install the required version of Windows SDK or change the SDK version in the project property pages or by right-clicking the solution and selecting "Retarget solution".
+﻿  Graph2.cpp
+connection.obj : error LNK2019: unresolved external symbol __imp__connect@12 referenced in function "public: __thiscall Connection::Connection(short)" (??0Connection@@QAE@F@Z)
+connection.obj : error LNK2019: unresolved external symbol __imp__htons@4 referenced in function "public: __thiscall Connection::Connection(short)" (??0Connection@@QAE@F@Z)
+connection.obj : error LNK2019: unresolved external symbol __imp__inet_addr@4 referenced in function "public: __thiscall Connection::Connection(short)" (??0Connection@@QAE@F@Z)
+connection.obj : error LNK2019: unresolved external symbol __imp__recv@16 referenced in function "public: class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __thiscall Connection::readLine(void)" (?readLine@Connection@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ)
+connection.obj : error LNK2019: unresolved external symbol __imp__send@16 referenced in function "public: bool __thiscall Connection::sendMsg(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?sendMsg@Connection@@QAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z)
+connection.obj : error LNK2019: unresolved external symbol __imp__socket@12 referenced in function "public: __thiscall Connection::Connection(short)" (??0Connection@@QAE@F@Z)
+connection.obj : error LNK2019: unresolved external symbol __imp__WSAStartup@8 referenced in function "public: __thiscall Connection::Connection(short)" (??0Connection@@QAE@F@Z)
+connection.obj : error LNK2019: unresolved external symbol __imp__WSACleanup@0 referenced in function "public: __thiscall Connection::Connection(short)" (??0Connection@@QAE@F@Z)
+connection.obj : error LNK2019: unresolved external symbol __imp__WSAGetLastError@0 referenced in function "public: __thiscall Connection::Connection(short)" (??0Connection@@QAE@F@Z)
+MSVCRTD.lib(exe_main.obj) : error LNK2019: unresolved external symbol _main referenced in function "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ)
+C:\Users\ricar\Desktop\GitHub Repos\CAL Proj\Debug\CAL Proj.exe : fatal error LNK1120: 10 unresolved externals

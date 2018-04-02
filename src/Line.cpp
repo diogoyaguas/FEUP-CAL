@@ -1,11 +1,6 @@
-/*
- * Line.cpp
- *
- *  Created on: Mar 26, 2018
- *      Author: ricar
- */
-
 #include "Line.h"
+
+using namespace std;
 
 Line::Line() {
 	// TODO Auto-generated constructor stub

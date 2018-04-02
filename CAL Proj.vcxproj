@@ -22,6 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{36560A5F-71A9-407A-9141-2ED8347F6C32}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -99,12 +100,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\connection.cpp" />
-    <ClCompile Include="src\Dijkstra.cpp" />
-    <ClCompile Include="src\FichaJUNG.cpp" />
+    <ClCompile Include="src\ExcessaoBase.cpp" />
     <ClCompile Include="src\Graph2.cpp" />
     <ClCompile Include="src\graphviewer.cpp" />
+    <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\Line.cpp" />
     <ClCompile Include="src\Link.cpp" />
+    <ClCompile Include="src\MenuBase.cpp" />
     <ClCompile Include="src\Station.cpp" />
     <ClCompile Include="src\Stop.cpp" />
   </ItemGroup>
@@ -468,11 +470,13 @@
     <ClInclude Include="cute\xml_listener.h" />
     <ClInclude Include="src\connection.h" />
     <ClInclude Include="src\edgetype.h" />
-    <ClInclude Include="src\Graph.h" />
+    <ClInclude Include="src\ExcessaoBase.h" />
     <ClInclude Include="src\Graph2.h" />
     <ClInclude Include="src\graphviewer.h" />
+    <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\Line.h" />
     <ClInclude Include="src\Link.h" />
+    <ClInclude Include="src\Menus.h" />
     <ClInclude Include="src\MutablePriorityQueue.h" />
     <ClInclude Include="src\Station.h" />
     <ClInclude Include="src\Stop.h" />

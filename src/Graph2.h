@@ -1,6 +1,7 @@
-#pragma once
+#ifndef FEUP_CAL_GRAPH_H_
+#define FEUP_CAL_GRAPH_H_
 
-#include "Station.cpp"
+#include "Station.h"
 #include <vector>
 
 class Graph2
@@ -20,18 +21,7 @@ public:
 	void calculateBaseTimeWeights();
 	void dijkstraTimePath(const int &stationID);
 	vector<Station*> getTimePath();
-
-	/*
- * Class Edge
- */
-	template <class T>
-	class Edge {
-		Vertex<T> * dest;      // destination vertex
-		double weight;         // edge weight
-	public:
-		Edge(Vertex<T> *d, double w);
-		friend class Graph<T>;
-		friend class Vertex<T>;
-	};
 };
 
+
+#endif

@@ -1,10 +1,11 @@
 #include "Graph2.h"
+#include "Link.h"
 #include <limits>
 #include <cmath>
 
-#define INF std::numeric_limits<double>::max()
-
 using namespace std;
+
+#define INF numeric_limits<double>::max()
 
 Station * Graph2::findStation(const int & stationID) const
 {
@@ -94,7 +95,7 @@ void Graph2::dijkstraTimePath(const int & stationID)
 
 	while (!q.empty()) {
 		Station* s = q.extractMin();
-		for (auto i = s->connections.begin(); i != s->connections.end(); i++) {
+		for (vector<Link>::iterator i = s->connections.begin(); i != s->connections.end(); i++) {
 			Station* w = i->dest;
 			if (w->getDist() > s->getDist() + i->weight) {
 				double oldDist = w->dist;

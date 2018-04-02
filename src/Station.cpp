@@ -1,6 +1,9 @@
 #include "Station.h"
+#include "Link.h"
+#include <iostream>
 #include <cmath>
 
+using namespace std;
 
 Station::Station()
 {
@@ -68,7 +71,7 @@ bool Station::removeLinkTo(Station * dest, LineID lineID)
 Stop * Station::findStop(LineID lineID)
 {
 	Stop* stop = nullptr;
-	for (int i = 0; i < stops.size(); i++) {
+	for (size_t i = 0; i < stops.size(); i++) {
 		if (stops.at(i).lineID == lineID) {
 			stop = &(stops.at(i));
 			break;
