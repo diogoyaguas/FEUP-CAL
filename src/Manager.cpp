@@ -239,7 +239,6 @@ Graph *Manager::parseGraphForTime(Graph2 graph) {
     for (auto s: graph.getStations()) {
 
         newGraph->addVertex(s->getID());
-        id = s->getID();
 
     }
 
@@ -247,14 +246,13 @@ Graph *Manager::parseGraphForTime(Graph2 graph) {
 
         for (auto st: s->getStops()) {
 
-            id++;
-            newGraph->addVertex(id);
+            do{
+                id++;
+            } while(!newGraph->addVertex(id));
             newGraph->addEdge(id, s->getID(), st.getTimeToStation());
 
         }
     }
-
-    id = graph.getStations().at(graph.getStations().size()-1)->getID() + 1;
 
     for (auto s: graph.getStations()) {
 
@@ -264,14 +262,14 @@ Graph *Manager::parseGraphForTime(Graph2 graph) {
 
                 if (st.getLineID().lineID == l.getLineID().lineID) {
 
-                    time = s->calculateDistanceTo(l.getDestination()) / l.getTravelSpeed();
-                    newGraph->addEdge(id, l.getDestination()->getID(), time);
+                    time = s->calculateDistanceTo(l.getDest()) / l.getTravelSpeed();
+                    newGraph->addEdge(id, l.getDestination().get, time);
                 }
             }
 
             id++;
         }
     }
-    
+
     return newGraph;
 }*/

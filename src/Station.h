@@ -71,11 +71,12 @@ public:
 	Station* getDest();
 	double getTravelSpeed();
 	double getWeight();
+    LineID getLineID();
 
 	friend class Graph2;
 	friend class Station;
 
-    LineID getLineID() { return lineID;}
+
 };
 
 #endif //FEUP_CAL_STATION_H
