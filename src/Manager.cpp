@@ -105,7 +105,7 @@ void Manager::loadLines() {
                 stopID = idEndStation;
 
                 stopsId.push_back(stopID);
-                stop= Stop(lineId, timeToStation);
+                stop = Stop(lineId, timeToStation);
 
                 for (auto station: myStation) {
 
@@ -142,62 +142,89 @@ void Manager::mainMenu() {
 
 }
 
-Graph * Manager::parseGraphForPrice(Graph2 graph)
-{
-	Graph* newGraph = new Graph();
+Graph *Manager::parseGraphForPrice(Graph2 graph) {
+    Graph *newGraph = new Graph();
 
-	vector<Station*> stations = graph.getStations();
+    vector<Station *> stations = graph.getStations();
 
-	for (size_t i = 0; i < stations.size(); i++)
-	{
-		newGraph->addVertex(stations[i]->getID());
-	}
-
-	for (size_t i = 0; i < stations.size(); i++)
-	{
-		Station* station = stations[i];
-		vector<Link> links = station->getConnections();
-		for (size_t j = 0; j < links.size(); j++)
-		{
-			newGraph->addEdge(station->getID(), links[j].getDest()->getID(), 1);
-		}
-	}
-
-	return newGraph;
-}
-
-Graph * Manager::parseGraphForDistance(Graph2 graph)
-{
-	Graph* newGraph = new Graph();
-
-	vector<Station*> stations = graph.getStations();
-
-	for (size_t i = 0; i < stations.size(); i++)
-	{
-		newGraph->addVertex(stations[i]->getID());
-	}
-
-	for (size_t i = 0; i < stations.size(); i++)
-	{
-		Station* station = stations[i];
-		vector<Link> links = station->getConnections();
-		for (size_t j = 0; j < links.size(); j++)
-		{
-			newGraph->addEdge(station->getID(), links[j].getDest()->getID(), station->getDistTo(links[j].getDest()));
-		}
-	}
-
-	return newGraph;
-}
-
-Graph * Manager::parseGraphForTime(Graph2 graph) {
-
-    auto * newGraph = new Graph();
-
-    for(auto s: graph.getStationa()){
-
-        
+    for (size_t i = 0; i < stations.size(); i++) {
+        newGraph->addVertex(stations[i]->getID());
     }
 
+    for (size_t i = 0; i < stations.size(); i++) {
+        Station *station = stations[i];
+        vector<Link> links = station->getConnections();
+        for (size_t j = 0; j < links.size(); j++) {
+            newGraph->addEdge(station->getID(), links[j].getDest()->getID(), 1);
+        }
+    }
+
+    return newGraph;
+}
+
+Graph *Manager::parseGraphForDistance(Graph2 graph) {
+    Graph *newGraph = new Graph();
+
+    vector<Station *> stations = graph.getStations();
+
+    for (size_t i = 0; i < stations.size(); i++) {
+        newGraph->addVertex(stations[i]->getID());
+    }
+
+    for (size_t i = 0; i < stations.size(); i++) {
+        Station *station = stations[i];
+        vector<Link> links = station->getConnections();
+        for (size_t j = 0; j < links.size(); j++) {
+            newGraph->addEdge(station->getID(), links[j].getDest()->getID(), station->getDistTo(links[j].getDest()));
+        }
+    }
+
+    return newGraph;
+}
+
+Graph *Manager::parseGraphForTime(Graph2 graph) {
+
+    int id = 0;
+    double time;
+
+    auto *newGraph = new Graph();
+
+    for (auto s: graph.getStations()) {
+
+        newGraph->addVertex(s->getID());
+        id = s->getID();
+
+    }
+
+    for (auto s: graph.getStations()) {
+
+        for (auto st: s->getStops()) {
+
+            id++;
+            newGraph->addVertex(id);
+            newGraph->addEdge(id, s->getID(), st.getTimeToStation());
+
+        }
+    }
+
+    id = graph.getStations().at(graph.getStations().size()-1)->getID() + 1;
+
+    for (auto s: graph.getStations()) {
+
+        for (auto st: s->getStops()) {
+
+            for (auto l: s->getConnections()) {
+
+                if (st.getLineID().lineID == l.getLineID().lineID) {
+
+                    time = s->calculateDistanceTo(l.getDestination()) / l.getTravelSpeed();
+                    newGraph->addEdge(id, l.getDestination()->getID(), time);
+                }
+            }
+
+            id++;
+        }
+    }
+    
     return newGraph;
 }
