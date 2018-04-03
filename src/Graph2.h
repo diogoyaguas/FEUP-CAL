@@ -21,6 +21,7 @@ public:
 	void calculateBaseTimeWeights();
 	void dijkstraTimePath(const int &stationID);
 	vector<Station*> getTimePath();
+	vector<Station*> getStations();
 };
 
 

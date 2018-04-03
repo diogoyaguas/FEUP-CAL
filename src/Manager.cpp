@@ -144,5 +144,23 @@ void Manager::mainMenu() {
 
 Graph * Manager::parseGraphForPrice(Graph2 graph)
 {
-	return nullptr;
+	Graph* newGraph = new Graph();
+
+	vector<Station*> stations = graph.getStations();
+
+	for (size_t i = 0; i < stations.size(); i++)
+	{
+		newGraph->addVertex(stations[i]->getID());
+	}
+
+	for (size_t i = 0; i < stations.size(); i++)
+	{
+		Station* station = stations[i];
+		for (size_t j = 0; j < station->; j++)
+		{
+
+		}
+	}
+
+	return newGraph;
 }

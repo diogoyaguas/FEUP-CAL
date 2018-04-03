@@ -1,22 +1,10 @@
-﻿  TripPlanner.cpp
+﻿  MenuBase.cpp
+src\MenuBase.cpp(57): warning C4018: '<': signed/unsigned mismatch
+src\MenuBase.cpp(79): warning C4018: '<': signed/unsigned mismatch
+src\MenuBase.cpp(89): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  Compiling...
+  TripPlanner.cpp
+  Generating Code...
   Manager.cpp
-Manager.obj : error LNK2005: "private: void __thiscall Vertex::addEdge(class Vertex *,double)" (?addEdge@Vertex@@AAEXPAV1@N@Z) already defined in TripPlanner.obj
-Manager.obj : error LNK2005: "private: bool __thiscall Vertex::removeEdgeTo(class Vertex *)" (?removeEdgeTo@Vertex@@AAE_NPAV1@@Z) already defined in TripPlanner.obj
-Manager.obj : error LNK2005: "public: __thiscall Vertex::Vertex(int)" (??0Vertex@@QAE@H@Z) already defined in TripPlanner.obj
-Manager.obj : error LNK2005: "public: __thiscall Edge::Edge(class Vertex *,double)" (??0Edge@@QAE@PAVVertex@@N@Z) already defined in TripPlanner.obj
-Manager.obj : error LNK2005: "private: void __thiscall Graph::dfsVisit(class Vertex *,class std::vector<int,class std::allocator<int> > &)const " (?dfsVisit@Graph@@ABEXPAVVertex@@AAV?$vector@HV?$allocator@H@std@@@std@@@Z) already defined in TripPlanner.obj
-Manager.obj : error LNK2005: "private: class Vertex * __thiscall Graph::findVertex(int const &)const " (?findVertex@Graph@@ABEPAVVertex@@ABH@Z) already defined in TripPlanner.obj
-Manager.obj : error LNK2005: "private: bool __thiscall Graph::dfsIsDAG(class Vertex *)const " (?dfsIsDAG@Graph@@ABE_NPAVVertex@@@Z) already defined in TripPlanner.obj
-Manager.obj : error LNK2005: "public: int __thiscall Graph::getNumVertex(void)const " (?getNumVertex@Graph@@QBEHXZ) already defined in TripPlanner.obj
-Manager.obj : error LNK2005: "public: bool __thiscall Graph::addVertex(int const &)" (?addVertex@Graph@@QAE_NABH@Z) already defined in TripPlanner.obj
-Manager.obj : error LNK2005: "public: bool __thiscall Graph::removeVertex(int const &)" (?removeVertex@Graph@@QAE_NABH@Z) already defined in TripPlanner.obj
-Manager.obj : error LNK2005: "public: bool __thiscall Graph::addEdge(int const &,int const &,double)" (?addEdge@Graph@@QAE_NABH0N@Z) already defined in TripPlanner.obj
-Manager.obj : error LNK2005: "public: bool __thiscall Graph::removeEdge(int const &,int const &)" (?removeEdge@Graph@@QAE_NABH0@Z) already defined in TripPlanner.obj
-Manager.obj : error LNK2005: "public: class std::vector<int,class std::allocator<int> > __thiscall Graph::dfs(void)const " (?dfs@Graph@@QBE?AV?$vector@HV?$allocator@H@std@@@std@@XZ) already defined in TripPlanner.obj
-Manager.obj : error LNK2005: "public: class std::vector<int,class std::allocator<int> > __thiscall Graph::bfs(int const &)const " (?bfs@Graph@@QBE?AV?$vector@HV?$allocator@H@std@@@std@@ABH@Z) already defined in TripPlanner.obj
-Manager.obj : error LNK2005: "public: class std::vector<int,class std::allocator<int> > __thiscall Graph::topsort(void)const " (?topsort@Graph@@QBE?AV?$vector@HV?$allocator@H@std@@@std@@XZ) already defined in TripPlanner.obj
-Manager.obj : error LNK2005: "public: int __thiscall Graph::maxNewChildren(int const &,int &)const " (?maxNewChildren@Graph@@QBEHABHAAH@Z) already defined in TripPlanner.obj
-Manager.obj : error LNK2005: "public: bool __thiscall Graph::isDAG(void)const " (?isDAG@Graph@@QBE_NXZ) already defined in TripPlanner.obj
-Manager.obj : error LNK2001: unresolved external symbol "private: static class std::vector<class Station,class std::allocator<class Station> > Manager::myStation" (?myStation@Manager@@0V?$vector@VStation@@V?$allocator@VStation@@@std@@@std@@A)
-Manager.obj : error LNK2001: unresolved external symbol "private: static class std::vector<class Line,class std::allocator<class Line> > Manager::myLine" (?myLine@Manager@@0V?$vector@VLine@@V?$allocator@VLine@@@std@@@std@@A)
-C:\Users\ricar\Desktop\GitHub Repos\CAL Proj\Debug\CAL Proj.exe : fatal error LNK1120: 2 unresolved externals
+  CAL Proj.vcxproj -> C:\Users\ricar\Desktop\GitHub Repos\CAL Proj\Debug\CAL Proj.exe

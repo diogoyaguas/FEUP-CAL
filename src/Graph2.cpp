@@ -113,3 +113,8 @@ vector<Station*> Graph2::getTimePath()
 	//TODO
 	return vector<Station*>();
 }
+
+vector<Station*> Graph2::getStations()
+{
+	return stationSet;
+}
