@@ -73,6 +73,10 @@ public:
 
 	friend class Graph2;
 	friend class Station;
+
+    Station* getDestination(){ return dest;}
+    double getTravelSpeed() { return travelSpeed;}
+    LineID getLineID() { return lineID;}
 };
 
 #endif //FEUP_CAL_STATION_H
