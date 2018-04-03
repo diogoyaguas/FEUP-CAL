@@ -165,3 +165,15 @@ Graph * Manager::parseGraphForPrice(Graph2 graph)
 
 	return newGraph;
 }
+
+Graph * Manager::parseGraphForTime(Graph2 graph) {
+
+    auto * newGraph = new Graph();
+
+    for(auto s: graph.getStationa()){
+
+        
+    }
+
+    return newGraph;
+}

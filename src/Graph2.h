@@ -22,6 +22,8 @@ public:
 	void dijkstraTimePath(const int &stationID);
 	vector<Station*> getTimePath();
 	vector<Station*> getStations();
+
+	vector<Stop *> getStops();
 };
 
 

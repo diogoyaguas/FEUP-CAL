@@ -46,6 +46,10 @@ public:
 
 	friend class Graph2;
 	friend class MutablePriorityQueue<Station>;
+
+	vector<Stop> getStops();
+
+	vector<Link> getConnections();
 };
 
 class Link
