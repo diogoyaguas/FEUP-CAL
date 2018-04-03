@@ -63,6 +63,10 @@ public:
 	Link(LineID lineID, Station* dest);
 	Link(LineID lineID, Station* dest, double travelTime);
 	~Link();
+	
+	Station* getDest();
+	double getTravelSpeed();
+	double getWeight();
 
 	friend class Graph2;
 	friend class Station;

@@ -156,10 +156,10 @@ Graph * Manager::parseGraphForPrice(Graph2 graph)
 	for (size_t i = 0; i < stations.size(); i++)
 	{
 		Station* station = stations[i];
-		vector<Link> links = station->getLinks();
+		vector<Link> links = station->getConnections();
 		for (size_t j = 0; j < links.size(); j++)
 		{
-
+			newGraph->addEdge(station->getID(), links[j].getDest()->getID(), 1);
 		}
 	}
 

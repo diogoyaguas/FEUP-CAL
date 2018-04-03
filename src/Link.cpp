@@ -20,3 +20,18 @@ Link::Link(LineID lineID, Station * dest, double travelSpeed) : dest(dest), trav
 Link::~Link()
 {
 }
+
+Station * Link::getDest()
+{
+	return dest;
+}
+
+double Link::getTravelSpeed()
+{
+	return travelSpeed;
+}
+
+double Link::getWeight()
+{
+	return weight;
+}
