@@ -18,7 +18,7 @@ void MenuBase::limpaEcran() {
 void MenuBase::imprimeOpcoes(const std::string& titulo, const std::vector<std::string>& opcoes) {
 	size_t n = opcoes.size();
 	vector<string> opcoes_nonconst(opcoes);
-	opcoes_nonconst.push_back("Voltar");
+	opcoes_nonconst.emplace_back("Voltar");
 	unsigned char x1 = 186;	//Vertical Lines
 	unsigned char x2 = 187;	//Top-Right Corner
 	unsigned char x3 = 188;	//Bottom-Right Corner
@@ -28,15 +28,15 @@ void MenuBase::imprimeOpcoes(const std::string& titulo, const std::vector<std::s
 	unsigned char x0 = 255;	//Empty spaces
 
 	size_t maxOptionSize = 0;
-	for (size_t i = 0; i < opcoes_nonconst.size(); i++) {
-		if (opcoes_nonconst[i].size() > maxOptionSize) {
-			maxOptionSize = opcoes_nonconst[i].size();
+	for (auto &i : opcoes_nonconst) {
+		if (i.size() > maxOptionSize) {
+			maxOptionSize = i.size();
 		}
 	}
 	maxOptionSize += 10;
 
-	for (size_t i = 0; i < opcoes_nonconst.size(); i++) {
-		opcoes_nonconst[i].resize(maxOptionSize, ' ');
+	for (auto &i : opcoes_nonconst) {
+        i.resize(maxOptionSize, ' ');
 	}
 
 	string separateFromBorder = "         ";
@@ -67,7 +67,7 @@ void MenuBase::imprimeOpcoes(const std::string& titulo, const std::vector<std::s
 		cout << x0;
 	}
 	cout << titulo;
-	if (!(modf(halfsize, &num) == 0.0)) {
+	if (modf(halfsize, &num) != 0.0) {
 		num++;
 	}
 	for (int i = 0; i < num; i++) {
