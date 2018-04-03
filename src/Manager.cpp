@@ -166,6 +166,30 @@ Graph * Manager::parseGraphForPrice(Graph2 graph)
 	return newGraph;
 }
 
+Graph * Manager::parseGraphForDistance(Graph2 graph)
+{
+	Graph* newGraph = new Graph();
+
+	vector<Station*> stations = graph.getStations();
+
+	for (size_t i = 0; i < stations.size(); i++)
+	{
+		newGraph->addVertex(stations[i]->getID());
+	}
+
+	for (size_t i = 0; i < stations.size(); i++)
+	{
+		Station* station = stations[i];
+		vector<Link> links = station->getConnections();
+		for (size_t j = 0; j < links.size(); j++)
+		{
+			newGraph->addEdge(station->getID(), links[j].getDest()->getID(), station->getDistTo(links[j].getDest()));
+		}
+	}
+
+	return newGraph;
+}
+
 Graph * Manager::parseGraphForTime(Graph2 graph) {
 
     auto * newGraph = new Graph();

@@ -50,6 +50,9 @@ public:
 	vector<Stop> getStops();
 
 	vector<Link> getConnections();
+
+	//Calculates the Euclidean distance to the other station
+	double getDistTo(Station* other);
 };
 
 class Link
