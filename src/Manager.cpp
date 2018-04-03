@@ -2,11 +2,14 @@
 
 Manager::Manager() = default;
 
+vector<Station> Manager::myStation = {};
+vector<Line> Manager::myLine = {};
+
 void Manager::loadStations() {
 
     string line;
 
-    ifstream file("stations.txt");
+    ifstream file("../src/stations.txt");
 
     if (file.is_open()) {
         while (getline(file, line)) {
@@ -43,7 +46,7 @@ void Manager::loadLines() {
 
     string line;
 
-    ifstream file("lines.txt");
+    ifstream file("../src/lines.txt");
 
     if (file.is_open()) {
         while (getline(file, line)) {
