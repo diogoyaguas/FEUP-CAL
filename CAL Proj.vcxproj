@@ -103,6 +103,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="src\ExcessaoBase.cpp" />
+    <ClCompile Include="src\Graph.cpp" />
     <ClCompile Include="src\Graph2.cpp" />
     <ClCompile Include="src\graphviewer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>

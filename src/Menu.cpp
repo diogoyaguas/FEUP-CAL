@@ -56,7 +56,7 @@ void MenuBase::printOptions(const string& title, const vector<string>& options) 
 
 	//Primeira Linha
 	cout << separateFromBorder << x5;
-	for (int i = 0; i < emptyLine; i++) {
+	for (size_t i = 0; i < emptyLine; i++) {
 		cout << x6;
 	}
 	cout << x2 << endl;
@@ -80,7 +80,7 @@ void MenuBase::printOptions(const string& title, const vector<string>& options) 
 	cout << x1 << endl << separateFromBorder << spaceLine << endl;
 
 	//Opcoes Numeradas
-	for (int i = 0; i < n; i++) {
+	for (size_t i = 0; i < n; i++) {
 		cout << separateFromBorder << x1 << separateMenu << i + 1 << " - " << options_nonconst[i] << x1 << endl;
 		cout << separateFromBorder << spaceLine << endl;
 	}
@@ -90,7 +90,7 @@ void MenuBase::printOptions(const string& title, const vector<string>& options) 
 
 	//Ultima linha
 	cout << separateFromBorder << x4;
-	for (int i = 0; i < emptyLine; i++) {
+	for (size_t i = 0; i < emptyLine; i++) {
 		cout << x6;
 	}
 	cout << x3 << endl << endl;
