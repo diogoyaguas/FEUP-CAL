@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include "Manager.h"
+#include "Input.h"
 /**
 * @brief Classe abstrata usada como classe base para todos os menus que compõem a interface do programa.
 */

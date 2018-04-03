@@ -131,19 +131,65 @@ void Manager::loadData() {
     loadLines();
 }
 
-void Manager::mainMenu() {
 
-    string origin, destination;
+bool Manager::VerifyChoice(int id, vector<Station*> &stations) {
 
-    cout << "Where are you ?" << endl << "::: ";
-    cin >> origin;
-    cout << "Where do you want to go" << endl << "::: ";
-    cin >> destination;
+	for (auto station : stations) {
+
+		if (station->getID() == id) {
+			return true;
+		}
+		
+	}
+	return false;
+}
+
+
+int Manager::chooseOrigin() {
+
+	int origin;
+	Graph2* graph = new Graph2();
+
+	vector<Station*> stations = graph->getStations();
+
+	cout << "STATIONS:" << endl << endl;
+	for (auto station : stations) {
+
+		cout << station->getID() << " - " << station->getName() << endl;
+
+	}
+
+    cout << "Where are you ? (Choose the id of the station)" << endl << "::: Id - ";
+	cin >> origin;
+	while (!VerifyChoice(origin, stations)) {
+		cout << endl << "# Invalid id. Please select again: ";
+		cin >> origin;
+	}
+
+	return origin;
 
 }
 
-Graph *Manager::parseGraphForPrice(Graph2 graph) {
-    Graph *newGraph = new Graph();
+int Manager::chooseDestination() {
+	int destination;
+	Graph2* graph = new Graph2();
+
+	vector<Station*> stations = graph->getStations();
+
+	cout << "Where do you want to go ? (Choose the id of the station) " << endl << "::: Id - ";
+	cin >> destination;
+	while (!VerifyChoice(destination, stations)) {
+		cout << endl << "# Invalid id. Please select again: ";
+		cin >> destination;
+	}
+
+	return destination;
+
+}
+
+Graph * Manager::parseGraphForPrice(Graph2 graph)
+{
+	Graph* newGraph = new Graph();
 
     vector<Station *> stations = graph.getStations();
 
@@ -179,9 +225,10 @@ Graph *Manager::parseGraphForDistance(Graph2 graph) {
         }
     }
 
+
     return newGraph;
 }
-
+/*
 Graph *Manager::parseGraphForTime(Graph2 graph) {
 
     int id = 0;
@@ -227,4 +274,4 @@ Graph *Manager::parseGraphForTime(Graph2 graph) {
     }
     
     return newGraph;
-}
+}*/

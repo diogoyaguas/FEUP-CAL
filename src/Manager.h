@@ -38,7 +38,10 @@ public:
 	*/
     static void loadData();
 
-    static void mainMenu();
+	static int chooseDestination();
+	static int chooseOrigin();
+
+	static bool VerifyChoice(int id, vector<Station*> &stations);
 
 	static Graph * parseGraphForPrice(Graph2 graph);
 	static Graph * parseGraphForDistance(Graph2 graph);

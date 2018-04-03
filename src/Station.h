@@ -32,6 +32,7 @@ public:
 	double getDist() const;
 	Station *getPath() const;
 	int getID() { return this->stationID;}
+	string getName() { return this->name; }
 
 	void addLinkTo(Station* dest, LineID lineID);
 	void addStop(Stop stop);
@@ -74,8 +75,6 @@ public:
 	friend class Graph2;
 	friend class Station;
 
-    Station* getDestination(){ return dest;}
-    double getTravelSpeed() { return travelSpeed;}
     LineID getLineID() { return lineID;}
 };
 

@@ -1,5 +1,4 @@
 #include "Menu.h"
-#include "Input.h"
 #include <iostream>
 #include <algorithm>
 #include <vector>
@@ -127,8 +126,12 @@ char MenuBase::processOptions(const std::vector<char>& options)
 void MainMenu::displayMenu() {
 
 	CleanScreen();
+	int idOrigin, idDestination;
 
-	printOptions("Main Menu",
+	idOrigin = Manager::chooseOrigin();
+	idDestination = Manager::chooseDestination();
+
+	printOptions("OPTIONS",
 		{ "Check path by minimum deslocation time",
 		"Check path by lowest ticket price",
 		"Check path by shortest distance",
@@ -136,21 +139,22 @@ void MainMenu::displayMenu() {
 
 	vector<char> options = { '1','2','3','4','E' };
 
+	char option = processOptions(options);
 
-	switch (processOptions(options)) {
+	switch (option) {
 
-	case 1:
+	case '1':
 		//call function to calculate path by deslocation time
 		//the function called will ask the user where he is and where he wants to go and then, if the
 		//choice is valid, will call the algorithm needed
 		break;
-	case 2:
+	case '2':
 		//call funtion to calculate path by ticket price
 		break;
-	case 3:
+	case '3':
 		//call function to calculate path by distance
 		break;
-	case 4:
+	case '4':
 		//call function to calculate path by number of stops
 		break;
 	case 'E':
