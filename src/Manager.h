@@ -41,6 +41,8 @@ public:
     static void mainMenu();
 
 	static Graph * parseGraphForPrice(Graph2 graph);
+
+    Graph *parseGraphForTime(Graph2 graph);
 };
 
 
