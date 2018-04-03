@@ -1,12 +1,13 @@
 #include <iostream>
 #include "Manager.h"
+#include "Menu.h"
 
 using namespace std;
 
 int main() {
 
     Manager::loadData();
-    Manager::mainMenu();
+	MainMenu::displayMenu();
 
     return 0;
 }

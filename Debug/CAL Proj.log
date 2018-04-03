@@ -1,10 +1,9 @@
-﻿  MenuBase.cpp
-src\MenuBase.cpp(57): warning C4018: '<': signed/unsigned mismatch
-src\MenuBase.cpp(79): warning C4018: '<': signed/unsigned mismatch
-src\MenuBase.cpp(89): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
-  Compiling...
-  TripPlanner.cpp
+﻿  TripPlanner.cpp
+  Menu.cpp
+src\Menu.cpp(59): warning C4018: '<': signed/unsigned mismatch
+src\Menu.cpp(83): warning C4018: '<': signed/unsigned mismatch
+src\Menu.cpp(93): warning C4018: '<': signed/unsigned mismatch
   Generating Code...
   Manager.cpp
-  CAL Proj.vcxproj -> C:\Users\ricar\Desktop\GitHub Repos\CAL Proj\Debug\CAL Proj.exe
+src\Manager.cpp(159): error C2039: 'getLinks': is not a member of 'Station'
+  c:\users\ricar\desktop\github repos\cal proj\src\Station.h(12): note: see declaration of 'Station'

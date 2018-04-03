@@ -113,7 +113,7 @@
     <ClCompile Include="src\Manager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="src\MenuBase.cpp" />
+    <ClCompile Include="src\Menu.cpp" />
     <ClCompile Include="src\Station.cpp" />
     <ClCompile Include="src\Stop.cpp" />
     <ClCompile Include="src\TripPlanner.cpp" />
@@ -492,7 +492,7 @@
     <ClInclude Include="src\Line.h" />
     <ClInclude Include="src\Link.h" />
     <ClInclude Include="src\Manager.h" />
-    <ClInclude Include="src\Menus.h" />
+    <ClInclude Include="src\Menu.h" />
     <ClInclude Include="src\MutablePriorityQueue.h" />
     <ClInclude Include="src\Station.h" />
     <ClInclude Include="src\Stop.h" />

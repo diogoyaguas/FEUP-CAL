@@ -156,7 +156,8 @@ Graph * Manager::parseGraphForPrice(Graph2 graph)
 	for (size_t i = 0; i < stations.size(); i++)
 	{
 		Station* station = stations[i];
-		for (size_t j = 0; j < station->; j++)
+		vector<Link> links = station->getLinks();
+		for (size_t j = 0; j < links.size(); j++)
 		{
 
 		}

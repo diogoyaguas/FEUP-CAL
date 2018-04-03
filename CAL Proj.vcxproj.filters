@@ -45,13 +45,13 @@
     <ClCompile Include="src\ExcessaoBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\MenuBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\TripPlanner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1160,13 +1160,13 @@
     <ClInclude Include="src\ExcessaoBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Menus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Graph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
