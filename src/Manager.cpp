@@ -38,7 +38,7 @@ void Manager::loadStations() {
 
         file.close();
     } else {
-        cerr << "n File not found!\n";
+        cerr << "File not found!\n";
     }
 }
 
@@ -122,7 +122,7 @@ void Manager::loadLines() {
         }
         file.close();
     } else {
-        cerr << "n File not found!\n";
+        cerr << "File not found!\n";
     }
 }
 

@@ -20,7 +20,7 @@ Vertex * Graph::findVertex(const int &in) const {
     for (auto v : vertexSet)
         if (v->nodeID == in)
             return v;
-    return NULL;
+    return nullptr;
 }
 
 /****************** 1a) addVertex ********************/
@@ -30,7 +30,7 @@ Vertex * Graph::findVertex(const int &in) const {
 *  Returns true if successful, and false if a vertex with that content already exists.
 */
 bool Graph::addVertex(const int &in) {
-    if (findVertex(in) != NULL)
+    if (findVertex(in) != nullptr)
         return false;
     vertexSet.push_back(new Vertex(in));
     return true;
@@ -46,7 +46,7 @@ bool Graph::addVertex(const int &in) {
 bool Graph::addEdge(const int &sourc, const int &dest, double w) {
     auto v1 = findVertex(sourc);
     auto v2 = findVertex(dest);
-    if (v1 == NULL || v2 == NULL)
+    if (v1 == nullptr || v2 == nullptr)
         return false;
     v1->addEdge(v2, w);
     return true;
@@ -57,7 +57,7 @@ bool Graph::addEdge(const int &sourc, const int &dest, double w) {
 * with a given destination vertex (d) and edge weight (w).
 */
 void Vertex::addEdge(Vertex *d, double w) {
-    adj.push_back(Edge(d, w));
+    adj.emplace_back(d, w);
 }
 
 
@@ -71,9 +71,7 @@ void Vertex::addEdge(Vertex *d, double w) {
 bool Graph::removeEdge(const int &sourc, const int &dest) {
     auto v1 = findVertex(sourc);
     auto v2 = findVertex(dest);
-    if (v1 == NULL || v2 == NULL)
-        return false;
-    return v1->removeEdgeTo(v2);
+    return !(v1 == nullptr || v2 == nullptr) && v1->removeEdgeTo(v2);
 }
 
 /*
@@ -154,7 +152,7 @@ void Graph::dfsVisit(Vertex *v, vector<int> & res) const {
 vector<int> Graph::bfs(const int & source) const {
     vector<int> res;
     auto s = findVertex(source);
-    if (s == NULL)
+    if (s == nullptr)
         return res;
     queue<Vertex *> q;
     for (auto v : vertexSet)
@@ -232,7 +230,7 @@ vector<int> Graph::topsort() const {
 
 int Graph::maxNewChildren(const int & source, int &inf) const {
     auto s = findVertex(source);
-    if (s == NULL)
+    if (s == nullptr)
         return 0;
     queue<Vertex *> q;
     int maxChildren = 0;
