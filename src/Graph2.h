@@ -7,6 +7,7 @@
 class Graph2
 {
 	vector<Station*> stationSet;
+	vector<Link> links; //arestas necessarias para adicionar ao grafico, nao sei se e a melhor maneira, mas foi o que arranjei
 	Station *findStation(const int &stationID) const;
 public:
 	Graph2();
@@ -23,6 +24,7 @@ public:
 	vector<Station*> getTimePath();
 	vector<Station*> getStations();
     void setStation(vector<Station*> station);
+	vector<Link> getLinks();
 };
 
 

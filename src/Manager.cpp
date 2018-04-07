@@ -171,6 +171,11 @@ int Manager::chooseOrigin() {
 
 int Manager::chooseDestination() {
 	int destination;
+	/*Graph2* graph = new Graph2();
+	vector<Station*> stations = graph->getStations();
+
+	so para saber como estava antes
+	*/
 
 	vector<Station> stations = myStation;
 
@@ -271,3 +276,69 @@ Graph *Manager::parseGraphForDistance(Graph2 graph) {
 
     return newGraph;
 }*/
+
+
+void Manager::initGv(GraphViewer *gv) {
+
+	gv->createWindow(800, 800);
+	gv->defineEdgeColor(GRAY);
+	gv->defineEdgeCurved(false);
+	gv->defineVertexColor(YELLOW);
+	
+}
+
+
+void Manager::printGraph(GraphViewer *gv, Graph2 graph) {
+	
+	for (auto station : graph.getStations())
+	{
+		int stationID = station->getID();
+		int x = station->getX();
+		int y = station->getY();
+		string name = station->getName();
+		
+		gv->addNode(stationID, x, y);
+		gv->setVertexLabel(stationID, to_string(stationID));
+	}
+
+	for (auto link : graph.getLinks()) {
+
+		int idLine = link.getLineID().lineID;
+		int idSource = link.getIdSource();
+		int idDest = link.getIdDest();
+
+		gv->addEdge(idLine, idSource, idDest, EdgeType::DIRECTED);
+
+		/*Basicamente no graph2 cada vez que se adiciona um link, estou a guardar num vector de links o id da linha, o
+		* id da partida e o id do destino, para criar a aresta no graphviewer percorro o vector de links e adiciono cada aresta
+		* nao sei se esta bem nem posso testar para ja, digam-me se concordam 
+		*/
+
+	}
+
+
+
+}
+
+/*
+
+void Manager::paintPath(vector<Node> path) {
+	
+	
+	//Ainda nao sei como fazer, com o caminho que vai ter de percorrer ja feito, temos de o percorrer e colocar cada
+	//aresta a verde
+	
+	
+
+	for (size_t i = 0; i < path.size() - 1; i++) {
+		int id = path.at(i).getID() * 1000 + path.at(i + 1).getID(); //nao percebo muito bem esta parte
+
+		gv->setEdgeThickness(id, 4);
+		gv->setEdgeColor(id, GREEN);
+	}
+
+
+	gv->rearrange();
+	
+
+} */

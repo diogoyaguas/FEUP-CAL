@@ -7,10 +7,10 @@ using namespace std;
 Station::Station() {
 }
 
-Station::Station(int stationID, double x, double y, string name) : stationID(stationID), x(x), y(y), name(name) {
+Station::Station(int stationID, int x, int y, string name) : stationID(stationID), x(x), y(y), name(name) {
 }
 
-Station::Station(int stationID, double x, double y, vector<Stop> stops, string name) : stationID(stationID), x(x), y(y),
+Station::Station(int stationID, int x, int y, vector<Stop> stops, string name) : stationID(stationID), x(x), y(y),
                                                                                        name(name) {
     this->stops = stops;
 }

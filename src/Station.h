@@ -11,8 +11,8 @@ class Link;
 class Station
 {
 	int stationID;
-	double x;
-	double y;
+	int x;
+	int y;
 	string name;
 	std::vector<Stop> stops;
 	std::vector<Link> connections;
@@ -22,8 +22,8 @@ class Station
 	int queueIndex = 0; 		// required by MutablePriorityQueue
 public:
 	Station();
-	Station(int stationID, double x, double y, string name);
-	Station(int stationID, double x, double y, vector<Stop> stops, string name);
+	Station(int stationID, int x, int y, string name);
+	Station(int stationID, int x, int y, vector<Stop> stops, string name);
 	~Station();
 
 	bool operator<(Station & station) const; // // required by MutablePriorityQueue
@@ -62,16 +62,26 @@ class Link
 	Station* dest; //Destination Vertex
 	double travelSpeed;
 	double weight; //Needs to be calculated depending on search parameters.
+
+	int idSource; //testing graphviewer 
+	int idDest;//testing graphviewer
+
 public:
 	Link();
 	Link(LineID lineID, Station* dest);
 	Link(LineID lineID, Station* dest, double travelTime);
 	~Link();
 	
+
+	Link(LineID lineID, int idSource, int idDest); //test
+
+
 	Station* getDest();
 	double getTravelSpeed();
 	double getWeight();
     LineID getLineID();
+	int getIdSource();
+	int getIdDest();
 
 	friend class Graph2;
 	friend class Station;

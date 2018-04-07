@@ -7,7 +7,7 @@
 #include <fstream>
 #include <sstream>
 #include <cstdio>
-
+#include "graphviewer.h"
 #include "Station.h"
 #include "Graph2.h"
 #include "Graph.h"
@@ -18,12 +18,14 @@ private:
     static vector<Station>  myStation;
     static vector<Line> myLine;
 	static Graph2 graph;
+
+	GraphViewer *gv;
 /**
 	 * Construtor default.
 	 */
-    Manager();
-public:
 
+public:
+	Manager();
     /**
      * A function that loads the data from the station file, creating objects of the Station class and adding to the respective vertex in myStation.
      */
@@ -48,6 +50,10 @@ public:
 	static Graph * parseGraphForDistance(Graph2 graph);
 
     Graph *parseGraphForTime(Graph2 graph);
+
+	void initGv(GraphViewer *gv);
+	void printGraph(GraphViewer *gv, Graph2 graph);
+	void paintPath();
 };
 
 

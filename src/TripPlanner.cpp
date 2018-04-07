@@ -5,9 +5,13 @@
 using namespace std;
 
 int main() {
+	Manager manager;
 
-    Manager::loadData();
+	GraphViewer *gv = new GraphViewer(1000, 1000, false);
+	manager.initGv(gv);
+	manager.loadData();
 	MainMenu::displayMenu();
+
 
     return 0;
 }

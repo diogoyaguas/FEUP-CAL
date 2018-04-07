@@ -1,4 +1,5 @@
 #include "Station.h"
+#include "Link.h"
 
 Link::Link() {
 }
@@ -13,6 +14,12 @@ Link::Link(LineID lineID, Station *dest, double travelSpeed) : dest(dest), trave
     this->lineID = lineID;
 }
 
+Link::Link(LineID lineID, int idSource, int idDest) {
+	this->lineID = lineID;
+	this->idSource = idSource;
+	this->idDest = idDest;
+
+}
 
 Link::~Link() {
 }
@@ -31,4 +38,14 @@ double Link::getWeight() {
 
 LineID Link::getLineID() {
     return lineID;
+}
+
+int Link::getIdSource()
+{
+	return idSource;
+}
+
+int Link::getIdDest()
+{
+	return idDest;
 }

@@ -41,7 +41,12 @@ bool Graph2::addLink(LineID lineID, Station *source, Station *dest) {
     if (s1 == nullptr || s2 == nullptr)
         return false;
     s1->addLinkTo(s2, lineID);
-    return true;
+	
+	//ADICIONADO PARA TESTES
+	Link link = Link(lineID, s1->getID(), s2->getID());
+	links.push_back(link);
+    //
+	return true;
 }
 
 bool Graph2::removeLink(Station *source, Station *dest, LineID lineID) {
@@ -103,3 +108,9 @@ void Graph2::setStation(vector<Station*> station) {
     stationSet = station;
 }
 
+//TESTES
+vector<Link> Graph2::getLinks() {
+
+	return links;
+
+}
