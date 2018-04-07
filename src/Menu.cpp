@@ -2,6 +2,7 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <cmath>
 
 using namespace std;
 
@@ -69,7 +70,7 @@ void MenuBase::printOptions(const string& title, const vector<string>& options) 
 	}
 
 	cout << title;
-	if (!(modf(halfsize, &num) == 0.0)) {
+	if (modf(halfsize, &num) != 0.0) {
 
 		num++;
 	}
@@ -105,7 +106,7 @@ char MenuBase::processOptions(const std::vector<char>& options)
 		getline(cin, temp);
 		Input::removeEspacamento(temp);
 
-		std::transform(temp.begin(), temp.end(), temp.begin(), ::toupper); /* CONVERTER STRING PARA MAISCULAS. Importante porque v == V (voltar) */
+		std::transform(temp.begin(), temp.end(), temp.begin(), ::toupper);
 
 
 		if (temp.size() != 1) {

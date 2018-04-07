@@ -17,6 +17,7 @@ class Manager {
 private:
     static vector<Station>  myStation;
     static vector<Line> myLine;
+	static Graph2 graph;
 /**
 	 * Construtor default.
 	 */
@@ -41,7 +42,7 @@ public:
 	static int chooseDestination();
 	static int chooseOrigin();
 
-	static bool VerifyChoice(int id, vector<Station*> &stations);
+	static bool VerifyChoice(int id, vector<Station> stations);
 
 	static Graph * parseGraphForPrice(Graph2 graph);
 	static Graph * parseGraphForDistance(Graph2 graph);

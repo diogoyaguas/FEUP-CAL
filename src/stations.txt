@@ -8,7 +8,7 @@
 8;68;85;SaoBento
 9;68;78;Batalha
 10;59;52;Heroismo
-11;59;41;Campanhã
+11;59;41;Campanha
 12;50;10;GeneralTorres
 13;44;7;Ribeira
 14;73;33;Foz

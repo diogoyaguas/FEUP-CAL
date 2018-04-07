@@ -6,7 +6,7 @@
 
 class Graph2
 {
-	std::vector<Station*> stationSet;
+	vector<Station*> stationSet;
 	Station *findStation(const int &stationID) const;
 public:
 	Graph2();
@@ -22,6 +22,7 @@ public:
 	void dijkstraTimePath(const int &stationID);
 	vector<Station*> getTimePath();
 	vector<Station*> getStations();
+    void setStation(vector<Station*> station);
 };
 
 

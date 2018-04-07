@@ -98,3 +98,8 @@ vector<Station *> Graph2::getStations() {
     return stationSet;
 }
 
+void Graph2::setStation(vector<Station*> station) {
+
+    stationSet = station;
+}
+

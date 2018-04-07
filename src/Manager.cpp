@@ -4,6 +4,7 @@ Manager::Manager() = default;
 
 vector<Station> Manager::myStation = {};
 vector<Line> Manager::myLine = {};
+Graph2 Manager::graph = {};
 
 void Manager::loadStations() {
 
@@ -131,12 +132,11 @@ void Manager::loadData() {
     loadLines();
 }
 
-
-bool Manager::VerifyChoice(int id, vector<Station*> &stations) {
+bool Manager::VerifyChoice(int id, vector<Station> stations) {
 
 	for (auto station : stations) {
 
-		if (station->getID() == id) {
+		if (station.getID() == id) {
 			return true;
 		}
 		
@@ -144,22 +144,21 @@ bool Manager::VerifyChoice(int id, vector<Station*> &stations) {
 	return false;
 }
 
-
 int Manager::chooseOrigin() {
 
 	int origin;
-	Graph2* graph = new Graph2();
+    auto * graph = new Graph2();
 
-	vector<Station*> stations = graph->getStations();
+	vector<Station> stations = myStation;
 
 	cout << "STATIONS:" << endl << endl;
 	for (auto station : stations) {
 
-		cout << station->getID() << " - " << station->getName() << endl;
+		cout << station.getID() << " - " << station.getName() << endl;
 
 	}
 
-    cout << "Where are you ? (Choose the id of the station)" << endl << "::: Id - ";
+    cout << "\nWhere are you ? (Choose the id of the station)" << endl << "::: ";
 	cin >> origin;
 	while (!VerifyChoice(origin, stations)) {
 		cout << endl << "# Invalid id. Please select again: ";
@@ -172,11 +171,10 @@ int Manager::chooseOrigin() {
 
 int Manager::chooseDestination() {
 	int destination;
-	Graph2* graph = new Graph2();
 
-	vector<Station*> stations = graph->getStations();
+	vector<Station> stations = myStation;
 
-	cout << "Where do you want to go ? (Choose the id of the station) " << endl << "::: Id - ";
+	cout << "Where do you want to go ? (Choose the id of the station) " << endl << "::: ";
 	cin >> destination;
 	while (!VerifyChoice(destination, stations)) {
 		cout << endl << "# Invalid id. Please select again: ";
@@ -228,8 +226,8 @@ Graph *Manager::parseGraphForDistance(Graph2 graph) {
 
     return newGraph;
 }
-/*
-Graph *Manager::parseGraphForTime(Graph2 graph) {
+
+/*Graph *Manager::parseGraphForTime(Graph2 graph) {
 
     int id = 0;
     double time;
@@ -263,7 +261,7 @@ Graph *Manager::parseGraphForTime(Graph2 graph) {
                 if (st.getLineID().lineID == l.getLineID().lineID) {
 
                     time = s->calculateDistanceTo(l.getDest()) / l.getTravelSpeed();
-                    newGraph->addEdge(id, l.getDestination().get, time);
+                    newGraph->addEdge(id, l.getDest()->getID(), time);
                 }
             }
 
