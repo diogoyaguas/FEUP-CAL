@@ -36,6 +36,7 @@ void Manager::loadStations() {
 
             myStation.push_back(station);
             graph.addVertex(to_string(id), x, y);
+
         }
 
         file.close();
@@ -173,14 +174,47 @@ string Manager::chooseDestination() {
 }
 
 /*
+void Manager::printGraph(GraphViewer *gv) {
+
+    vector<Station> stations = myStation;
+    vector<Line> lines = myLine;
+
+  for(auto station : stations){
+        string id = station.getID();
+        int x = station.getX();
+        int y = station.getY();
+
+        gv->addNode(id,x,y);
+    }
+
+    for(auto line : lines){
+
+        int idLine = line.getLineID().lineID;
+
+        for(auto stop : line.getStopsID()){
+
+            string idOrigin = stop;
+
+                //ver a cena de nao poder ser uma string o id, ver tb como fazer
+        }
+
+
+    }
+
+
+        gv->rearrange();
+}*/
+
+
+/*
 
 void Manager::paintPath(vector<Node> path) {
-	
-	
+
+
 	//Ainda nao sei como fazer, com o caminho que vai ter de percorrer ja feito, temos de o percorrer e colocar cada
 	//aresta a verde
-	
-	
+
+
 
 	for (size_t i = 0; i < path.size() - 1; i++) {
 		int id = path.at(i).getID() * 1000 + path.at(i + 1).getID(); //nao percebo muito bem esta parte
@@ -191,6 +225,6 @@ void Manager::paintPath(vector<Node> path) {
 
 
 	gv->rearrange();
-	
+
 
 } */

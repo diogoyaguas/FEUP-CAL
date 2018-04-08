@@ -20,7 +20,7 @@ private:
     static vector<Line> myLine;
 	static Graph<string> graph;
 
-	GraphViewer *gv;
+
 /**
 	 * Construtor default.
 	 */
@@ -49,8 +49,8 @@ public:
 	static bool VerifyChoice(string id, vector<Station> stations);
 
 	void initGv(GraphViewer *gv);
-	void printGraph(GraphViewer *gv, Graph<string> graph);
-	void paintPath();
+	//void printGraph(GraphViewer *gv);
+	//void paintPath();
 };
 
 

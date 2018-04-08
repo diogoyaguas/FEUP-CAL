@@ -45,7 +45,7 @@ public:
 
 	void updateTimeWeightsFrom(LineID lineID);
 
-	friend class Graph2;
+	//friend class Graph2;
 	friend class MutablePriorityQueue<Station>;
 
 	vector<Stop> getStops();
@@ -54,6 +54,8 @@ public:
 
 	//Calculates the Euclidean distance to the other station
 	double getDistTo(Station* other);
+
+
 };
 
 class Link

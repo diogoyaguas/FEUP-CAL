@@ -114,7 +114,7 @@ char MenuBase::processOptions(const std::vector<char> &options) {
         } else if (find(options.begin(), options.end(), temp[0]) == options.end()) {
             cout << "# Invalid input. Please select an option: ";
         } else {
-            option = temp[0]; // Seleção válida
+            option = temp[0]; // Selecao valida
             break;
         }
     }

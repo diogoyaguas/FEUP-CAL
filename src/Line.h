@@ -24,7 +24,7 @@ public:
     virtual ~Line();
 
     LineID getLineID() { return lineID; }
-
+    vector<string> getStopsID() {return stopsID;}
 private:
     LineID lineID;
     vector<string> stopsID;
