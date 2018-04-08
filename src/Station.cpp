@@ -106,4 +106,3 @@ double Station::getDistTo(Station * other)
 {
 	return sqrt(pow(x - other->getX(), 2) + pow(y - other->getY(), 2));
 }
-

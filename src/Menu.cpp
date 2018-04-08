@@ -114,7 +114,7 @@ char MenuBase::processOptions(const std::vector<char> &options) {
         } else if (find(options.begin(), options.end(), temp[0]) == options.end()) {
             cout << "# Invalid input. Please select an option: ";
         } else {
-            option = temp[0]; // Selecao valida
+            option = temp[0]; // Seleção válida
             break;
         }
     }
@@ -152,6 +152,7 @@ void MainMenu::displayMenu() {
             break;
         case '3':
             //call function to calculate path by distance
+
             break;
         case '4':
             //call function to calculate path by number of stops
