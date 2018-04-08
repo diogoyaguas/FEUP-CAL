@@ -10,28 +10,28 @@ class Link;
 
 class Station
 {
-	int stationID;
+	string stationID;
 	int x;
 	int y;
 	string name;
-	std::vector<Stop> stops;
-	std::vector<Link> connections;
+	vector<Stop> stops;
+	vector<Link> connections;
 
 	double dist = 0;
-	Station *path = NULL;
+	Station *path = nullptr;
 	int queueIndex = 0; 		// required by MutablePriorityQueue
 public:
 	Station();
-	Station(int stationID, int x, int y, string name);
-	Station(int stationID, int x, int y, vector<Stop> stops, string name);
+	Station(string stationID, int x, int y, string name);
+	Station(string stationID, int x, int y, vector<Stop> stops, string name);
 	~Station();
 
 	bool operator<(Station & station) const; // // required by MutablePriorityQueue
 	double getX() { return this->x;}
-	double getY() { return this->y;}
+	int getY() { return this->y;}
 	double getDist() const;
 	Station *getPath() const;
-	int getID() { return this->stationID;}
+	const string & getID() { return this->stationID;}
 	string getName() { return this->name; }
 
 	void addLinkTo(Station* dest, LineID lineID);

@@ -1,21 +1,18 @@
 #include "Line.h"
 
+#include <utility>
+
 using namespace std;
 
-Line::Line() {
-	// TODO Auto-generated constructor stub
+Line::Line() = default;
 
-}
-
- Line::Line(LineID lineID, vector<int> stopsID)
+Line::Line(LineID lineID, vector<string> stopsID)
  {
 	 this->lineID = lineID;
-	 this->stopsID = stopsID;
+	 this->stopsID = std::move(stopsID);
  }
 
-Line::~Line() {
-	// TODO Auto-generated destructor stub
-}
+Line::~Line() = default;
 
 
 

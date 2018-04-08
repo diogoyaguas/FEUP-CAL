@@ -1,8 +1,8 @@
 #include "Station.h"
-#include "Link.h"
 
-Link::Link() {
-}
+Link::Link() = default;
+
+Link::~Link() = default;
 
 Link::Link(LineID lineID, Station *dest) : dest(dest) {
     this->lineID = lineID;
@@ -19,9 +19,6 @@ Link::Link(LineID lineID, int idSource, int idDest) {
 	this->idSource = idSource;
 	this->idDest = idDest;
 
-}
-
-Link::~Link() {
 }
 
 Station *Link::getDest() {

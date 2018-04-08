@@ -18,7 +18,7 @@ int Input::readInt(istream & data, bool useGetLine)
 	}
 	if (!data.good() && !data.eof()) {
 		limpaStream(data);
-		throw ErroStream("A leitura do número falhou.");
+		throw ErroStream("A leitura do nï¿½mero falhou.");
 	}
 	return x;
 }
@@ -53,7 +53,7 @@ string Input::readNome(istream & data, char delimitador)
 
 void Input::readSeparador(istream& in)
 {
-	string separador = "";
+	string separador;
 	in >> separador;
 
 	if (!in.good() && !in.eof()) {

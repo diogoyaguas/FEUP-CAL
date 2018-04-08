@@ -3,19 +3,19 @@
 #include <iostream>
 
 /** Classe ExcessaoBase
-  * @brief Usada no tratamento e lançamento de excessões no programa.
-  * @note É uma classe base que não deve ser instanciada, apenas devem ser instanciadas as classes derivadas desta.
+  * @brief Usada no tratamento e lanï¿½amento de excessï¿½es no programa.
+  * @note ï¿½ uma classe base que nï¿½o deve ser instanciada, apenas devem ser instanciadas as classes derivadas desta.
   */
 class ExcessaoBase {
 	private:
-		/** @brief Razão pela qual a excessão foi lançada. */
+		/** @brief Razï¿½o pela qual a excessï¿½o foi lanï¿½ada. */
 		std::string razao;
 	public:
-		/** @brief Único construtor da classe. Aceita um argumento que é a razão pela qual a excessão está a ser lançada. */
-		ExcessaoBase(const std::string& razao);
-		/** @brief Retorna a razão pela qual a excessão foi lançada. 
-		  * @return A razão pela qual a excessão foi lançada. */
+		/** @brief ï¿½nico construtor da classe. Aceita um argumento que ï¿½ a razï¿½o pela qual a excessï¿½o estï¿½ a ser lanï¿½ada. */
+		explicit ExcessaoBase(const std::string& razao);
+		/** @brief Retorna a razï¿½o pela qual a excessï¿½o foi lanï¿½ada. 
+		  * @return A razï¿½o pela qual a excessï¿½o foi lanï¿½ada. */
 		const std::string& getReason() const;
-		/** @brief Overloading do operador de inserção. */
+		/** @brief Overloading do operador de inserï¿½ï¿½o. */
 		friend std::ostream& operator<<(std::ostream& out, const ExcessaoBase& excessao);
 };

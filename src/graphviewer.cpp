@@ -93,7 +93,7 @@ bool GraphViewer::closeWindow() {
 	return con->sendMsg(str);
 }
 
-bool GraphViewer::addNode(int id) {
+bool GraphViewer::addNode(string id) {
 	if(!isDynamic) {
 		cerr << "This graph is not dynamic,"
 				"so you must use GraphViewer::addNode(int id, int x, int y) instead.\n"
@@ -109,7 +109,7 @@ bool GraphViewer::addNode(int id) {
 	return con->sendMsg(str);
 }
 
-bool GraphViewer::addNode(int id, int x, int y) {
+bool GraphViewer::addNode(string id, double x, int y) {
 	if(isDynamic) {
 		cerr << "This graph is dynamic, "
 				"so the provided x and y values for the node with id "

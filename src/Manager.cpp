@@ -4,7 +4,7 @@ Manager::Manager() = default;
 
 vector<Station> Manager::myStation = {};
 vector<Line> Manager::myLine = {};
-Graph2 Manager::graph = {};
+Graph<string> Manager::graph = {};
 
 void Manager::loadStations() {
 
@@ -32,9 +32,10 @@ void Manager::loadStations() {
             getline(linestream, data, ';'); // read up-to the first ; (discard ;).
             linestream >> name;
 
-            Station station = Station(id, x, y, name);
+            Station station = Station(to_string(id), x, y, name);
 
             myStation.push_back(station);
+            graph.addVertex(to_string(id), x, y);
         }
 
         file.close();
@@ -56,67 +57,54 @@ void Manager::loadLines() {
             string data;
 
             LineID lineId{};
-            vector<int> stopsId;
-            int stopID;
+            vector<string> stopsId;
+
+            string temp;
+            string stopID;
+            Stop stop;
             int timeToStation;
-            int idOriginStation;
-            int idEndStation;
+            string idOriginStation;
 
             linestream >> lineId.lineID;
             getline(linestream, data, ';');
             linestream >> lineId.type;
 
-            getline(linestream, data, ';'); // read up-to the first ; (discard ;).
-            linestream >> stopID;
-            getline(linestream, data, ';'); // read up-to the first ; (discard ;).
-            linestream >> timeToStation;
-
-            stopsId.push_back(stopID);
-            Stop stop = Stop(lineId, timeToStation);
-
-            for (auto station: myStation) {
-
-                if (station.getID() == stopID) {
-                    station.addStop(stop);
-                }
-            }
-
             while (!data.empty()) {
 
-                idOriginStation = stopID;
                 getline(linestream, data, ';'); // read up-to the first ; (discard ;).
-                linestream >> idEndStation;
+                linestream >> stopID;
                 getline(linestream, data, ';'); // read up-to the first ; (discard ;).
                 linestream >> timeToStation;
 
-                for (auto origin: myStation) {
-
-                    if (idOriginStation == origin.getID()) {
-
-                        for (auto final: myStation) {
-
-                            if (idEndStation == final.getID()) {
-
-                                origin.addLinkTo(&final, lineId);
-                            }
-                        }
-                    }
-                }
-
-                stopID = idEndStation;
-
+                stopID = to_string(lineId.type) + stopID;
                 stopsId.push_back(stopID);
-                stop = Stop(lineId, timeToStation);
+                stop = Stop(stopID, lineId, timeToStation);
 
                 for (auto station: myStation) {
 
                     if (station.getID() == stopID) {
-
                         station.addStop(stop);
+                        graph.addVertex(stopID, station.getX(), station.getY());
+                        graph.addEdge(station.getID(), stopID);
+                        graph.addEdge(stopID, station.getID());
                     }
                 }
 
+                if (!data.empty()) {
+                    temp = data;
+                    idOriginStation = stopID;
+
+                    getline(linestream, temp, ';'); // read up-to the first ; (discard ;).
+                    linestream >> stopID;
+                    getline(linestream, temp, ';'); // read up-to the first ; (discard ;).
+                    linestream >> timeToStation;
+
+                    stopID = to_string(lineId.type) + stopID;
+                    graph.addEdge(idOriginStation, stopID);
+                    graph.addEdge(stopID, idOriginStation);
+                }
             }
+
             auto lines = Line(lineId, stopsId);
             myLine.push_back(lines);
 
@@ -132,191 +120,55 @@ void Manager::loadData() {
     loadLines();
 }
 
-bool Manager::VerifyChoice(int id, vector<Station> stations) {
+bool Manager::VerifyChoice(string id, vector<Station> stations) {
 
-	for (auto station : stations) {
+    for (auto station : stations) {
 
-		if (station.getID() == id) {
-			return true;
-		}
-		
-	}
-	return false;
+        if (station.getID() == id) {
+            return true;
+        }
+
+    }
+    return false;
 }
 
-int Manager::chooseOrigin() {
+string Manager::chooseOrigin() {
 
-	int origin;
-    auto * graph = new Graph2();
+    string origin;
 
-	vector<Station> stations = myStation;
+    vector<Station> stations = myStation;
 
-	cout << "STATIONS:" << endl << endl;
-	for (auto station : stations) {
+    cout << "STATIONS:" << endl << endl;
+    for (auto station : stations) {
 
-		cout << station.getID() << " - " << station.getName() << endl;
+        cout << station.getID() << " - " << station.getName() << endl;
 
-	}
+    }
 
     cout << "\nWhere are you ? (Choose the id of the station)" << endl << "::: ";
-	cin >> origin;
-	while (!VerifyChoice(origin, stations)) {
-		cout << endl << "# Invalid id. Please select again: ";
-		cin >> origin;
-	}
+    cin >> origin;
+    while (!VerifyChoice(origin, stations)) {
+        cout << endl << "# Invalid id. Please select again: ";
+        cin >> origin;
+    }
 
-	return origin;
+    return origin;
 
 }
 
-int Manager::chooseDestination() {
-	int destination;
-	/*Graph2* graph = new Graph2();
-	vector<Station*> stations = graph->getStations();
+string Manager::chooseDestination() {
+    string destination;
 
-	so para saber como estava antes
-	*/
+    vector<Station> stations = myStation;
 
-	vector<Station> stations = myStation;
-
-	cout << "Where do you want to go ? (Choose the id of the station) " << endl << "::: ";
-	cin >> destination;
-	while (!VerifyChoice(destination, stations)) {
-		cout << endl << "# Invalid id. Please select again: ";
-		cin >> destination;
-	}
-
-	return destination;
-
-}
-
-Graph * Manager::parseGraphForPrice(Graph2 graph)
-{
-	Graph* newGraph = new Graph();
-
-    vector<Station *> stations = graph.getStations();
-
-    for (size_t i = 0; i < stations.size(); i++) {
-        newGraph->addVertex(stations[i]->getID());
+    cout << "Where do you want to go ? (Choose the id of the station) " << endl << "::: ";
+    cin >> destination;
+    while (!VerifyChoice(destination, stations)) {
+        cout << endl << "# Invalid id. Please select again: ";
+        cin >> destination;
     }
 
-    for (size_t i = 0; i < stations.size(); i++) {
-        Station *station = stations[i];
-        vector<Link> links = station->getConnections();
-        for (size_t j = 0; j < links.size(); j++) {
-            newGraph->addEdge(station->getID(), links[j].getDest()->getID(), 1);
-        }
-    }
-
-    return newGraph;
-}
-
-Graph *Manager::parseGraphForDistance(Graph2 graph) {
-    Graph *newGraph = new Graph();
-
-    vector<Station *> stations = graph.getStations();
-
-    for (size_t i = 0; i < stations.size(); i++) {
-        newGraph->addVertex(stations[i]->getID());
-    }
-
-    for (size_t i = 0; i < stations.size(); i++) {
-        Station *station = stations[i];
-        vector<Link> links = station->getConnections();
-        for (size_t j = 0; j < links.size(); j++) {
-            newGraph->addEdge(station->getID(), links[j].getDest()->getID(), station->getDistTo(links[j].getDest()));
-        }
-    }
-
-
-    return newGraph;
-}
-
-/*Graph *Manager::parseGraphForTime(Graph2 graph) {
-
-    int id = 0;
-    double time;
-
-    auto *newGraph = new Graph();
-
-    for (auto s: graph.getStations()) {
-
-        newGraph->addVertex(s->getID());
-
-    }
-
-    for (auto s: graph.getStations()) {
-
-        for (auto st: s->getStops()) {
-
-            do{
-                id++;
-            } while(!newGraph->addVertex(id));
-            newGraph->addEdge(id, s->getID(), st.getTimeToStation());
-
-        }
-    }
-
-    for (auto s: graph.getStations()) {
-
-        for (auto st: s->getStops()) {
-
-            for (auto l: s->getConnections()) {
-
-                if (st.getLineID().lineID == l.getLineID().lineID) {
-
-                    time = s->calculateDistanceTo(l.getDest()) / l.getTravelSpeed();
-                    newGraph->addEdge(id, l.getDest()->getID(), time);
-                }
-            }
-
-            id++;
-        }
-    }
-
-    return newGraph;
-}*/
-
-
-void Manager::initGv(GraphViewer *gv) {
-
-	gv->createWindow(800, 800);
-	gv->defineEdgeColor(GRAY);
-	gv->defineEdgeCurved(false);
-	gv->defineVertexColor(YELLOW);
-	
-}
-
-
-void Manager::printGraph(GraphViewer *gv, Graph2 graph) {
-	
-	for (auto station : graph.getStations())
-	{
-		int stationID = station->getID();
-		int x = station->getX();
-		int y = station->getY();
-		string name = station->getName();
-		
-		gv->addNode(stationID, x, y);
-		gv->setVertexLabel(stationID, to_string(stationID));
-	}
-
-	for (auto link : graph.getLinks()) {
-
-		int idLine = link.getLineID().lineID;
-		int idSource = link.getIdSource();
-		int idDest = link.getIdDest();
-
-		gv->addEdge(idLine, idSource, idDest, EdgeType::DIRECTED);
-
-		/*Basicamente no graph2 cada vez que se adiciona um link, estou a guardar num vector de links o id da linha, o
-		* id da partida e o id do destino, para criar a aresta no graphviewer percorro o vector de links e adiciono cada aresta
-		* nao sei se esta bem nem posso testar para ja, digam-me se concordam 
-		*/
-
-	}
-
-
+    return destination;
 
 }
 

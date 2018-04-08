@@ -9,15 +9,16 @@
 #include <cstdio>
 #include "graphviewer.h"
 #include "Station.h"
-#include "Graph2.h"
 #include "Graph.h"
+
+using namespace std;
 
 class Manager {
 
 private:
     static vector<Station>  myStation;
     static vector<Line> myLine;
-	static Graph2 graph;
+	static Graph<string> graph;
 
 	GraphViewer *gv;
 /**
@@ -41,18 +42,14 @@ public:
 	*/
     static void loadData();
 
-	static int chooseDestination();
-	static int chooseOrigin();
+	static string chooseDestination();
 
-	static bool VerifyChoice(int id, vector<Station> stations);
+	static string chooseOrigin();
 
-	static Graph * parseGraphForPrice(Graph2 graph);
-	static Graph * parseGraphForDistance(Graph2 graph);
-
-    Graph *parseGraphForTime(Graph2 graph);
+	static bool VerifyChoice(string id, vector<Station> stations);
 
 	void initGv(GraphViewer *gv);
-	void printGraph(GraphViewer *gv, Graph2 graph);
+	void printGraph(GraphViewer *gv, Graph<string> graph);
 	void paintPath();
 };
 

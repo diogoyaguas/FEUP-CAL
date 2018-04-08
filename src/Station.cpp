@@ -1,22 +1,21 @@
 #include "Station.h"
 #include <iostream>
 #include <cmath>
+#include <utility>
 
 using namespace std;
 
-Station::Station() {
+Station::Station() = default;
+
+Station::~Station() = default;
+
+Station::Station(string stationID, int x, int y, string name) : stationID(std::move(stationID)), x(x), y(y), name(
+        std::move(name)) {
 }
 
-Station::Station(int stationID, int x, int y, string name) : stationID(stationID), x(x), y(y), name(name) {
-}
-
-Station::Station(int stationID, int x, int y, vector<Stop> stops, string name) : stationID(stationID), x(x), y(y),
-                                                                                       name(name) {
-    this->stops = stops;
-}
-
-
-Station::~Station() {
+Station::Station(string stationID, int x, int y, vector<Stop> stops, string name) : stationID(std::move(stationID)), x(x), y(y),
+                                                                                       name(std::move(std::move(name))) {
+    this->stops = std::move(stops);
 }
 
 bool Station::operator<(Station &station) const {
@@ -32,7 +31,7 @@ Station *Station::getPath() const {
 }
 
 void Station::addLinkTo(Station *dest, LineID lineID) {
-    connections.push_back(Link(lineID, dest));
+    connections.emplace_back(lineID, dest);
 }
 
 void Station::addStop(Stop stop) {
@@ -60,9 +59,9 @@ bool Station::removeLinkTo(Station *dest, LineID lineID) {
 
 Stop *Station::findStop(LineID lineID) {
     Stop *stop = nullptr;
-    for (size_t i = 0; i < stops.size(); i++) {
-        if (stops.at(i).lineID == lineID) {
-            stop = &(stops.at(i));
+    for (auto &i : stops) {
+        if (i.lineID == lineID) {
+            stop = &i;
             break;
         }
     }
@@ -77,12 +76,12 @@ void Station::updateTimeWeightsFrom(LineID lineID) {
     Stop *entryStop = findStop(lineID);
     if (entryStop != nullptr) {
         double entryTime = entryStop->timeToStation;
-        for (size_t i = 0; i < connections.size(); i++) {
-            if (connections.at(i).lineID == lineID) continue;    //Continues on the same line, no need to change stops
-            Stop *exitStop = findStop(connections.at(i).lineID);
+        for (auto &connection : connections) {
+            if (connection.lineID == lineID) continue;    //Continues on the same line, no need to change stops
+            Stop *exitStop = findStop(connection.lineID);
             if (exitStop != nullptr) {
                 double exitTime = exitStop->timeToStation;
-                connections.at(i).weight += entryTime +
+                connection.weight += entryTime +
                                             exitTime; //TODO: it needs to add this to the BASE weight, or else it will add on top of other updates.
             } else {
                 cout << "Warning: Unable to find the exit stop!\n";
