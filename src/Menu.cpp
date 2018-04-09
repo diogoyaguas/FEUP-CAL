@@ -152,7 +152,7 @@ void MainMenu::displayMenu() {
             break;
         case '3':
             //call function to calculate path by distance
-
+        Manager::chooseShorterPath(idOrigin,idDestination);
             break;
         case '4':
             //call function to calculate path by number of stops

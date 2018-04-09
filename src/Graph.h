@@ -3,6 +3,7 @@
 
 #include "MutablePriorityQueue.h"
 #include <cctype>
+#include <algorithm>
 
 using namespace std;
 

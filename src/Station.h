@@ -27,7 +27,7 @@ public:
 	~Station();
 
 	bool operator<(Station & station) const; // // required by MutablePriorityQueue
-	double getX() { return this->x;}
+	int getX() { return this->x;}
 	int getY() { return this->y;}
 	double getDist() const;
 	Station *getPath() const;

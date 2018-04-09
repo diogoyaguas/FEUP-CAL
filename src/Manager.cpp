@@ -44,6 +44,66 @@ void Manager::loadStations() {
     }
 }
 
+void Manager::loadStops() {
+
+    string line;
+
+    ifstream file("../src/lines.txt");
+
+    if (file.is_open()) {
+        while (getline(file, line)) {
+
+            stringstream linestream(line);
+            string data;
+
+            LineID lineId{};
+            vector<string> stopsId;
+
+            string stopID;
+            string idStop;
+            string idOriginStation;
+            Stop stop;
+            int timeToStation;
+            int id;
+
+            linestream >> lineId.lineID;
+            getline(linestream, data, ';');
+            linestream >> lineId.type;
+
+            while (linestream.rdbuf()->in_avail() != 0) {
+
+                getline(linestream, data, ';'); // read up-to the first ; (discard ;).
+                linestream >> id;
+                idStop = to_string(id);
+
+                getline(linestream, data, ';'); // read up-to the first ; (discard ;).
+                linestream >> timeToStation;
+
+                stopID = to_string(lineId.lineID) + lineId.type + to_string(id);
+                stopsId.push_back(stopID);
+                stop = Stop(stopID, lineId, timeToStation);
+
+                for (auto station: myStation) {
+
+                    if (station.getID() == idStop) {
+                        station.addStop(stop);
+                        graph.addVertex(stopID, station.getX(), station.getY());
+                        graph.addEdge(station.getID(), stopID);
+                        graph.addEdge(stopID, station.getID());
+                    }
+                }
+
+            }
+
+            auto lines = Line(lineId, stopsId);
+            myLine.push_back(lines);
+        }
+        file.close();
+    } else {
+        cerr << "File not found!\n";
+    }
+}
+
 void Manager::loadLines() {
 
     string line;
@@ -59,64 +119,52 @@ void Manager::loadLines() {
             LineID lineId{};
             vector<string> stopsId;
 
-            string temp;
             string stopID;
+            string idStop;
+            string idOriginStation;
             Stop stop;
             int timeToStation;
-            string idOriginStation;
+            int id;
 
             linestream >> lineId.lineID;
             getline(linestream, data, ';');
             linestream >> lineId.type;
 
-            while (!data.empty()) {
+            getline(linestream, data, ';'); // read up-to the first ; (discard ;).
+            linestream >> id;
+            idStop = to_string(id);
+            getline(linestream, data, ';'); // read up-to the first ; (discard ;).
+            linestream >> timeToStation;
+
+            stopID = to_string(lineId.lineID) + lineId.type + to_string(id);
+
+            while (linestream.rdbuf()->in_avail() != 0) {
+
+                idOriginStation = stopID;
 
                 getline(linestream, data, ';'); // read up-to the first ; (discard ;).
-                linestream >> stopID;
+                linestream >> id;
+                idStop = to_string(id);
                 getline(linestream, data, ';'); // read up-to the first ; (discard ;).
                 linestream >> timeToStation;
 
-                stopID = to_string(lineId.lineID) + to_string(lineId.type) + stopID;
-                stopsId.push_back(stopID);
-                stop = Stop(stopID, lineId, timeToStation);
-
-                for (auto station: myStation) {
-
-                    if (station.getID() == stopID) {
-                        station.addStop(stop);
-                        graph.addVertex(stopID, station.getX(), station.getY());
-                        graph.addEdge(station.getID(), stopID);
-                        graph.addEdge(stopID, station.getID());
-                    }
-                }
-
-                if (!data.empty()) {
-                    temp = data;
-                    idOriginStation = stopID;
-
-                    getline(linestream, temp, ';'); // read up-to the first ; (discard ;).
-                    linestream >> stopID;
-                    getline(linestream, temp, ';'); // read up-to the first ; (discard ;).
-                    linestream >> timeToStation;
-
-                    stopID = to_string(lineId.lineID) + to_string(lineId.type) + stopID;
-                    graph.addEdge(idOriginStation, stopID);
-                    graph.addEdge(stopID, idOriginStation);
-                }
+                stopID = to_string(lineId.lineID) + lineId.type + to_string(id);
+                graph.addEdge(idOriginStation, stopID);
+                graph.addEdge(stopID, idOriginStation);
             }
-
-            auto lines = Line(lineId, stopsId);
-            myLine.push_back(lines);
-
         }
+
+
         file.close();
     } else {
         cerr << "File not found!\n";
     }
+
 }
 
 void Manager::loadData() {
     loadStations();
+    loadStops();
     loadLines();
 }
 
@@ -132,6 +180,31 @@ bool Manager::VerifyChoice(string id, vector<Station> stations) {
     return false;
 }
 
+void Manager::chooseShorterPath(const string &origin, const string &destination) {
+
+    graph.dijkstraShortestPath(origin);
+    vector<string> path = graph.getPath(origin, destination);
+
+    cout << "Origin: " << findStation(origin) << endl << "Destination: " << findStation(destination) << endl;
+
+    for (const auto &p: path) {
+
+        cout << p << " -> ";
+    }
+}
+
+string Manager::findStation(const string &id) {
+
+    for (auto s: myStation) {
+
+        if (s.getID() == id) {
+
+            return s.getName();
+        }
+    }
+
+    return "";
+}
 
 string Manager::chooseOrigin() {
 

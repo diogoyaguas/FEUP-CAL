@@ -52,6 +52,11 @@ public:
 	static void printGraph(GraphViewer *gv, Graph<string> graph);
 	static void paintPath();
 
+    static void chooseShorterPath(const string &origin, const string &destination);
+
+    static string findStation(const string &id);
+
+	static void loadStops();
 };
 
 
