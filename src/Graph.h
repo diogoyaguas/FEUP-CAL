@@ -25,14 +25,13 @@ class Vertex {
 	int indegree;
 
 	double dist = 0;
-	Vertex<T> *path = NULL;
+	Vertex<T> *path = nullptr;
 	int queueIndex = 0; 		// required by MutablePriorityQueue
 
 	void addEdge(Vertex<T> *dest, double w);
 	bool removeEdgeTo(Vertex<T> *d);
 public:
 	Vertex(T in, int xCo, int yCo);
-	friend class Graph<T> ;
 	bool operator<(Vertex<T> & vertex) const; // // required by MutablePriorityQueue
 
 	T getInfo() const;
@@ -46,13 +45,23 @@ public:
 	int getYCoordinate() const;
 	Vertex *getPath() const;
 	vector<Edge<T> > getAdj() const;
-	friend class MutablePriorityQueue<Vertex<T>> ;
-
+	
 	void setDist(double d);
 	void setPath(Vertex<T> *vert);
 	void setInfo(T info);
 	void showVertexInfo() const;
+
+	bool isStation() const;
+	void edgesWeightToTime();
+
+	friend class Graph<T>;
+	friend class MutablePriorityQueue<Vertex<T>>;
 };
+
+template<class T>
+Vertex<T>::Vertex(T in, int xCo, int yCo) :
+	info(in), xCoordinate(xCo), yCoordinate(yCo) {
+}
 
 template<class T>
 void Vertex<T>::addEdge(Vertex<T> *d, double w) {
@@ -138,6 +147,33 @@ void Vertex<T>::showVertexInfo() const {
 }
 
 template<class T>
+bool Vertex<T>::isStation() const
+{
+	//TODO: isStation()
+	return false;
+}
+
+template<class T>
+void Vertex<T>::edgesWeightToTime()
+{
+	if (this->isStation()) {
+		for (auto e : this->adj) {
+			//TODO: fetch time to stop
+		}
+	}
+	else {
+		for (auto e: this->adj) {
+			if (isToStation()) {
+				//TODO: fetch time to station
+			}
+			else {
+				//TODO: calculate time
+			}
+		}
+	}
+}
+
+template<class T>
 bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
 
 	for (auto it = adj.begin(); it != adj.end(); it++)
@@ -158,8 +194,6 @@ bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
 template<class T>
 class Edge {
 	Vertex<T> * dest;      // destination vertex
-	Vertex<T> * orig;
-	string edgeName;
 	double weight;         // edge weight
 public:
 	Edge(Vertex<T> *d, double w);
@@ -174,6 +208,10 @@ public:
 	}
 };
 
+template<class T>
+Edge<T>::Edge(Vertex<T> *d, double w) :
+	dest(d), weight(w) {
+}
 /*
  * ************************************************
  * 					  GRAPH  					  *
@@ -206,18 +244,11 @@ public:
 	void unweightedShortestPath(const T &orig);
 	void dijkstraShortestPath(const T &origin);
 
+	void prepareforLessTime();
+	void dijkstraLessTime(const T &origin);
+
 	int calculateEdgeWeight(const T &sourc, const T &dest);
 };
-
-template<class T>
-Vertex<T>::Vertex(T in, int xCo, int yCo) :
-		info(in), xCoordinate(xCo), yCoordinate(yCo) {
-}
-
-template<class T>
-Edge<T>::Edge(Vertex<T> *d, double w) :
-		dest(d), weight(w) {
-}
 
 template<class T>
 int Graph<T>::getNumVertex() const {
@@ -559,6 +590,60 @@ void Graph<T>::dijkstraShortestPath(const T &origin) {
 				if (!w->visited) {
 					q.insert(w);
 				} else {
+					q.decreaseKey(w);
+				}
+				w->visited = true;
+			}
+		}
+	}
+}
+
+template<class T>
+void Graph<T>::prepareforLessTime() {
+	for (auto v : vertexSet) {
+		v->edgesWeightToTime();
+	}
+}
+
+template<class T>
+void Graph<T>::dijkstraLessTime(const T &origin) {
+	auto s = findVertex(origin);
+
+	int infinite = std::numeric_limits<int>::max();
+
+	for (auto v : vertexSet) {
+		v->setDist(infinite);
+		v->setPath(NULL);
+		v->visited = false;
+	}
+
+	s->setDist(0);
+
+	MutablePriorityQueue<Vertex<T>> q;
+
+	q.insert(s);
+
+	while (!q.empty()) {
+
+		auto v = q.extractMin();
+
+		for (auto &e : v->adj) {
+
+			auto w = e.dest;
+
+			double old_d = w->getDist();
+			double new_d = v->getDist() + e.weight;
+
+			if (old_d > new_d) {
+
+				w->setDist(new_d);
+
+				w->setPath(v);
+
+				if (!w->visited) {
+					q.insert(w);
+				}
+				else {
 					q.decreaseKey(w);
 				}
 				w->visited = true;

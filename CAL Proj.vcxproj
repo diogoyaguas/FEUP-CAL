@@ -100,13 +100,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\connection.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="src\ExcessaoBase.cpp" />
-    <ClCompile Include="src\Graph.cpp" />
-    <ClCompile Include="src\Graph2.cpp" />
     <ClCompile Include="src\graphviewer.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\Line.cpp" />
@@ -485,13 +483,11 @@
     </ClInclude>
     <ClInclude Include="src\ExcessaoBase.h" />
     <ClInclude Include="src\Graph.h" />
-    <ClInclude Include="src\Graph2.h" />
     <ClInclude Include="src\graphviewer.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\Line.h" />
-    <ClInclude Include="src\Link.h" />
     <ClInclude Include="src\Manager.h" />
     <ClInclude Include="src\Menu.h" />
     <ClInclude Include="src\MutablePriorityQueue.h" />

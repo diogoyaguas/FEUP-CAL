@@ -36,9 +36,6 @@
     <ClCompile Include="src\Stop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Graph2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -52,9 +49,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Menu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Graph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1142,9 +1136,6 @@
     <ClInclude Include="src\Line.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Link.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Station.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1152,9 +1143,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\MutablePriorityQueue.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Graph2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Input.h">
