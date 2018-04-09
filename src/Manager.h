@@ -52,7 +52,6 @@ public:
 	static void printGraph(GraphViewer *gv, Graph<string> graph);
 	static void paintPath();
 
-	static bool is_number(const std::string& s);
 };
 
 

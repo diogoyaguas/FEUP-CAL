@@ -1,5 +1,4 @@
 #include "Manager.h"
-#include <cctype>
 
 Manager::Manager() = default;
 
@@ -133,12 +132,6 @@ bool Manager::VerifyChoice(string id, vector<Station> stations) {
     return false;
 }
 
-bool Manager::is_number(const std::string & s)
-{
-	std::string::const_iterator it = s.begin();
-	while (it != s.end() && std::isdigit(*it)) ++it;
-	return !s.empty() && it == s.end();
-}
 
 string Manager::chooseOrigin() {
 

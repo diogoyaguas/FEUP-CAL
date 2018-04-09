@@ -2,6 +2,7 @@
 #define GRAPH_H_
 
 #include "MutablePriorityQueue.h"
+#include <cctype>
 
 using namespace std;
 
@@ -151,9 +152,12 @@ void Vertex<T>::showVertexInfo() const {
 template<class T>
 bool Vertex<T>::isStation() const
 {
-	return Manager::is_number(this->info);
+    std::string::const_iterator it = this->info.begin();
+    while (it != this->info.end() && std::isdigit(*it)) ++it;
+    return !this->info.empty() && it == this->info.end();
 }
 
+/*
 template<class T>
 void Vertex<T>::edgesWeightToTime()
 {
@@ -172,7 +176,7 @@ void Vertex<T>::edgesWeightToTime()
 			}
 		}
 	}
-}
+}*/
 
 template<class T>
 bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
