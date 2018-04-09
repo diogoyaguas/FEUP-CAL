@@ -561,6 +561,7 @@ void Graph<T>::unweightedShortestPath(const T &orig) {
 
 template<class T>
 void Graph<T>::dijkstraShortestPath(const T &origin) {
+
 	auto s = findVertex(origin);
 
 	int infinite = std::numeric_limits<int>::max();
