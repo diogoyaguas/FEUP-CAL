@@ -48,9 +48,11 @@ public:
 
 	static bool VerifyChoice(string id, vector<Station> stations);
 
-	void initGv(GraphViewer *gv);
-	void printGraph(GraphViewer *gv, Graph<string> graph);
-	void paintPath();
+	static void initGv(GraphViewer *gv);
+	static void printGraph(GraphViewer *gv, Graph<string> graph);
+	static void paintPath();
+
+	static bool is_number(const std::string& s);
 };
 
 

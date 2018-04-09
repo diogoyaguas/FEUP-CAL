@@ -9,6 +9,8 @@ template<class T> class Edge;
 template<class T> class Graph;
 template<class T> class Vertex;
 
+
+
 /*
  * ************************************************
  * 					  VERTEX					  *
@@ -149,8 +151,7 @@ void Vertex<T>::showVertexInfo() const {
 template<class T>
 bool Vertex<T>::isStation() const
 {
-	//TODO: isStation()
-	return false;
+	return Manager::is_number(this->info);
 }
 
 template<class T>
