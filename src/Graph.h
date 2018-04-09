@@ -207,11 +207,17 @@ public:
 
 		return this->dest;
 	}
+	bool isToStation();
 };
 
 template<class T>
 Edge<T>::Edge(Vertex<T> *d, double w) :
 	dest(d), weight(w) {
+}
+template<class T>
+inline bool Edge<T>::isToStation()
+{
+	return false;
 }
 /*
  * ************************************************
