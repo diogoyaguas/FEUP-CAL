@@ -77,7 +77,7 @@ void Manager::loadLines() {
                 getline(linestream, data, ';'); // read up-to the first ; (discard ;).
                 linestream >> timeToStation;
 
-                stopID = to_string(lineId.type) + stopID;
+                stopID = to_string(lineId.lineID) + to_string(lineId.type) + stopID;
                 stopsId.push_back(stopID);
                 stop = Stop(stopID, lineId, timeToStation);
 
@@ -100,7 +100,7 @@ void Manager::loadLines() {
                     getline(linestream, temp, ';'); // read up-to the first ; (discard ;).
                     linestream >> timeToStation;
 
-                    stopID = to_string(lineId.type) + stopID;
+                    stopID = to_string(lineId.lineID) + to_string(lineId.type) + stopID;
                     graph.addEdge(idOriginStation, stopID);
                     graph.addEdge(stopID, idOriginStation);
                 }
