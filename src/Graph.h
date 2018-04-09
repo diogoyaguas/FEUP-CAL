@@ -258,7 +258,7 @@ public:
 	void prepareforLessTime();
 	void dijkstraLessTime(const T &origin);
 
-	int calculateEdgeWeight(const T &sourc, const T &dest);
+	double calculateEdgeWeight(const T &sourc, const T &dest);
 };
 
 template<class T>
@@ -296,7 +296,7 @@ bool Graph<T>::addVertex(const T &in, int xCoordinate, int yCoordinate) {
 template<class T>
 bool Graph<T>::addEdge(const T &sourc, const T &dest) {
 
-	int w = calculateEdgeWeight(sourc, dest);
+	double w = calculateEdgeWeight(sourc, dest);
 	auto vs = findVertex(sourc);
 	auto vd = findVertex(dest);
 
@@ -309,7 +309,7 @@ bool Graph<T>::addEdge(const T &sourc, const T &dest) {
 }
 
 template<class T>
-int Graph<T>::calculateEdgeWeight(const T &sourc, const T &dest){
+double Graph<T>::calculateEdgeWeight(const T &sourc, const T &dest){
 
 	double w = 0;
 	auto vs = findVertex(sourc);
@@ -317,7 +317,7 @@ int Graph<T>::calculateEdgeWeight(const T &sourc, const T &dest){
 
 	w = pow(vd->getXCoordinate() - vs->getXCoordinate(), 2);
 	w += pow(vd->getYCoordinate() - vs->getYCoordinate(), 2);
-	return round(sqrt(w));
+	return sqrt(w);
 }
 
 template<class T>

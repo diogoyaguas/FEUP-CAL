@@ -1,37 +1,15 @@
 ﻿  Manager.cpp
 c:\users\ricar\desktop\github repos\cal proj\src\Graph.h(535): warning C4003: not enough actual parameters for macro 'max'
-c:\users\ricar\desktop\github repos\cal proj\src\Graph.h(566): warning C4003: not enough actual parameters for macro 'max'
-c:\users\ricar\desktop\github repos\cal proj\src\Graph.h(619): warning C4003: not enough actual parameters for macro 'max'
+c:\users\ricar\desktop\github repos\cal proj\src\Graph.h(567): warning C4003: not enough actual parameters for macro 'max'
+c:\users\ricar\desktop\github repos\cal proj\src\Graph.h(620): warning C4003: not enough actual parameters for macro 'max'
 src\Manager.cpp(88): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-c:\users\ricar\desktop\github repos\cal proj\src\Graph.h(316): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
-  c:\users\ricar\desktop\github repos\cal proj\src\Graph.h(308): note: while compiling class template member function 'int Graph<std::string>::calculateEdgeWeight(const T &,const T &)'
-          with
-          [
-              T=std::string
-          ]
-  c:\users\ricar\desktop\github repos\cal proj\src\Graph.h(295): note: see reference to function template instantiation 'int Graph<std::string>::calculateEdgeWeight(const T &,const T &)' being compiled
-          with
-          [
-              T=std::string
-          ]
-  c:\users\ricar\desktop\github repos\cal proj\src\Graph.h(280): note: while compiling class template member function 'bool Graph<std::string>::addVertex(const T &,int,int)'
-          with
-          [
-              T=std::string
-          ]
-  src\Manager.cpp(39): note: see reference to function template instantiation 'bool Graph<std::string>::addVertex(const T &,int,int)' being compiled
-          with
-          [
-              T=std::string
-          ]
-  src\Manager.cpp(8): note: see reference to class template instantiation 'Graph<std::string>' being compiled
   TripPlanner.cpp
 c:\users\ricar\desktop\github repos\cal proj\src\Graph.h(535): warning C4003: not enough actual parameters for macro 'max'
-c:\users\ricar\desktop\github repos\cal proj\src\Graph.h(566): warning C4003: not enough actual parameters for macro 'max'
-c:\users\ricar\desktop\github repos\cal proj\src\Graph.h(619): warning C4003: not enough actual parameters for macro 'max'
+c:\users\ricar\desktop\github repos\cal proj\src\Graph.h(567): warning C4003: not enough actual parameters for macro 'max'
+c:\users\ricar\desktop\github repos\cal proj\src\Graph.h(620): warning C4003: not enough actual parameters for macro 'max'
   Menu.cpp
 c:\users\ricar\desktop\github repos\cal proj\src\Graph.h(535): warning C4003: not enough actual parameters for macro 'max'
-c:\users\ricar\desktop\github repos\cal proj\src\Graph.h(566): warning C4003: not enough actual parameters for macro 'max'
-c:\users\ricar\desktop\github repos\cal proj\src\Graph.h(619): warning C4003: not enough actual parameters for macro 'max'
+c:\users\ricar\desktop\github repos\cal proj\src\Graph.h(567): warning C4003: not enough actual parameters for macro 'max'
+c:\users\ricar\desktop\github repos\cal proj\src\Graph.h(620): warning C4003: not enough actual parameters for macro 'max'
   Generating Code...
   CAL Proj.vcxproj -> C:\Users\ricar\Desktop\GitHub Repos\CAL Proj\Debug\CAL Proj.exe
