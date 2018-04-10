@@ -317,6 +317,49 @@ int Manager::getLine(const string &id) {
     return 0;
 
 }
+
+void Manager::initGv(GraphViewer *gv) {
+
+    gv->createWindow(800, 800);
+    gv->defineEdgeColor(GRAY);
+    gv->defineEdgeCurved(false);
+    gv->defineVertexColor(YELLOW);
+
+}
+
+void Manager::printGraph(GraphViewer *gv){
+
+    vector<Station> stations = myStation;
+
+    for(auto station : stations){
+
+        string id = station.getID();
+        int x = station.getX();
+        int y = station.getY();
+
+        gv->addNode(id,x,y);
+    }
+
+    for(auto station : stations){
+
+        string idOrigin = station.getID();
+
+        for(auto link : station.getConnections()) {
+
+            string idDest = link.getDest()->getID();
+            int lineID = link.getLineID().lineID;
+
+            gv->addEdge(lineID, idOrigin, idDest, EdgeType::UNDIRECTED);
+        }
+
+
+
+    }
+
+}
+
+
+
 /*
 
 void Manager::paintPath(vector<Node> path) {

@@ -121,7 +121,7 @@ public:
 	 * @param edgeType EdgeType.DIRECTED caso a aresta seja unidirecional
 	 * ou EdgeType.UNDIRECTED caso a aresta seja bidirecional.
 	 */
-	bool addEdge(int id, int v1, int v2, int edgeType);
+	bool addEdge(int id, string v1, string v2, int edgeType);
 
 	/**
 	 * Remove um nó da representação do grafo e todas as arestas ligadas a este.
@@ -130,7 +130,7 @@ public:
 	 *
 	 * @param id Identificador único do nó a a remover.
 	 */
-	bool removeNode(int id);
+	bool removeNode(string id);
 
 	/**
 	 * Remove uma aresta da representação do grafo.
@@ -149,14 +149,14 @@ public:
 	 * @param id Identificador único do nó com o texto a alterar.
 	 * @param label Novo texto do nó.
 	 */
-	bool setVertexLabel(int id, string label);
+	bool setVertexLabel(string id, string label);
 
 	/**
 	 * Função que apaga o texto de um nó, caso o mesmo tenha sido definido anteriormente.
 	 *
 	 * @param id Identificador único do nó com o texto a apagar.
 	 */
-	bool clearVertexLabel(int id);
+	bool clearVertexLabel(string id);
 
 	/**
 	 * Função que define o texto de uma aresta.
@@ -210,14 +210,14 @@ public:
 	 * @param id Identificador único do nó com a cor a alterar.
 	 * @param color Nova cor do nó, utilizar as constantes definidas no graphviewer.h para conveniência.
 	 */
-	bool setVertexColor(int id, string color);
+	bool setVertexColor(string id, string color);
 
 	/**
 	 * Função que apaga a cor de um vértice, colocando-a com o valor por omissão.
 	 *
 	 * @param id Identificador único do nó com a cor a apagar.
 	 */
-	bool clearVertexColor(int id);
+	bool clearVertexColor(string id);
 
 	/**
 	 * Função que define o tamanho de um nó.

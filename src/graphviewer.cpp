@@ -122,7 +122,7 @@ bool GraphViewer::addNode(string id, double x, int y) {
 	return con->sendMsg(str);
 }
 
-bool GraphViewer::addEdge(int id, int v1, int v2, int edgeType) {
+bool GraphViewer::addEdge(int id, string v1, string v2, int edgeType) {
 	char buff[200];
 	sprintf(buff, "addEdge %d %d %d %d\n", id, v1, v2, edgeType);
 	string str(buff);
@@ -143,14 +143,14 @@ bool GraphViewer::clearEdgeLabel(int id) {
 	return con->sendMsg(str);
 }
 
-bool GraphViewer::setVertexLabel(int k, string label) {
+bool GraphViewer::setVertexLabel(string k, string label) {
 	char buff[200];
 	sprintf(buff, "setVertexLabel %d %s\n", k, label.c_str());
 	string str(buff);
 	return con->sendMsg(str);
 }
 
-bool GraphViewer::clearVertexLabel(int id) {
+bool GraphViewer::clearVertexLabel(string id) {
 	char buff[200];
 	sprintf(buff, "clearVertexLabel %d\n", id);
 	string str(buff);
@@ -171,7 +171,7 @@ bool GraphViewer::resetEdgeColor() {
 	return con->sendMsg(str);
 }
 
-bool GraphViewer::removeNode(int id) {
+bool GraphViewer::removeNode(string id) {
 	char buff[200];
 	sprintf(buff, "removeNode %d\n", id);
 	string str(buff);
@@ -241,14 +241,14 @@ bool GraphViewer::resetVertexColor() {
 	return con->sendMsg(str);
 }
 
-bool GraphViewer::setVertexColor(int k, string color) {
+bool GraphViewer::setVertexColor(string k, string color) {
 	char buff[200];
 	sprintf(buff, "setVertexColor %d %s\n", k, color.c_str());
 	string str(buff);
 	return con->sendMsg(str);
 }
 
-bool GraphViewer::clearVertexColor(int id) {
+bool GraphViewer::clearVertexColor(string id) {
 	char buff[200];
 	sprintf(buff, "clearVertexColor %d\n", id);
 	string str(buff);
