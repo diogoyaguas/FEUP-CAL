@@ -7,14 +7,13 @@ using namespace std;
 int main() {
     Manager manager;
 
-	GraphViewer *gv = new GraphViewer(1000, 1000, false);
-	manager.initGv(gv);
+	GraphViewer *gv = new GraphViewer(800,800, false);
 
     manager.loadData();
+
+
+    manager.printGraph(gv);
     MainMenu::displayMenu(gv);
-
-   // manager.printGraph(gv);
-
 
     return 0;
 }

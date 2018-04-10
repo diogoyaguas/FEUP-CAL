@@ -77,6 +77,8 @@ void Manager::loadStops() {
             getline(linestream, data, ';');
             linestream >> lineId.type;
 
+            Station dest;
+
             while (linestream.rdbuf()->in_avail() != 0) {
 
                 getline(linestream, data, ';'); // read up-to the first ; (discard ;).
@@ -110,7 +112,8 @@ void Manager::loadStops() {
                         graphTranshipment.addEdgeTranshipment(station.getID(), stopID, 0.5);
                         graphTranshipment.addEdgeTranshipment(stopID, station.getID(), 0.5);
 
-                        //station.addLinkTo(&findStation(stopID),lineId);
+                       // dest = findStation(stopID);
+                       // station.addLinkTo(&dest,lineId);
 
                     }
                 }
@@ -411,17 +414,13 @@ Station Manager::findStation(const string &id) {
     }
 
 
-    void Manager::initGv(GraphViewer *gv) {
 
-        gv->createWindow(800, 800);
-        gv->defineEdgeColor("gray");
-
-        gv->defineVertexColor("yellow");
-
-    }
 
     void Manager::printGraph(GraphViewer *gv) {
 
+        gv->createWindow(800, 800);
+        gv->defineEdgeColor("gray");
+        gv->defineVertexColor("yellow");
 
         for (auto station :  getStation()) {
 
@@ -446,28 +445,17 @@ Station Manager::findStation(const string &id) {
 
                  gv->addEdge(lineID, idOrigin, idDest, EdgeType::UNDIRECTED);
              }
-
-
-
          }
-
-
-
-
         gv->rearrange();
     }
 
 
-/*
+
 void Manager::paintPath(vector<string> path, GraphViewer *gv) {
 	
-	
-	//Ainda nao sei como fazer, com o caminho que vai ter de percorrer ja feito, temos de o percorrer e colocar cada
-	//aresta a verde
-
 
 	for (size_t i = 0; i < path.size() - 1; i++) {
-		string id = path.at(i);
+		int id = stoi(path.at(i));
 		gv->setEdgeThickness(id, 4);
 		gv->setEdgeColor(id, GREEN);
 	}
@@ -476,4 +464,4 @@ void Manager::paintPath(vector<string> path, GraphViewer *gv) {
 	gv->rearrange();
 	
 
-}*/
+}

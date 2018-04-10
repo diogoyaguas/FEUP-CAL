@@ -50,9 +50,9 @@ public:
 
 	static bool VerifyChoice(string id, vector<Station> stations);
 
-	static void initGv(GraphViewer *gv);
+
 	static void printGraph(GraphViewer *gv);
-	//static void paintPath(vector<string> path, , GraphViewer *gv);
+	static void paintPath(vector<string> path, GraphViewer *gv);
 
     static void chooseShorterPath(const string &origin, const string &destination, GraphViewer *gv);
 

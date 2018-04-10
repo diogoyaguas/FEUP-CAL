@@ -132,7 +132,7 @@ void MainMenu::displayMenu(GraphViewer *gv) {
     vector<char> options = {'1', '2', '3', '4', 'E'};
 
     char option = processOptions(options);
-
+    vector<string> path;
     switch (option) {
 
         case '1':
@@ -141,6 +141,7 @@ void MainMenu::displayMenu(GraphViewer *gv) {
             //choice is valid, will call the algorithm needed
             CleanScreen();
             Manager::chooseFastestPath(idOrigin, idDestination, gv);
+
             break;
         case '2':
             //call funtion to calculate path by ticket price
