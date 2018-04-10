@@ -310,33 +310,17 @@ void Manager::chooseLessTranshipmentPath(const string &origin, const string &des
 
 Station Manager::findStation(const string &id) {
 
+    for (Station s: getStation()) {
 
-         int i = 0;
+        if (s.getID() == id) {
 
-
-         for(int j = 1; j < stations.size(); j++){
-
-
-             cout << "Take the " << transports.at(i) << " on line " << lines.at(i) << " to " << stations.at(j).getName() << endl << endl;
-             i++;
-         }
+            return s;
+        }
+    }
 
 }
 
 
-
-
-    Station Manager::findStation(const string &id) {
-
-        for (Station s: getStation()) {
-
-            if (s.getID() == id) {
-
-                return s;
-            }
-        }
-
-    }
 
     Station Manager::findStop(const string &id) {
 
@@ -446,16 +430,16 @@ Station Manager::findStation(const string &id) {
         }
 
 
-        /* for(auto station : stations){
+        for(auto station :getStation()){
 
-             string idOrigin = station.getID();
+             int idOrigin = stoi(station.getID());
 
              for (auto link : station.getConnections()) {
 
-                 string idDest = link.getDest()->getID();
+                 int idDest = stoi(link.getDest()->getID());
                  int lineID = link.getLineID().lineID;
 
-                 gv->adEdge(lineID, idOrigin, idDest, EdgeType::UNDIRECTED);
+                 gv->addEdge(lineID, idOrigin, idDest, EdgeType::UNDIRECTED);
              }
 
 
@@ -463,7 +447,7 @@ Station Manager::findStation(const string &id) {
          }
 
 
-         }*/
+
 
         gv->rearrange();
     }
