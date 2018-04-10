@@ -110,6 +110,8 @@ void Manager::loadStops() {
                         graphTranshipment.addEdgeTranshipment(station.getID(), stopID, 0.5);
                         graphTranshipment.addEdgeTranshipment(stopID, station.getID(), 0.5);
 
+                        //station.addLinkTo(&findStation(stopID),lineId);
+
                     }
                 }
 
@@ -173,6 +175,7 @@ void Manager::loadLines() {
                 graphDistance.addEdge(idOriginStation, stopID, 'd');
                 graphDistance.addEdge(stopID, idOriginStation, 'd');
 
+
                 graphTime.addEdge(idOriginStation, stopID, 't');
                 graphTime.addEdge(stopID, idOriginStation, 't');
 
@@ -210,7 +213,7 @@ bool Manager::VerifyChoice(string id, vector<Station> stations) {
     return false;
 }
 
-void Manager::chooseShorterPath(const string &origin, const string &destination) {
+void Manager::chooseShorterPath(const string &origin, const string &destination, GraphViewer *gv) {
 
     graphDistance.dijkstraShortestPath(origin);
     vector<string> path = graphDistance.getPath(origin, destination);
@@ -236,7 +239,7 @@ void Manager::chooseShorterPath(const string &origin, const string &destination)
 
 }
 
-void Manager::chooseFastestPath(const string &origin, const string &destination) {
+void Manager::chooseFastestPath(const string &origin, const string &destination, GraphViewer *gv) {
 
     graphTime.dijkstraShortestPath(origin);
     vector<string> path = graphTime.getPath(origin, destination);
@@ -257,9 +260,11 @@ void Manager::chooseFastestPath(const string &origin, const string &destination)
             cout << "\t" << station.getName() << " | " << getTransport(i) << " on line " << getLine(station, i) << endl;
         }
     }
+   // printGraph(gv);
+
 }
 
-void Manager::chooseCheaperPath(const string &origin, const string &destination) {
+void Manager::chooseCheaperPath(const string &origin, const string &destination, GraphViewer *gv) {
 
     graphPrice.dijkstraShortestPath(origin);
     vector<string> path = graphPrice.getPath(origin, destination);
@@ -283,7 +288,7 @@ void Manager::chooseCheaperPath(const string &origin, const string &destination)
 
 }
 
-void Manager::chooseLessTranshipmentPath(const string &origin, const string &destination) {
+void Manager::chooseLessTranshipmentPath(const string &origin, const string &destination, GraphViewer *gv) {
 
     graphTranshipment.dijkstraShortestPath(origin);
     vector<string> path = graphTranshipment.getPath(origin, destination);

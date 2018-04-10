@@ -11,9 +11,9 @@ int main() {
 	manager.initGv(gv);
 
     manager.loadData();
-    //MainMenu::displayMenu();
+    MainMenu::displayMenu(gv);
 
-   manager.printGraph(gv);
+   // manager.printGraph(gv);
 
 
     return 0;
