@@ -41,6 +41,7 @@ void Manager::loadStations() {
             graphDistance.addVertex(to_string(id), x, y);
             graphTime.addVertex(to_string(id), x, y);
             graphPrice.addVertex(to_string(id), x, y);
+            graphTranshipment.addVertex(to_string(id), x, y);
         }
 
         file.close();
@@ -105,6 +106,9 @@ void Manager::loadStops() {
 
                         graphPrice.addEdgePrice(station.getID(), stopID, 0);
                         graphPrice.addEdgePrice(stopID, station.getID(), 0);
+
+                        graphTranshipment.addEdgeTranshipment(station.getID(), stopID, 0.5);
+                        graphTranshipment.addEdgeTranshipment(stopID, station.getID(), 0.5);
 
                     }
                 }
@@ -174,6 +178,10 @@ void Manager::loadLines() {
 
                 graphPrice.addEdge(idOriginStation, stopID, 'p');
                 graphPrice.addEdge(stopID, idOriginStation, 'p');
+
+                graphTranshipment.addEdgeTranshipment(idOriginStation, stopID, 0);
+                graphTranshipment.addEdgeTranshipment(stopID, idOriginStation, 0);
+
             }
         }
 
@@ -275,7 +283,32 @@ void Manager::chooseCheaperPath(const string &origin, const string &destination)
 
 }
 
-         unique( lines.begin(), lines.end() );
+void Manager::chooseLessTranshipmentPath(const string &origin, const string &destination) {
+
+    graphTranshipment.dijkstraShortestPath(origin);
+    vector<string> path = graphTranshipment.getPath(origin, destination);
+    string name;
+    Station station;
+
+    cout << "Origin: " << findStation(origin).getName() << endl << "Destination: " << findStation(destination).getName()
+         << endl << endl;
+
+    for (const auto &i : path) {
+
+        if (is_digits(i)) {
+            station = findStation(i);
+            cout << station.getName() << ": " << endl;
+        } else {
+
+            station = findStop(i);
+            cout << "\t" << station.getName() << " | " << getTransport(i) << " on line " << getLine(station, i) << endl;
+        }
+    }
+
+
+}
+
+Station Manager::findStation(const string &id) {
 
 
          int i = 0;
@@ -434,10 +467,6 @@ void Manager::chooseCheaperPath(const string &origin, const string &destination)
 
         gv->rearrange();
     }
-
-
-
-
 
 
 /*

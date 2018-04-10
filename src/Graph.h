@@ -250,6 +250,8 @@ public:
 
     bool addEdgePrice(const T &sourc, const T &dest, double c);
 
+    bool addEdgeTranshipment(const T &sourc, const T &dest, double c);
+
     bool removeEdge(const T &sourc, const T &dest);
 
     bool isDAG() const;
@@ -355,6 +357,22 @@ bool Graph<T>::addEdgeTime(const T &sourc, const T &dest, double c) {
 
 template<class T>
 bool Graph<T>::addEdgePrice(const T &sourc, const T &dest, double c) {
+
+    double w = c;
+
+    auto vs = findVertex(sourc);
+    auto vd = findVertex(dest);
+
+
+    if (vs == NULL || vd == NULL)
+        return false;
+
+    vs->addEdge(vd, w);
+    return true;
+}
+
+template<class T>
+bool Graph<T>::addEdgeTranshipment(const T &sourc, const T &dest, double c) {
 
     double w = c;
 

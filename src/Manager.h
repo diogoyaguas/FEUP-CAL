@@ -74,6 +74,8 @@ public:
     static void chooseFastestPath(const string &origin, const string &destination);
 
     static void chooseCheaperPath(const string &origin, const string &destination);
+
+    static void chooseLessTranshipmentPath(const string &origin, const string &destination);
 };
 
 

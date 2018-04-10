@@ -1,8 +1,4 @@
 #include "Menu.h"
-#include <iostream>
-#include <algorithm>
-#include <vector>
-#include <cmath>
 
 using namespace std;
 
@@ -149,7 +145,7 @@ void MainMenu::displayMenu() {
         case '2':
             //call funtion to calculate path by ticket price
             CleanScreen();
-        Manager::chooseCheaperPath(idOrigin, idDestination);
+            Manager::chooseCheaperPath(idOrigin, idDestination);
             break;
         case '3':
             //call function to calculate path by distance
@@ -157,6 +153,8 @@ void MainMenu::displayMenu() {
             Manager::chooseShorterPath(idOrigin, idDestination);
             break;
         case '4':
+            CleanScreen();
+            Manager::chooseLessTranshipmentPath(idOrigin, idDestination);
             //call function to calculate path by number of stops
 
 
