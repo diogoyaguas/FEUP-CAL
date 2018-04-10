@@ -18,7 +18,10 @@ class Manager {
 private:
     static vector<Station>  myStation;
     static vector<Line> myLine;
-	static Graph<string> graph;
+	static Graph<string> graphDistance;
+    static Graph<string> graphTime;
+	static Graph<string> graphPrice;
+    static Graph<string> graphTranshipment;
 
 /**
 	 * Construtor default.
@@ -67,6 +70,10 @@ public:
 	static bool is_digits(const string &str);
 
 	static int getLine(Station s, const string &id);
+
+    static void chooseFastestPath(const string &origin, const string &destination);
+
+    static void chooseCheaperPath(const string &origin, const string &destination);
 };
 
 

@@ -143,9 +143,13 @@ void MainMenu::displayMenu() {
             //call function to calculate path by deslocation time
             //the function called will ask the user where he is and where he wants to go and then, if the
             //choice is valid, will call the algorithm needed
+            CleanScreen();
+            Manager::chooseFastestPath(idOrigin, idDestination);
             break;
         case '2':
             //call funtion to calculate path by ticket price
+            CleanScreen();
+        Manager::chooseCheaperPath(idOrigin, idDestination);
             break;
         case '3':
             //call function to calculate path by distance
