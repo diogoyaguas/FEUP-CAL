@@ -2,7 +2,7 @@
 
 Manager::Manager() = default;
 
-vector<Station> Manager::myStation = {};
+vector<Station> Manager::myStation;
 vector<Line> Manager::myLine = {};
 Graph<string> Manager::graph = {};
 
@@ -58,6 +58,7 @@ void Manager::loadStops() {
 
             LineID lineId{};
             vector<string> stopsId;
+            vector<Stop> stops;
 
             string stopID;
             string idStop;
@@ -83,7 +84,7 @@ void Manager::loadStops() {
                 stopsId.push_back(stopID);
                 stop = Stop(stopID, lineId, timeToStation);
 
-                for (auto station: myStation) {
+                for (auto &station: myStation) {
 
                     if (station.getID() == idStop) {
                         station.addStop(stop);
@@ -184,13 +185,30 @@ void Manager::chooseShorterPath(const string &origin, const string &destination)
 
     graph.dijkstraShortestPath(origin);
     vector<string> path = graph.getPath(origin, destination);
+    string name;
 
     cout << "Origin: " << findStation(origin) << endl << "Destination: " << findStation(destination) << endl;
 
-    for (const auto &p: path) {
+    for (unsigned int i = 1; i < path.size(); i++) {
 
-        cout << p << " -> ";
+        name = findName(path.at(i));
+
+        /*if (i == path.size() - 2) {
+
+            cout << "You arrived at your destination!" << endl;
+            return;
+        }
+
+        if (name == findName(path.at(i + 1))) {
+
+            cout << "Change to the line" << getLine(path.at(i + 2)) << " and take the " << getTransport(path.at(i));
+            i++;
+        }*/
+
+        cout << name << " " << getLine((path.at(i))) << endl;
+
     }
+
 }
 
 string Manager::findStation(const string &id) {
@@ -203,7 +221,30 @@ string Manager::findStation(const string &id) {
         }
     }
 
-    return "";
+}
+
+string Manager::findStop(const string &id) {
+
+    for (auto s: myStation) {
+
+        for (auto p: s.getStops()) {
+
+            if (p.getStopID() == id) {
+
+                return s.getName();
+            }
+        }
+    }
+}
+
+string Manager::findName(const string &id) {
+
+    string name;
+
+    name = findStation(id);
+    if (name.empty()) name = findStop(id);
+
+    return name;
 }
 
 string Manager::chooseOrigin() {
@@ -246,6 +287,36 @@ string Manager::chooseDestination() {
 
 }
 
+string Manager::getTransport(const string &id) {
+
+    if (id.find('a') != string::npos) {
+
+        return "bus";
+    } else if (id.find('b') != string::npos) {
+
+        return "subway";
+    } else if (id.find('c') != string::npos) {
+
+        return "train";
+    } else return "";
+}
+
+int Manager::getLine(const string &id) {
+
+    for(auto s: myStation){
+
+        for(auto p: s.getStops()){
+
+            if(id == p.getStopID()){
+
+                return p.getLineID().lineID;
+            }
+        }
+    }
+
+    return 0;
+
+}
 /*
 
 void Manager::paintPath(vector<Node> path) {

@@ -57,6 +57,14 @@ public:
     static string findStation(const string &id);
 
 	static void loadStops();
+
+    static string getTransport(const string &id);
+
+    int static getLine(const string &id);
+
+	static string findStop(const string &id);
+
+	static string findName(const string &id);
 };
 
 
