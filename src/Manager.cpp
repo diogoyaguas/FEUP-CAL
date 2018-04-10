@@ -212,6 +212,7 @@ void Manager::chooseShorterPath(const string &origin, const string &destination)
     cout << "Origin: " << findStation(origin).getName() << endl << "Destination: " << findStation(destination).getName()
          << endl << endl;
 
+
     for (const auto &i : path) {
 
         if (is_digits(i)) {
@@ -274,157 +275,181 @@ void Manager::chooseCheaperPath(const string &origin, const string &destination)
 
 }
 
-Station Manager::findStation(const string &id) {
+         unique( lines.begin(), lines.end() );
 
-    for (Station s: getStation()) {
 
-        if (s.getID() == id) {
+         int i = 0;
 
-            return s;
-        }
-    }
+
+         for(int j = 1; j < stations.size(); j++){
+
+
+             cout << "Take the " << transports.at(i) << " on line " << lines.at(i) << " to " << stations.at(j).getName() << endl << endl;
+             i++;
+         }
 
 }
 
-Station Manager::findStop(const string &id) {
 
-    for (auto s: getStation()) {
 
-        for (auto p: s.getStops()) {
 
-            if (p.getStopID() == id) {
+    Station Manager::findStation(const string &id) {
+
+        for (Station s: getStation()) {
+
+            if (s.getID() == id) {
 
                 return s;
             }
         }
-    }
-}
-
-bool Manager::is_digits(const std::string &str) {
-    return str.find_first_not_of("0123456789") == std::string::npos;
-}
-
-string Manager::chooseOrigin() {
-
-    string origin;
-
-    vector<Station> stations = getStation();
-
-    cout << "STATIONS:" << endl << endl;
-    for (auto station : stations) {
-
-        cout << station.getID() << " - " << station.getName() << endl;
 
     }
 
-    cout << "\nWhere are you ? (Choose the id of the station)" << endl << "::: ";
-    cin >> origin;
-    while (!VerifyChoice(origin, stations)) {
-        cout << endl << "# Invalid id. Please select again: ";
+    Station Manager::findStop(const string &id) {
+
+        for (auto s: getStation()) {
+
+            for (auto p: s.getStops()) {
+
+                if (p.getStopID() == id) {
+
+                    return s;
+                }
+            }
+        }
+    }
+
+    bool Manager::is_digits(const std::string &str) {
+        return str.find_first_not_of("0123456789") == std::string::npos;
+    }
+
+    string Manager::chooseOrigin() {
+
+        string origin;
+
+        vector<Station> stations = getStation();
+
+        cout << "STATIONS:" << endl << endl;
+        for (auto station : stations) {
+
+            cout << station.getID() << " - " << station.getName() << endl;
+
+        }
+
+        cout << "\nWhere are you ? (Choose the id of the station)" << endl << "::: ";
         cin >> origin;
+        while (!VerifyChoice(origin, stations)) {
+            cout << endl << "# Invalid id. Please select again: ";
+            cin >> origin;
+        }
+
+        return origin;
+
     }
 
-    return origin;
+    string Manager::chooseDestination() {
+        string destination;
 
-}
+        vector<Station> stations = getStation();
 
-string Manager::chooseDestination() {
-    string destination;
-
-    vector<Station> stations = getStation();
-
-    cout << "Where do you want to go ? (Choose the id of the station) " << endl << "::: ";
-    cin >> destination;
-    while (!VerifyChoice(destination, stations)) {
-        cout << endl << "# Invalid id. Please select again: ";
+        cout << "Where do you want to go ? (Choose the id of the station) " << endl << "::: ";
         cin >> destination;
+        while (!VerifyChoice(destination, stations)) {
+            cout << endl << "# Invalid id. Please select again: ";
+            cin >> destination;
+        }
+
+        return destination;
+
     }
 
-    return destination;
+    string Manager::getTransport(const string &id) {
 
-}
+        if (id.find('a') != string::npos) {
 
-string Manager::getTransport(const string &id) {
+            return "bus";
+        } else if (id.find('b') != string::npos) {
 
-    if (id.find('a') != string::npos) {
+            return "subway";
+        } else if (id.find('c') != string::npos) {
 
-        return "bus";
-    } else if (id.find('b') != string::npos) {
+            return "train";
+        } else return "";
+    }
 
-        return "subway";
-    } else if (id.find('c') != string::npos) {
+    int Manager::getLine(Station s, const string &id) {
 
-        return "train";
-    } else return "";
-}
+        for (auto p: s.getStops()) {
 
-int Manager::getLine(Station s, const string &id) {
+            if (id == p.getStopID()) {
 
-    for (auto p: s.getStops()) {
-
-        if (id == p.getStopID()) {
-
-            return p.getLineID().lineID;
+                return p.getLineID().lineID;
+            }
         }
     }
-}
 
-void Manager::initGv(GraphViewer *gv) {
 
-    gv->createWindow(800, 800);
-    gv->defineEdgeColor(GRAY);
-    gv->defineEdgeCurved(false);
-    gv->defineVertexColor(YELLOW);
+    void Manager::initGv(GraphViewer *gv) {
 
-}
+        gv->createWindow(800, 800);
+        gv->defineEdgeColor("gray");
 
-void Manager::printGraph(GraphViewer *gv) {
+        gv->defineVertexColor("yellow");
 
-    vector<Station> stations = getStation();
-
-    for (auto station : stations) {
-
-        string id = station.getID();
-        int x = station.getX();
-        int y = station.getY();
-
-        gv->addNode(id, x, y);
     }
 
-    for (auto station : stations) {
+    void Manager::printGraph(GraphViewer *gv) {
 
-        string idOrigin = station.getID();
 
-        for (auto link : station.getConnections()) {
+        for (auto station :  getStation()) {
 
-            string idDest = link.getDest()->getID();
-            int lineID = link.getLineID().lineID;
+            int id = stoi(station.getID());
+            int x = station.getX();
+            int y = station.getY();
 
-            gv->addEdge(lineID, idOrigin, idDest, EdgeType::UNDIRECTED);
+            gv->setVertexLabel(id, station.getName());
+            gv->addNode(id, x, y);
+
         }
 
 
+        /* for(auto station : stations){
+
+             string idOrigin = station.getID();
+
+             for (auto link : station.getConnections()) {
+
+                 string idDest = link.getDest()->getID();
+                 int lineID = link.getLineID().lineID;
+
+                 gv->adEdge(lineID, idOrigin, idDest, EdgeType::UNDIRECTED);
+             }
+
+
+
+         }
+
+
+         }*/
+
+        gv->rearrange();
     }
 
-}
 
 
 
 
 
 /*
-
-void Manager::paintPath(vector<Node> path) {
+void Manager::paintPath(vector<string> path, GraphViewer *gv) {
 	
 	
 	//Ainda nao sei como fazer, com o caminho que vai ter de percorrer ja feito, temos de o percorrer e colocar cada
 	//aresta a verde
-	
-	
+
 
 	for (size_t i = 0; i < path.size() - 1; i++) {
-		int id = path.at(i).getID() * 1000 + path.at(i + 1).getID(); //nao percebo muito bem esta parte
-
+		string id = path.at(i);
 		gv->setEdgeThickness(id, 4);
 		gv->setEdgeColor(id, GREEN);
 	}
@@ -433,4 +458,4 @@ void Manager::paintPath(vector<Node> path) {
 	gv->rearrange();
 	
 
-} */
+}*/
