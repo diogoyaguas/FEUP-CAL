@@ -186,72 +186,74 @@ void Manager::chooseShorterPath(const string &origin, const string &destination)
     graph.dijkstraShortestPath(origin);
     vector<string> path = graph.getPath(origin, destination);
     string name;
+    Station station;
+    vector<Station> stations;
+    vector<int> lines;
+    vector<string> transports;
 
-    cout << "Origin: " << findStation(origin) << endl << "Destination: " << findStation(destination) << endl;
+    cout << "Origin: " << findStation(origin).getName() << endl << "Destination: " << findStation(destination).getName()
+         << endl << endl;
 
-    for (unsigned int i = 1; i < path.size(); i++) {
+    for (const auto &i : path) {
 
-        name = findName(path.at(i));
+        if (is_digits(i)) {
+            station = findStation(i);
+            stations.push_back(station);
+        } else {
 
-        /*if (i == path.size() - 2) {
-
-            cout << "You arrived at your destination!" << endl;
-            return;
+            station = findStop(i);
+            lines.push_back(getLine(station, i));
+            transports.push_back(getTransport(i));
         }
+    }
 
-        if (name == findName(path.at(i + 1))) {
+    unique( lines.begin(), lines.end() );
 
-            cout << "Change to the line" << getLine(path.at(i + 2)) << " and take the " << getTransport(path.at(i));
-            i++;
-        }*/
+    int i = 0;
 
-        cout << name << " " << getLine((path.at(i))) << endl;
+    for(int j = 1; j < stations.size(); j++){
 
+        cout << "Take the " << transports.at(i) << " on line " << lines.at(i) << " to " << stations.at(j).getName() << endl << endl;
+        i++;
     }
 
 }
 
-string Manager::findStation(const string &id) {
+Station Manager::findStation(const string &id) {
 
-    for (auto s: myStation) {
+    for (Station s: getStation()) {
 
         if (s.getID() == id) {
 
-            return s.getName();
+            return s;
         }
     }
 
 }
 
-string Manager::findStop(const string &id) {
+Station Manager::findStop(const string &id) {
 
-    for (auto s: myStation) {
+    for (auto s: getStation()) {
 
         for (auto p: s.getStops()) {
 
             if (p.getStopID() == id) {
 
-                return s.getName();
+                return s;
             }
         }
     }
 }
 
-string Manager::findName(const string &id) {
-
-    string name;
-
-    name = findStation(id);
-    if (name.empty()) name = findStop(id);
-
-    return name;
+bool Manager::is_digits(const std::string &str) {
+    return str.find_first_not_of("0123456789") == std::string::npos;
 }
 
 string Manager::chooseOrigin() {
 
     string origin;
 
-    vector<Station> stations = myStation;
+    vector<Station> stations = getStation();
 
     cout << "STATIONS:" << endl << endl;
     for (auto station : stations) {
@@ -274,7 +276,7 @@ string Manager::chooseOrigin() {
 string Manager::chooseDestination() {
     string destination;
 
-    vector<Station> stations = myStation;
+    vector<Station> stations = getStation();
 
     cout << "Where do you want to go ? (Choose the id of the station) " << endl << "::: ";
     cin >> destination;
@@ -301,22 +303,17 @@ string Manager::getTransport(const string &id) {
     } else return "";
 }
 
-int Manager::getLine(const string &id) {
+int Manager::getLine(Station s, const string &id) {
 
-    for(auto s: myStation){
+    for (auto p: s.getStops()) {
 
-        for(auto p: s.getStops()){
+        if (id == p.getStopID()) {
 
-            if(id == p.getStopID()){
-
-                return p.getLineID().lineID;
-            }
+            return p.getLineID().lineID;
         }
     }
-
-    return 0;
-
 }
+
 
 void Manager::initGv(GraphViewer *gv) {
 
@@ -327,31 +324,30 @@ void Manager::initGv(GraphViewer *gv) {
 
 }
 
-void Manager::printGraph(GraphViewer *gv){
+void Manager::printGraph(GraphViewer *gv) {
 
-    vector<Station> stations = myStation;
+    vector<Station> stations = getStation();
 
-    for(auto station : stations){
+    for (auto station : stations) {
 
         string id = station.getID();
         int x = station.getX();
         int y = station.getY();
 
-        gv->addNode(id,x,y);
+        gv->addNode(id, x, y);
     }
 
-    for(auto station : stations){
+    for (auto station : stations) {
 
         string idOrigin = station.getID();
 
-        for(auto link : station.getConnections()) {
+        for (auto link : station.getConnections()) {
 
             string idDest = link.getDest()->getID();
             int lineID = link.getLineID().lineID;
 
             gv->addEdge(lineID, idOrigin, idDest, EdgeType::UNDIRECTED);
         }
-
 
 
     }

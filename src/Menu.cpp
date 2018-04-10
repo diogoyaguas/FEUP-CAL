@@ -7,11 +7,8 @@
 using namespace std;
 
 void MenuBase::CleanScreen() {
-#ifdef _WIN32
-    std::system("cls");
-#else /* LINUX OR MAC */
-    std::system("clear");
-#endif
+
+    cout << string(50, '\n');
 }
 
 void MenuBase::printOptions(const string &title, const vector<string> &options) {
@@ -152,7 +149,8 @@ void MainMenu::displayMenu() {
             break;
         case '3':
             //call function to calculate path by distance
-        Manager::chooseShorterPath(idOrigin,idDestination);
+            CleanScreen();
+            Manager::chooseShorterPath(idOrigin, idDestination);
             break;
         case '4':
             //call function to calculate path by number of stops

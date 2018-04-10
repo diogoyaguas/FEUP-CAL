@@ -20,7 +20,6 @@ private:
     static vector<Line> myLine;
 	static Graph<string> graph;
 
-
 /**
 	 * Construtor default.
 	 */
@@ -54,17 +53,20 @@ public:
 
     static void chooseShorterPath(const string &origin, const string &destination);
 
-    static string findStation(const string &id);
+    static Station findStation(const string &id);
 
 	static void loadStops();
 
     static string getTransport(const string &id);
 
-    int static getLine(const string &id);
+	static Station findStop(const string &id);
 
-	static string findStop(const string &id);
 
-	static string findName(const string &id);
+	static vector<Station> getStation() { return myStation;}
+
+	static bool is_digits(const string &str);
+
+	static int getLine(Station s, const string &id);
 };
 
 
