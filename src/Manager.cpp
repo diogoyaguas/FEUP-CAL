@@ -121,6 +121,7 @@ void Manager::loadStops() {
 
             auto lines = Line(lineId, stopsId);
             myLine.push_back(lines);
+            setMyLine(myLine);
         }
         file.close();
     } else {
@@ -504,6 +505,12 @@ void Manager::continueFunction() {
             break;
         }
     }
+}
+
+void Manager::setMyLine(vector<Line> vector) {
+
+    myLine = vector;
+
 }
 
 /*

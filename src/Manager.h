@@ -83,6 +83,8 @@ public:
     static void continueFunction();
 
     void initGv(GraphViewer *gv);
+
+    static void setMyLine(vector<Line> vector);
 };
 
 
