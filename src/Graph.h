@@ -5,13 +5,18 @@
 #include <cctype>
 #include <algorithm>
 
+//Corrects errors with the limits<int>::max();
+#undef max
+
 using namespace std;
 
 template<class T> class Edge;
 template<class T> class Graph;
 template<class T> class Vertex;
 
-
+const double busSpeed = 1.0;
+const double metroSpeed = 2.0;
+const double trainSpeed = 3.0;
 
 /*
  * ************************************************
@@ -158,26 +163,41 @@ bool Vertex<T>::isStation() const
     return !this->info.empty() && it == this->info.end();
 }
 
-/*
 template<class T>
 void Vertex<T>::edgesWeightToTime()
 {
 	if (this->isStation()) {
 		for (auto e : this->adj) {
-			//TODO: fetch time to stop
+			Stop stop = Manager::findStop(e.getDest()->getInfo());
+			e.setWeight(stop.getTimeToStation());
 		}
 	}
 	else {
 		for (auto e: this->adj) {
-			if (isToStation()) {
-				//TODO: fetch time to station
+			Stop stop = Manager::findStop(this->info);
+			if (e.isToStation()) {
+				e.setWeight(stop.getTimeToStation());
 			}
 			else {
-				//TODO: calculate time
+				switch (stop.getLineID().type)
+				{
+				case 'a':
+					e.setWeight(e.getWeight() / busSpeed);
+					break;
+				case 'b':
+					e.setWeight(e.getWeight() / metroSpeed);
+					break;
+				case 'c':
+					e.setWeight(e.getWeight() / trainSpeed);
+					break;
+				default:
+					std::cout << "Warning! unable to get edge type!\n";
+					break;
+				}
 			}
 		}
 	}
-}*/
+}
 
 template<class T>
 bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
@@ -212,6 +232,9 @@ public:
 
 		return this->dest;
 	}
+	void setWeight(double w) {
+		weight = w;
+	}
 	bool isToStation();
 };
 
@@ -222,7 +245,9 @@ Edge<T>::Edge(Vertex<T> *d, double w) :
 template<class T>
 inline bool Edge<T>::isToStation()
 {
-	return false;
+	std::string::const_iterator it = this->dest->getInfo().begin();
+	while (it != this->dest->getInfo().end() && std::isdigit(*it)) ++it;
+	return !this->dest->getInfo().empty() && it == this->dest->getInfo().end();
 }
 /*
  * ************************************************
@@ -569,10 +594,10 @@ void Graph<T>::dijkstraShortestPath(const T &origin) {
 
 	auto s = findVertex(origin);
 
-	int infinite = std::numeric_limits<int>::max();
+	int INF = std::numeric_limits<int>::max();
 
 	for (auto v : vertexSet) {
-		v->setDist(infinite);
+		v->setDist(INF);
 		v->setPath(NULL);
 		v->visited = false;
 	}
