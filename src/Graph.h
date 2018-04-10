@@ -18,9 +18,9 @@ class Graph;
 template<class T>
 class Vertex;
 
-const double busSpeed = 1.0;
-const double metroSpeed = 2.0;
-const double trainSpeed = 3.0;
+const double busSpeed = 300.0;
+const double metroSpeed = 500.0;
+const double trainSpeed = 800.0;
 
 /*
  * ************************************************
@@ -264,6 +264,8 @@ public:
 
     vector<T> getPath(const T &origin, const T &dest);
 
+    double getWeight(const T &origin, const T &dest);
+
     int maxNewChildren(const T &source, T &inf) const;
 
     void unweightedShortestPath(const T &orig);
@@ -427,13 +429,13 @@ double Graph<T>::calculateEdgeWeightPrice(const T &sourc, const T &dest) {
     switch (getTransport(sourc)) {
 
         case 'b':
-            w = 0.5;
+            w = 0.1;
             break;
         case 's':
-            w = 2.0;
+            w = 0.2;
             break;
         case 't':
-            w = 0.35;
+            w = 0.3;
             break;
         default:break;
     }
@@ -651,6 +653,27 @@ vector<T> Graph<T>::getPath(const T &origin, const T &dest) {
     reverse(res.begin(), res.end());
 
     return res;
+}
+
+template<class T>
+double Graph<T>::getWeight(const T &origin, const T &dest){
+
+    double distance = 0;
+    auto v1 = findVertex(origin);
+    auto v2 = findVertex(dest);
+
+    if (v1 == NULL || v2 == NULL)
+        return distance;
+
+    while (v2->getPath() != NULL) {
+
+        distance += v2->getDist();
+
+        v2 = v2->getPath();
+
+    }
+
+    return distance;
 }
 
 template<class T>

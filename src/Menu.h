@@ -31,7 +31,7 @@ public:
 class MainMenu : public MenuBase {
 
 public:
-	static void displayMenu(GraphViewer *gv);
+	static void displayMenu();
 
 
 

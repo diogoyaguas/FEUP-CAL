@@ -52,9 +52,16 @@ public:
 
 
 	static void printGraph(GraphViewer *gv);
-	static void paintPath(vector<string> path, GraphViewer *gv);
 
-    static void chooseShorterPath(const string &origin, const string &destination, GraphViewer *gv);
+	//static void paintPath(vector<string> path);
+
+    static void chooseShorterPath(const string &origin, const string &destination);
+
+    static void chooseFastestPath(const string &origin, const string &destination);
+
+    static void chooseCheaperPath(const string &origin, const string &destination);
+
+    static void chooseLessTranshipmentPath(const string &origin, const string &destination);
 
     static Station findStation(const string &id);
 
@@ -71,11 +78,11 @@ public:
 
 	static int getLine(Station s, const string &id);
 
-    static void chooseFastestPath(const string &origin, const string &destination, GraphViewer *gv);
 
-    static void chooseCheaperPath(const string &origin, const string &destination, GraphViewer *gv);
 
-    static void chooseLessTranshipmentPath(const string &origin, const string &destination, GraphViewer *gv);
+    static void continueFunction();
+
+    void initGv(GraphViewer *gv);
 };
 
 
