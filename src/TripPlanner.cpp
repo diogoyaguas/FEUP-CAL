@@ -8,11 +8,10 @@ int main() {
     Manager manager;
 
 	GraphViewer *gv = new GraphViewer(800,800, false);
-
     manager.loadData();
 
     //manager.printGraph(gv);
-    MainMenu::displayMenu();
+    MainMenu::displayMenu(gv);
 
     return 0;
 }

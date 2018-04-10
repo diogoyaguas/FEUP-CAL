@@ -215,7 +215,7 @@ bool Manager::VerifyChoice(string id, vector<Station> stations) {
     return false;
 }
 
-void Manager::chooseShorterPath(const string &origin, const string &destination) {
+void Manager::chooseShorterPath(const string &origin, const string &destination, GraphViewer *gv) {
 
     graphDistance.dijkstraShortestPath(origin);
     vector<string> path = graphDistance.getPath(origin, destination);
@@ -250,7 +250,7 @@ void Manager::chooseShorterPath(const string &origin, const string &destination)
     continueFunction();
 }
 
-void Manager::chooseFastestPath(const string &origin, const string &destination) {
+void Manager::chooseFastestPath(const string &origin, const string &destination, GraphViewer *gv ){
 
     graphTime.dijkstraShortestPath(origin);
     vector<string> path = graphTime.getPath(origin, destination);
@@ -285,7 +285,7 @@ void Manager::chooseFastestPath(const string &origin, const string &destination)
     continueFunction();
 }
 
-void Manager::chooseCheaperPath(const string &origin, const string &destination) {
+void Manager::chooseCheaperPath(const string &origin, const string &destination,  GraphViewer *gv) {
 
     graphPrice.dijkstraShortestPath(origin);
     vector<string> path = graphPrice.getPath(origin, destination);
@@ -321,7 +321,7 @@ void Manager::chooseCheaperPath(const string &origin, const string &destination)
 
 }
 
-void Manager::chooseLessTranshipmentPath(const string &origin, const string &destination) {
+void Manager::chooseLessTranshipmentPath(const string &origin, const string &destination, GraphViewer *gv) {
 
     graphTranshipment.dijkstraShortestPath(origin);
     vector<string> path = graphTranshipment.getPath(origin, destination);
@@ -453,17 +453,12 @@ int Manager::getLine(Station s, const string &id) {
     }
 }
 
-void Manager::initGv(GraphViewer *gv) {
-
-    gv->createWindow(800, 800);
-    gv->defineEdgeColor("gray");
-
-    gv->defineVertexColor("yellow");
-
-}
 
 void Manager::printGraph(GraphViewer *gv) {
 
+   gv->createWindow(800, 800);
+    gv->defineEdgeColor("gray");
+    gv->defineVertexColor("yellow");
 
     for (auto station :  getStation()) {
 
@@ -514,21 +509,17 @@ void Manager::setMyLine(vector<Line> vector) {
 }
 
 /*
-void Manager::paintPath(vector<string> path, GraphViewer *gv) {
+void Manager::paintPath(vector<string> path, GraphViewer *gv){
 
 
-	//Ainda nao sei como fazer, com o caminho que vai ter de percorrer ja feito, temos de o percorrer e colocar cada
-	//aresta a verde
+        for (size_t i = 0; i < path.size() - 1; i++) {
+            int id = stoi(path.at(i));
+            gv->setEdgeThickness(id, 4);
+            gv->setEdgeColor(id, GREEN);
+        }
 
 
-	for (size_t i = 0; i < path.size() - 1; i++) {
-		string id = path.at(i);
-		gv->setEdgeThickness(id, 4);
-		gv->setEdgeColor(id, GREEN);
-	}
-
-
-	gv->rearrange();
+        gv->rearrange();
 
 
 }*/
