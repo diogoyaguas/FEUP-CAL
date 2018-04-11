@@ -518,7 +518,7 @@ void Manager::printGraph() {
                     weight.erase(l);
             }
 
-            gv->addEdge(idEdge, idOrigin, idDestination, EdgeType::UNDIRECTED);
+            gv->addEdge(idEdge, idOrigin, idDestination, EdgeType::DIRECTED);
         }
 
     }
@@ -558,3 +558,7 @@ void Manager::paintPath(vector<string> path, GraphViewer *gv){
 
 
 }*/
+
+
+
+
