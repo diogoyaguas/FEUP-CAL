@@ -29,7 +29,6 @@
 #define LIGHT_GRAY "LIGHT_GRAY"
 #define MAGENTA "MAGENTA"
 
-
 /**
  * Classe que guarda o grafo e o representa. Todas as suas funções retornam um booleano a indicar
  * se a sua execução decorreu ou não com sucesso.
@@ -96,7 +95,7 @@ public:
 	 * @param x Posição horizontal do nó.
 	 * @param y Posição vertical do nó.
 	 */
-	bool addNode(string id, double x, int y);
+	bool addNode(int id, int x, int y);
 
 	/**
 	 * Acrescenta um nó à representação do grafo, numa posição ao critério do programa.
@@ -107,7 +106,7 @@ public:
 	 *
 	 * @param id Identificador único do nó.
 	 */
-	bool addNode(string id);
+	bool addNode(int id);
 
 	/**
 	 * Acrescenta uma aresta à representação do grafo.
@@ -121,7 +120,7 @@ public:
 	 * @param edgeType EdgeType.DIRECTED caso a aresta seja unidirecional
 	 * ou EdgeType.UNDIRECTED caso a aresta seja bidirecional.
 	 */
-	bool addEdge(int id, string v1, string v2, int edgeType);
+	bool addEdge(int id, int v1, int v2, int edgeType);
 
 	/**
 	 * Remove um nó da representação do grafo e todas as arestas ligadas a este.
@@ -130,7 +129,7 @@ public:
 	 *
 	 * @param id Identificador único do nó a a remover.
 	 */
-	bool removeNode(string id);
+	bool removeNode(int id);
 
 	/**
 	 * Remove uma aresta da representação do grafo.
@@ -149,14 +148,7 @@ public:
 	 * @param id Identificador único do nó com o texto a alterar.
 	 * @param label Novo texto do nó.
 	 */
-	bool setVertexLabel(string id, string label);
-
-	/**
-	 * Função que apaga o texto de um nó, caso o mesmo tenha sido definido anteriormente.
-	 *
-	 * @param id Identificador único do nó com o texto a apagar.
-	 */
-	bool clearVertexLabel(string id);
+	bool setVertexLabel(int id, string label);
 
 	/**
 	 * Função que define o texto de uma aresta.
@@ -169,13 +161,6 @@ public:
 	bool setEdgeLabel(int id, string label);
 
 	/**
-	 * Função que apaga o texto de uma aresta, caso o mesmo tenha sido definido anteriormente.
-	 *
-	 * @param id Identificador único da aresta com o texto a apagar.
-	 */
-	bool clearEdgeLabel(int id);
-
-	/**
 	 * Função que define a cor de uma aresta.
 	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer:
 	 * gv->setEdgeColor(0, BLUE); modifica a cor da aresta com ID 0 para azul
@@ -184,13 +169,6 @@ public:
 	 * @param color Nova cor da aresta, utilizar as constantes definidas no graphviewer.h para conveniência.
 	 */
 	bool setEdgeColor(int id, string color);
-
-	/**
-	 * Função que apaga a cor de uma aresta, caso tenha sido definida.
-	 *
-	 * @param id Identificador único da aresta com a cor a apagar.
-	 */
-	bool clearEdgeColor(int id);
 
 	/**
 	 * Função que define se uma aresta é desenhada, ou não, a tracejado.
@@ -210,14 +188,7 @@ public:
 	 * @param id Identificador único do nó com a cor a alterar.
 	 * @param color Nova cor do nó, utilizar as constantes definidas no graphviewer.h para conveniência.
 	 */
-	bool setVertexColor(string id, string color);
-
-	/**
-	 * Função que apaga a cor de um vértice, colocando-a com o valor por omissão.
-	 *
-	 * @param id Identificador único do nó com a cor a apagar.
-	 */
-	bool clearVertexColor(string id);
+	bool setVertexColor(int id, string color);
 
 	/**
 	 * Função que define o tamanho de um nó.
@@ -238,13 +209,6 @@ public:
 	 * @param filepath Caminho do ficheiro a utilizar como novo ícone do nó.
 	 */
 	bool setVertexIcon(int id, string filepath);
-
-	/**
-	 * Função que apaga o ícone de um nó, caso tenha sido definido.
-	 *
-	 * @param id Identificador único do nó com o ícone a apagar.
-	 */
-	bool clearVertexIcon(int id);
 
 	/**
 	 * Função que define a espessura de uma aresta.
@@ -298,11 +262,6 @@ public:
 	bool defineEdgeColor(string color);
 
 	/**
-	 * Função que restaura a cor global das arestas.
-	 */
-	bool resetEdgeColor();
-
-	/**
 	 * Função que define globalmente se as arestas são desenhadas, ou não, a tracejado.
 	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer:
 	 * gv->defineEdgeDashed(true); faz com que por defeito as arestas sejam desenhadas a tracejado
@@ -321,11 +280,6 @@ public:
 	bool defineVertexColor(string color);
 
 	/**
-	 * Função que restaura a cor global dos nós.
-	 */
-	bool resetVertexColor();
-
-	/**
 	 * Função que define o tamanho global dos nós.
 	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer:
 	 * gv->defineVertexSize(20); modifica o tamanho por defeito dos nós para 20
@@ -335,7 +289,7 @@ public:
 	bool defineVertexSize(int size);
 
 	/**
-	 * Função que define um ícone global para os nós.
+	 * Função que define um ícone para um nó.
 	 * Exemplo, para um apontador gv onde foi instanciada a classe GraphViewer:
 	 * gv->defineVertexIcon("icon.gif"); faz com que por defeito os nós, quando desenhados,
 	 * não sejam um círculo, mas sim a imagem icon.gif
@@ -343,11 +297,6 @@ public:
 	 * @param filepath Caminho do ficheiro a utilizar como novo ícone do nó.
 	 */
 	bool defineVertexIcon(string filepath);
-
-	/**
-	 * Função que apaga o ícone global para os nós.
-	 */
-	bool resetVertexIcon();
 
 	/**
 	 * Função que altera a imagem de fundo do grafo.
@@ -358,11 +307,6 @@ public:
 	 * @param path Caminho para o ficheiro com a imagem.
 	 */
 	bool setBackground(string path);
-
-	/**
-	 * Apaga a imagem de fundo do grafo, se tiver sido previamente definida.
-	 */
-	bool clearBackground();
 
 	/**
 	 * Função que actualiza a visualização do grafo.

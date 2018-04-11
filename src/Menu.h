@@ -5,25 +5,28 @@
 #include "Manager.h"
 #include "Input.h"
 /**
-* @brief Classe abstrata usada como classe base para todos os menus que compõem a interface do programa.
+ *
+* @brief Abstract class used as base class for the menu of the program
 */
 class MenuBase {
 public:
-	/** @brief Função virtual pura. Obriga os menus derivados a implementarem o seu método de visualização. */
+	/**
+	 *  @brief Virtual pure function. All of its derived methods must follow its rules
+	 */
 	virtual void display() = 0;
 
-	/** @brief Faz clear ao ecran. Deve preceder ao display de um menu. */
+	/** @brief Clears the screen*/
 	static void CleanScreen();
 
-	/** @brief Imprime um menu bem formatado com as várias opções que o utilizador pode escolher.
-	* @param titulo Título do Menu
-	* @param opcoes Vetor de strings que representa as opções que o utilizador pode escolher.
+	/** @brief Prints a menu with the chosen options.
+	* @param titulo title of the menu
+	* @param opcoes vector of strings that contains the options chosen by the user
 	*/
 	static void printOptions(const std::string& titulo, const std::vector<std::string>& opcoes);
 
-	/** @brief Processa as opções de um menu. Pede ao utilizador para fazer uma seleção e repete o processo até ao input ser válido.
-	* @param opcoes Possiveis opções que o utilizador pode escolher no formato de um vetor de chars em que cada char é uma possível seleção.
-	* @return Devolve o char com a opção que o utilizador escolheu.
+	/** @brief Processes the menu options. Repeats selection of option until it's valid
+	* @param opcoes - Possible options
+	* @return char - option chosen by user
 	*/
 	static char processOptions(const std::vector<char>& opcoes);
 };
@@ -31,6 +34,10 @@ public:
 class MainMenu : public MenuBase {
 
 public:
+	/**
+	 * @brief Displays the menu of the program
+	 * @param gv
+	 */
 	static void displayMenu();
 
 

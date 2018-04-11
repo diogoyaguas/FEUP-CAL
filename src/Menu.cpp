@@ -1,8 +1,5 @@
 #include "Menu.h"
-#include <iostream>
-#include <algorithm>
-#include <vector>
-#include <cmath>
+
 
 using namespace std;
 
@@ -111,7 +108,7 @@ char MenuBase::processOptions(const std::vector<char> &options) {
         } else if (find(options.begin(), options.end(), temp[0]) == options.end()) {
             cout << "# Invalid input. Please select an option: ";
         } else {
-            option = temp[0]; // Seleção válida
+            option = temp[0]; // Seleï¿½ï¿½o vï¿½lida
             break;
         }
     }
@@ -121,45 +118,55 @@ char MenuBase::processOptions(const std::vector<char> &options) {
 
 void MainMenu::displayMenu() {
 
-    CleanScreen();
-    string idOrigin, idDestination;
+    while (true) {
+        CleanScreen();
+        string idOrigin, idDestination;
 
-    idOrigin = Manager::chooseOrigin();
-    idDestination = Manager::chooseDestination();
+        idOrigin = Manager::chooseOrigin();
+        idDestination = Manager::chooseDestination();
 
-    printOptions("OPTIONS",
-                 {"Check path by minimum deslocation time",
-                  "Check path by lowest ticket price",
-                  "Check path by shortest distance",
-                  "Check path by number of stops"});
+        printOptions("OPTIONS",
+                     {"Check path by minimum deslocation time",
+                      "Check path by lowest ticket price",
+                      "Check path by shortest distance",
+                      "Check path by number of stops"});
 
-    vector<char> options = {'1', '2', '3', '4', 'E'};
+        vector<char> options = {'1', '2', '3', '4', 'E'};
 
-    char option = processOptions(options);
+        char option = processOptions(options);
 
-    switch (option) {
+        switch (option) {
 
-        case '1':
-            //call function to calculate path by deslocation time
-            //the function called will ask the user where he is and where he wants to go and then, if the
-            //choice is valid, will call the algorithm needed
-            break;
-        case '2':
-            //call funtion to calculate path by ticket price
-            break;
-        case '3':
-            //call function to calculate path by distance
-            CleanScreen();
-            Manager::chooseShorterPath(idOrigin, idDestination);
-            break;
-        case '4':
-            //call function to calculate path by number of stops
-            break;
-        case 'E':
-            exit(0);
-        default:
-            break;
+            case '1':
+                //call function to calculate path by deslocation time
+                //the function called will ask the user where he is and where he wants to go and then, if the
+                //choice is valid, will call the algorithm needed
+                CleanScreen();
+                Manager::chooseFastestPath(idOrigin, idDestination);
+                break;
+            case '2':
+                //call funtion to calculate path by ticket price
+                CleanScreen();
+                Manager::chooseCheaperPath(idOrigin, idDestination);
+                break;
+            case '3':
+                //call function to calculate path by distance
+                CleanScreen();
+                Manager::chooseShorterPath(idOrigin, idDestination);
+                break;
+            case '4':
+                CleanScreen();
+                Manager::chooseLessTranshipmentPath(idOrigin, idDestination);
+                //call function to calculate path by number of stops
 
+
+                break;
+            case 'E':
+                exit(0);
+            default:
+                break;
+
+        }
     }
 
 
