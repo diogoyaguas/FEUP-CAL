@@ -17,7 +17,7 @@ void Manager::loadStations() {
 
     string line;
 
-    ifstream file("../src/stations.txt");
+    ifstream file("src/stations.txt");
 
     if (file.is_open()) {
         while (getline(file, line)) {
@@ -58,7 +58,7 @@ void Manager::loadStops() {
 
     string line;
 
-    ifstream file("../src/lines.txt");
+    ifstream file("src/lines.txt");
 
     if (file.is_open()) {
         while (getline(file, line)) {
@@ -131,7 +131,7 @@ void Manager::loadLines() {
 
     string line;
 
-    ifstream file("../src/lines.txt");
+    ifstream file("src/lines.txt");
 
     if (file.is_open()) {
         while (getline(file, line)) {
@@ -237,7 +237,7 @@ void Manager::chooseShorterPath(const string &origin, const string &destination)
                 cout << "\nChange in " << station.getName() << ": \n\n";
             } else {
 
-                cout << "\nYou arrived to " << station.getName() << " in " << distance / 100 << " k1m\n";
+                cout << "\nYou arrived to " << station.getName() << " in " << distance / 100 << " km\n";
             }
         } else {
             station = findStop(i);
@@ -475,7 +475,7 @@ void Manager::printGraph() {
     gv->createWindow(800, 800);
     gv->defineEdgeCurved(false);
     gv->defineEdgeColor("grey");
-    gv->defineVertexIcon("../res/station.png");
+    gv->defineVertexIcon("res/station.png");
     for (unsigned int i = 0; i < graphDistance.getVertexSet().size(); i++) {
 
         string id = graphDistance.getVertexSet().at(i)->getInfo();
