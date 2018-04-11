@@ -12,7 +12,9 @@
 #include "Graph.h"
 
 using namespace std;
-
+/**
+ * @brief Main class of the program. Contains the principal functions of the project, such as the algorithms used
+ */
 class Manager {
 
 private:

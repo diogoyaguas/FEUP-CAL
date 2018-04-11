@@ -3,7 +3,7 @@
 #include "Line.h"
 #include <string>
 /**
- * @brief Class that handles the stop
+ * @brief Class that handles the stops
  */
 class Stop {
     string stopID;

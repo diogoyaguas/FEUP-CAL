@@ -30,7 +30,9 @@ public:
 	*/
 	static char processOptions(const std::vector<char>& opcoes);
 };
-
+/**
+ * @brief Derived class of MenuBase. Contains the function that displays the menu
+ */
 class MainMenu : public MenuBase {
 
 public:
