@@ -164,7 +164,7 @@ public:
      */
     static void continueFunction();
 
-    static void resetColors(vector<string> path);
+    static void resetColors();
 };
 
 

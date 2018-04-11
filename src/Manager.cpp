@@ -250,7 +250,7 @@ void Manager::chooseShorterPath(const string &origin, const string &destination)
 
     paintPath(path);
     continueFunction();
-    resetColors(path);
+    resetColors();
 
 }
 
@@ -290,7 +290,7 @@ void Manager::chooseFastestPath(const string &origin, const string &destination)
 
     paintPath(path);
     continueFunction();
-    resetColors(path);
+    resetColors();
 
 }
 
@@ -331,7 +331,7 @@ void Manager::chooseCheaperPath(const string &origin, const string &destination)
 
     paintPath(path);
     continueFunction();
-    resetColors(path);
+    resetColors();
 
 }
 
@@ -371,7 +371,7 @@ void Manager::chooseLessTranshipmentPath(const string &origin, const string &des
     }
     paintPath(path);
     continueFunction();
-    resetColors(path);
+    resetColors();
 
 }
 
@@ -472,6 +472,7 @@ int Manager::getLine(Station s, const string &id) {
 
 void Manager::printGraph() {
 
+    gv->setBackground("../res/background.png");
     gv->createWindow(800, 800);
     gv->defineEdgeCurved(false);
     gv->defineEdgeColor("grey");
@@ -490,7 +491,7 @@ void Manager::printGraph() {
         int y = station.getY();
 
         gv->setVertexLabel(idt, station.getName());
-        gv->addNode(idt, 50 + 5 * x, -(y * 5) + 600);
+        gv->addNode(idt, 50 + 5 * x, -(y * 5) + 700);
 
     }
 
@@ -567,11 +568,10 @@ void Manager::paintPath(vector<string> path) {
 
 }
 
-void Manager::resetColors(vector<string> path) {
+void Manager::resetColors() {
 
-    for (unsigned int i = 0; i < myEdges.size(); i++) {
+    for (int id : myEdges) {
 
-        int id = myEdges.at(i);
         gv->setEdgeThickness(id, 1);
         gv->setEdgeColor(id, "grey");
     }
