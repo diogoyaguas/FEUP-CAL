@@ -5,11 +5,11 @@
 #include "MutablePriorityQueue.h"
 #include <vector>
 #include <string>
-/**
- * @brief Class that handles the links
- */
-class Link;
 
+class Link;
+/**
+ * @brief Class that handles the stations
+ */
 class Station
 {
 	string stationID;
@@ -148,7 +148,9 @@ public:
 	 */
 	double getDistTo(Station* other);
 };
-
+/**
+ * @brief Class that handles the links
+ */
 class Link
 {
 	LineID lineID;

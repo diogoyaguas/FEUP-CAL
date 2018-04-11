@@ -2,11 +2,10 @@
 #include <chrono>
 #include <thread>
 #include <iomanip>
-#include <unistd.h>
 
-GraphViewer * Manager::gv = new GraphViewer(600, 600, false);
+GraphViewer *Manager::gv = new GraphViewer(600, 600, false);
 vector<Station> Manager::myStation;
-vector<Line> Manager::myLine = {};
+vector<int> Manager::myEdges;
 Graph<string> Manager::graphDistance = {};
 Graph<string> Manager::graphTime = {};
 Graph<string> Manager::graphPrice = {};
@@ -18,7 +17,7 @@ void Manager::loadStations() {
 
     string line;
 
-    ifstream file("src/stations.txt");
+    ifstream file("../src/stations.txt");
 
     if (file.is_open()) {
         while (getline(file, line)) {
@@ -59,7 +58,7 @@ void Manager::loadStops() {
 
     string line;
 
-    ifstream file("src/lines.txt");
+    ifstream file("../src/lines.txt");
 
     if (file.is_open()) {
         while (getline(file, line)) {
@@ -121,9 +120,6 @@ void Manager::loadStops() {
 
             }
 
-            auto lines = Line(lineId, stopsId);
-            myLine.push_back(lines);
-            setMyLine(myLine);
         }
         file.close();
     } else {
@@ -135,7 +131,7 @@ void Manager::loadLines() {
 
     string line;
 
-    ifstream file("src/lines.txt");
+    ifstream file("../src/lines.txt");
 
     if (file.is_open()) {
         while (getline(file, line)) {
@@ -254,6 +250,8 @@ void Manager::chooseShorterPath(const string &origin, const string &destination)
 
     paintPath(path);
     continueFunction();
+    resetColors(path);
+
 }
 
 void Manager::chooseFastestPath(const string &origin, const string &destination) {
@@ -292,6 +290,7 @@ void Manager::chooseFastestPath(const string &origin, const string &destination)
 
     paintPath(path);
     continueFunction();
+    resetColors(path);
 
 }
 
@@ -320,7 +319,7 @@ void Manager::chooseCheaperPath(const string &origin, const string &destination)
             } else {
 
                 cout << "\nYou arrived to " << station.getName() << " for " << fixed << setprecision(2) << euros
-                     << " €\n";
+                     << " euros\n";
             }
         } else {
             station = findStop(i);
@@ -332,6 +331,7 @@ void Manager::chooseCheaperPath(const string &origin, const string &destination)
 
     paintPath(path);
     continueFunction();
+    resetColors(path);
 
 }
 
@@ -371,6 +371,7 @@ void Manager::chooseLessTranshipmentPath(const string &origin, const string &des
     }
     paintPath(path);
     continueFunction();
+    resetColors(path);
 
 }
 
@@ -474,7 +475,7 @@ void Manager::printGraph() {
     gv->createWindow(800, 800);
     gv->defineEdgeCurved(false);
     gv->defineEdgeColor("grey");
-    gv->defineVertexColor("yellow");
+    gv->defineVertexIcon("../res/station.png");
     for (unsigned int i = 0; i < graphDistance.getVertexSet().size(); i++) {
 
         string id = graphDistance.getVertexSet().at(i)->getInfo();
@@ -489,8 +490,7 @@ void Manager::printGraph() {
         int y = station.getY();
 
         gv->setVertexLabel(idt, station.getName());
-        gv->defineVertexIcon("../res/transferir.png");
-        gv->addNode(idt, x, y);
+        gv->addNode(idt, 50 + 5 * x, -(y * 5) + 600);
 
     }
 
@@ -530,64 +530,54 @@ void Manager::printGraph() {
             }
 
             gv->addEdge(idEdge, idOrigin, idDestination, EdgeType::UNDIRECTED);
+            myEdges.push_back(idEdge);
         }
 
     }
 
     gv->rearrange();
 }
-void Manager::paintPath(vector<string> path){
 
-    for (size_t i = 1; i < path.size()-1; i++) {
+void Manager::paintPath(vector<string> path) {
 
-        string j = path.at(i);
+    for (size_t i = 0; i < path.size() - 2; i++) {
 
-        Station station;
+        string j = path.at(i), k = path.at(i + 1);
 
-        vector<Edge<string> > adj;
+        Station origin, destination;
 
         if (is_digits(j)) {
-            station = findStation(j);
-        } else station = findStop(j);
+            origin = findStation(j);
+        } else origin = findStop(j);
 
-        int idOrigin = stoi(station.getID());
+        if (is_digits(k)) {
+            destination = findStation(k);
+        } else destination = findStop(k);
 
-        for(unsigned int k = 0; k < graphDistance.getVertexSet().size(); k++){
+        int id = stoi(origin.getID()) * 1000 + stoi(destination.getID());
 
-            if(graphDistance.getVertexSet().at(k)->getInfo() == station.getID()){
-
-                adj = graphDistance.getVertexSet().at(k)->getAdj();
-                break;
-            }
-        }
-
-        for (auto &k : adj) {
-
-            string id = k.getDest()->getInfo();
-
-            if (is_digits(id)) {
-                station = findStation(id);
-            } else station = findStop(id);
-
-            int idDestination = stoi(station.getID());
-
-            if (idOrigin == idDestination) continue;
-
-            int idEdge = 1000 * idOrigin + idDestination;
-
-            string weight = to_string(k.getWeight());
-
-            if (weight.find('.') != string::npos) {
-                for (size_t l = weight.find('.') + 2; l < weight.size(); l++)
-                    weight.erase(l);
-            }
-
-            gv->setEdgeThickness(idEdge, 4);
-            gv->setEdgeColor(idEdge, "green");
-            gv->rearrange();
-        }
+        gv->setEdgeThickness(id, 4);
+        string transport = getTransport(path.at(i));
+        if (transport == "Bus") gv->setEdgeColor(id, "BLUE");
+        else if (transport == "Subway") gv->setEdgeColor(id, "YELLOW");
+        else if (transport == "Train") gv->setEdgeColor(id, "GREEN");
     }
 
+    gv->rearrange();
+
+}
+
+void Manager::resetColors(vector<string> path) {
+
+    for (unsigned int i = 0; i < myEdges.size(); i++) {
+
+        int id = myEdges.at(i);
+        gv->setEdgeThickness(id, 1);
+        gv->setEdgeColor(id, "grey");
+    }
+
+
+    gv->rearrange();
 }
 
 void Manager::continueFunction() {
@@ -599,12 +589,6 @@ void Manager::continueFunction() {
             break;
         }
     }
-}
-
-void Manager::setMyLine(vector<Line> vector) {
-
-    myLine = vector;
-
 }
 
 
