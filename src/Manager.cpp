@@ -5,6 +5,7 @@
 
 GraphViewer *Manager::gv = new GraphViewer(600, 600, false);
 vector<Station> Manager::myStation;
+vector<int> Manager::myEdges;
 Graph<string> Manager::graphDistance = {};
 Graph<string> Manager::graphTime = {};
 Graph<string> Manager::graphPrice = {};
@@ -529,6 +530,7 @@ void Manager::printGraph() {
             }
 
             gv->addEdge(idEdge, idOrigin, idDestination, EdgeType::UNDIRECTED);
+            myEdges.push_back(idEdge);
         }
 
     }
@@ -567,25 +569,13 @@ void Manager::paintPath(vector<string> path) {
 
 void Manager::resetColors(vector<string> path) {
 
-    for (size_t i = 0; i < path.size() - 2; i++) {
+    for (unsigned int i = 0; i < myEdges.size(); i++) {
 
-        string j = path.at(i), k = path.at(i + 1);
-
-        Station origin, destination;
-
-        if (is_digits(j)) {
-            origin = findStation(j);
-        } else origin = findStop(j);
-
-        if (is_digits(k)) {
-            destination = findStation(k);
-        } else destination = findStop(k);
-
-        int id = stoi(origin.getID()) * 1000 + stoi(destination.getID());
-
+        int id = myEdges.at(i);
         gv->setEdgeThickness(id, 1);
         gv->setEdgeColor(id, "grey");
     }
+
 
     gv->rearrange();
 }

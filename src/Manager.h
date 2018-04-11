@@ -20,7 +20,7 @@ class Manager {
 
 private:
     static vector<Station> myStation;
-
+    static vector<int> myEdges;
     static Graph<string> graphDistance;
     static Graph<string> graphTime;
     static Graph<string> graphPrice;
