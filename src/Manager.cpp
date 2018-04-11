@@ -3,7 +3,7 @@
 #include <thread>
 #include <iomanip>
 
-GraphViewer *Manager::gv = new GraphViewer(200, 200, false);
+GraphViewer *Manager::gv = new GraphViewer(600, 600, false);
 vector<Station> Manager::myStation;
 Graph<string> Manager::graphDistance = {};
 Graph<string> Manager::graphTime = {};
@@ -471,7 +471,7 @@ int Manager::getLine(Station s, const string &id) {
 
 void Manager::printGraph() {
 
-    gv->createWindow(1900, 1300);
+    gv->createWindow(800, 800);
     gv->defineEdgeCurved(false);
     gv->defineEdgeColor("grey");
     gv->defineVertexIcon("../res/station.png");
@@ -489,7 +489,7 @@ void Manager::printGraph() {
         int y = station.getY();
 
         gv->setVertexLabel(idt, station.getName());
-        gv->addNode(idt, 50 + 9 * x, 50 + 9 * y);
+        gv->addNode(idt, 50 + 5 * x, -(y * 5) + 600);
 
     }
 
