@@ -38,7 +38,7 @@ public:
 	 * @brief Displays the menu of the program
 	 * @param gv
 	 */
-	static void displayMenu(GraphViewer *gv);
+	static void displayMenu();
 
 
 

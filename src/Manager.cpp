@@ -3,14 +3,15 @@
 #include <thread>
 #include <iomanip>
 
-Manager::Manager() = default;
-
+GraphViewer * Manager::gv = new GraphViewer(600, 600, false);
 vector<Station> Manager::myStation;
 vector<Line> Manager::myLine = {};
 Graph<string> Manager::graphDistance = {};
 Graph<string> Manager::graphTime = {};
 Graph<string> Manager::graphPrice = {};
 Graph<string> Manager::graphTranshipment = {};
+
+Manager::Manager() = default;
 
 void Manager::loadStations() {
 
@@ -215,7 +216,7 @@ bool Manager::VerifyChoice(string id, vector<Station> stations) {
     return false;
 }
 
-void Manager::chooseShorterPath(const string &origin, const string &destination, GraphViewer *gv) {
+void Manager::chooseShorterPath(const string &origin, const string &destination) {
 
     graphDistance.dijkstraShortestPath(origin);
     vector<string> path = graphDistance.getPath(origin, destination);
@@ -252,7 +253,7 @@ void Manager::chooseShorterPath(const string &origin, const string &destination,
     continueFunction();
 }
 
-void Manager::chooseFastestPath(const string &origin, const string &destination, GraphViewer *gv) {
+void Manager::chooseFastestPath(const string &origin, const string &destination) {
 
     graphTime.dijkstraShortestPath(origin);
     vector<string> path = graphTime.getPath(origin, destination);
@@ -289,7 +290,7 @@ void Manager::chooseFastestPath(const string &origin, const string &destination,
     continueFunction();
 }
 
-void Manager::chooseCheaperPath(const string &origin, const string &destination, GraphViewer *gv) {
+void Manager::chooseCheaperPath(const string &origin, const string &destination) {
 
     graphPrice.dijkstraShortestPath(origin);
     vector<string> path = graphPrice.getPath(origin, destination);
@@ -328,7 +329,7 @@ void Manager::chooseCheaperPath(const string &origin, const string &destination,
 
 }
 
-void Manager::chooseLessTranshipmentPath(const string &origin, const string &destination, GraphViewer *gv) {
+void Manager::chooseLessTranshipmentPath(const string &origin, const string &destination) {
 
     graphTranshipment.dijkstraShortestPath(origin);
     vector<string> path = graphTranshipment.getPath(origin, destination);
@@ -462,14 +463,13 @@ int Manager::getLine(Station s, const string &id) {
     }
 }
 
-void Manager::printGraph(GraphViewer *gv) {
+void Manager::printGraph() {
 
     gv->createWindow(800, 800);
 
-    gv->defineEdgeCurved(true);
+    gv->defineEdgeCurved(false);
 
     gv->defineEdgeColor("black");
-    gv->defineVertexColor("yellow");
 
     for (auto station :  getStation()) {
 
@@ -478,6 +478,7 @@ void Manager::printGraph(GraphViewer *gv) {
         int y = station.getY();
 
         gv->setVertexLabel(id, station.getName());
+        gv->defineVertexIcon("../res/transferir.png");
         gv->addNode(id, x, y);
 
     }
@@ -490,7 +491,7 @@ void Manager::printGraph(GraphViewer *gv) {
 
         if (is_digits(j)) {
             station = findStation(j);
-        }else station = findStop(j);
+        } else station = findStop(j);
 
         int idOrigin = stoi(station.getID());
 
@@ -498,21 +499,21 @@ void Manager::printGraph(GraphViewer *gv) {
 
         for (auto &k : adj) {
 
-            string id  = k.getDest()->getInfo();
+            string id = k.getDest()->getInfo();
 
             if (is_digits(id)) {
                 station = findStation(id);
-            }else station = findStop(id);
+            } else station = findStop(id);
 
             int idDestination = stoi(station.getID());
 
-            if(idOrigin == idDestination) continue;
+            if (idOrigin == idDestination) continue;
 
             int idEdge = 1000 * idOrigin + idDestination;
 
             string weight = to_string(k.getWeight());
 
-            if(weight.find('.') != string::npos){
+            if (weight.find('.') != string::npos) {
                 for (size_t l = weight.find('.') + 2; l < weight.size(); l++)
                     weight.erase(l);
             }
@@ -524,7 +525,6 @@ void Manager::printGraph(GraphViewer *gv) {
 
     gv->rearrange();
 }
-
 
 void Manager::continueFunction() {
 

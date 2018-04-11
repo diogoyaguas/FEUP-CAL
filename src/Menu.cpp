@@ -116,9 +116,9 @@ char MenuBase::processOptions(const std::vector<char> &options) {
     return option;
 }
 
-void MainMenu::displayMenu(GraphViewer *gv) {
+void MainMenu::displayMenu() {
 
-    while(true) {
+    while (true) {
         CleanScreen();
         string idOrigin, idDestination;
 
@@ -142,21 +142,21 @@ void MainMenu::displayMenu(GraphViewer *gv) {
                 //the function called will ask the user where he is and where he wants to go and then, if the
                 //choice is valid, will call the algorithm needed
                 CleanScreen();
-                Manager::chooseFastestPath(idOrigin, idDestination,gv);
+                Manager::chooseFastestPath(idOrigin, idDestination);
                 break;
             case '2':
                 //call funtion to calculate path by ticket price
                 CleanScreen();
-                Manager::chooseCheaperPath(idOrigin, idDestination,gv);
+                Manager::chooseCheaperPath(idOrigin, idDestination);
                 break;
             case '3':
                 //call function to calculate path by distance
                 CleanScreen();
-                Manager::chooseShorterPath(idOrigin, idDestination,gv);
+                Manager::chooseShorterPath(idOrigin, idDestination);
                 break;
             case '4':
                 CleanScreen();
-                Manager::chooseLessTranshipmentPath(idOrigin, idDestination,gv);
+                Manager::chooseLessTranshipmentPath(idOrigin, idDestination);
                 //call function to calculate path by number of stops
 
 

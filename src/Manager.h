@@ -16,72 +16,70 @@ using namespace std;
 class Manager {
 
 private:
-    static vector<Station>  myStation;
+    static vector<Station> myStation;
     static vector<Line> myLine;
-	static Graph<string> graphDistance;
+    static Graph<string> graphDistance;
     static Graph<string> graphTime;
-	static Graph<string> graphPrice;
+    static Graph<string> graphPrice;
     static Graph<string> graphTranshipment;
+
+    static GraphViewer *gv;
 
 /**
 	 * Construtor default.
 	 */
 
 public:
-	Manager();
+    Manager();
+
     /**
      * A function that loads the data from the station file, creating objects of the Station class and adding to the respective vertex in myStation.
      */
     static void loadStations();
 
-	/**
-	* Function that loads the data from the lines file into the structures in Graph.h.
-	*/
-	static void loadLines();
+    /**
+    * Function that loads the data from the lines file into the structures in Graph.h.
+    */
+    static void loadLines();
 
     /**
 	* Function that loads all the data.
 	*/
-    static void loadData( );
+    static void loadData();
 
-	static string chooseDestination();
+    static string chooseDestination();
 
-	static string chooseOrigin();
+    static string chooseOrigin();
 
-	static bool VerifyChoice(string id, vector<Station> stations);
+    static bool VerifyChoice(string id, vector<Station> stations);
 
+    static void printGraph();
 
-	static void printGraph(GraphViewer *gv);
+    static void paintPath(vector<string> path, GraphViewer *gv);
 
-	static void paintPath(vector<string> path, GraphViewer *gv);
+    static void chooseShorterPath(const string &origin, const string &destination);
 
-    static void chooseShorterPath(const string &origin, const string &destination, GraphViewer *gv);
+    static void chooseFastestPath(const string &origin, const string &destination);
 
-    static void chooseFastestPath(const string &origin, const string &destination, GraphViewer *gv);
+    static void chooseCheaperPath(const string &origin, const string &destination);
 
-    static void chooseCheaperPath(const string &origin, const string &destination, GraphViewer *gv);
-
-    static void chooseLessTranshipmentPath(const string &origin, const string &destination, GraphViewer *gv);
+    static void chooseLessTranshipmentPath(const string &origin, const string &destination);
 
     static Station findStation(const string &id);
 
-	static void loadStops( );
+    static void loadStops();
 
     static string getTransport(const string &id);
 
-	static Station findStop(const string &id);
+    static Station findStop(const string &id);
 
+    static vector<Station> getStation() { return myStation; }
 
-	static vector<Station> getStation() { return myStation;}
+    static bool is_digits(const string &str);
 
-	static bool is_digits(const string &str);
-
-	static int getLine(Station s, const string &id);
-
-
+    static int getLine(Station s, const string &id);
 
     static void continueFunction();
-
 
     static void setMyLine(vector<Line> vector);
 };

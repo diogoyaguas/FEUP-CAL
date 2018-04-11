@@ -7,11 +7,9 @@ using namespace std;
 int main() {
     Manager manager;
 
-    auto *gv = new GraphViewer(800,800, false);
     manager.loadData();
-
-    manager.printGraph(gv);
-    MainMenu::displayMenu(gv);
+    manager.printGraph();
+    MainMenu::displayMenu();
 
     return 0;
 }

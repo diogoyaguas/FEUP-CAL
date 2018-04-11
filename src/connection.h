@@ -1,6 +1,6 @@
 ﻿#ifndef _CONNECTION_
 #define _CONNECTION_
-#define _WINSOCK_DEPRECATED_NO_WARNINGS
+
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -17,20 +17,19 @@
 #include <string>
 #include <iostream>
 
-
 using namespace std;
 
 class Connection {
- public:
-  Connection(short port);
+public:
+    Connection(short port);
 
-  bool sendMsg(string msg);
-  string readLine();
- private: 
+    bool sendMsg(string msg);
+    string readLine();
+private:
 #ifdef linux
-  int sock;
+    int sock;
 #else
-  SOCKET sock;
+    SOCKET sock;
 #endif
 };
 
