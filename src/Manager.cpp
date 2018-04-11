@@ -18,7 +18,7 @@ void Manager::loadStations() {
 
     string line;
 
-    ifstream file("../src/stations.txt");
+    ifstream file("src/stations.txt");
 
     if (file.is_open()) {
         while (getline(file, line)) {
@@ -59,7 +59,7 @@ void Manager::loadStops() {
 
     string line;
 
-    ifstream file("../src/lines.txt");
+    ifstream file("src/lines.txt");
 
     if (file.is_open()) {
         while (getline(file, line)) {
@@ -135,7 +135,7 @@ void Manager::loadLines() {
 
     string line;
 
-    ifstream file("../src/lines.txt");
+    ifstream file("src/lines.txt");
 
     if (file.is_open()) {
         while (getline(file, line)) {
