@@ -97,6 +97,7 @@ char MenuBase::processOptions(const std::vector<char> &options) {
 
     while (true) {
         string temp;
+        cin.ignore(1000,'\n');
         getline(cin, temp);
         Input::removeEspacamento(temp);
 
