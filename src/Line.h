@@ -5,7 +5,9 @@
 #include <string>
 
 using namespace std;
-
+/**
+ * @brief Class that contains the type and id of a line
+ */
 struct LineID {
     int lineID;
     char type; // a - Bus, b - Metro, c - Train
@@ -19,7 +21,9 @@ struct LineID {
         return (lineID == other.lineID && type == other.type);
     }
 };
-
+/**
+ * @brief Class that handles the lines
+ */
 class Line {
 public:
     /**

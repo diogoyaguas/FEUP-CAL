@@ -75,7 +75,7 @@ public:
      * @param path
      * @param gv
      */
-    static void paintPath(vector<string> path, GraphViewer *gv);
+    static void paintPath(vector<string> path);
     /**
      * @brief Algorithm to choose the itenerary with minimum distance
      * @param origin - string (id of the origin)

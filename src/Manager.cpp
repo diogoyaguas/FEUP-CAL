@@ -2,6 +2,7 @@
 #include <chrono>
 #include <thread>
 #include <iomanip>
+#include <unistd.h>
 
 GraphViewer * Manager::gv = new GraphViewer(600, 600, false);
 vector<Station> Manager::myStation;
@@ -250,6 +251,8 @@ void Manager::chooseShorterPath(const string &origin, const string &destination)
         }
     }
 
+
+    paintPath(path);
     continueFunction();
 }
 
@@ -287,7 +290,9 @@ void Manager::chooseFastestPath(const string &origin, const string &destination)
         }
     }
 
+    paintPath(path);
     continueFunction();
+
 }
 
 void Manager::chooseCheaperPath(const string &origin, const string &destination) {
@@ -325,6 +330,7 @@ void Manager::chooseCheaperPath(const string &origin, const string &destination)
         }
     }
 
+    paintPath(path);
     continueFunction();
 
 }
@@ -363,7 +369,7 @@ void Manager::chooseLessTranshipmentPath(const string &origin, const string &des
                  << getTransport(i) << " on Line " << getLine(station, i) << "\n";
         }
     }
-
+    paintPath(path);
     continueFunction();
 
 }
@@ -466,20 +472,25 @@ int Manager::getLine(Station s, const string &id) {
 void Manager::printGraph() {
 
     gv->createWindow(800, 800);
-
     gv->defineEdgeCurved(false);
+    gv->defineEdgeColor("grey");
+    gv->defineVertexColor("yellow");
+    for (unsigned int i = 0; i < graphDistance.getVertexSet().size(); i++) {
 
-    gv->defineEdgeColor("black");
+        string id = graphDistance.getVertexSet().at(i)->getInfo();
+        Station station;
 
-    for (auto station :  getStation()) {
+        if (is_digits(id)) {
+            station = findStation(id);
+        } else station = findStop(id);
 
-        int id = stoi(station.getID());
+        int idt = stoi(station.getID());
         int x = station.getX();
         int y = station.getY();
 
-        gv->setVertexLabel(id, station.getName());
+        gv->setVertexLabel(idt, station.getName());
         gv->defineVertexIcon("../res/transferir.png");
-        gv->addNode(id, x, y);
+        gv->addNode(idt, x, y);
 
     }
 
@@ -518,12 +529,65 @@ void Manager::printGraph() {
                     weight.erase(l);
             }
 
-            gv->addEdge(idEdge, idOrigin, idDestination, EdgeType::DIRECTED);
+            gv->addEdge(idEdge, idOrigin, idDestination, EdgeType::UNDIRECTED);
         }
 
     }
 
     gv->rearrange();
+}
+void Manager::paintPath(vector<string> path){
+
+    for (size_t i = 1; i < path.size()-1; i++) {
+
+        string j = path.at(i);
+
+        Station station;
+
+        vector<Edge<string> > adj;
+
+        if (is_digits(j)) {
+            station = findStation(j);
+        } else station = findStop(j);
+
+        int idOrigin = stoi(station.getID());
+
+        for(unsigned int k = 0; k < graphDistance.getVertexSet().size(); k++){
+
+            if(graphDistance.getVertexSet().at(k)->getInfo() == station.getID()){
+
+                adj = graphDistance.getVertexSet().at(k)->getAdj();
+                break;
+            }
+        }
+
+        for (auto &k : adj) {
+
+            string id = k.getDest()->getInfo();
+
+            if (is_digits(id)) {
+                station = findStation(id);
+            } else station = findStop(id);
+
+            int idDestination = stoi(station.getID());
+
+            if (idOrigin == idDestination) continue;
+
+            int idEdge = 1000 * idOrigin + idDestination;
+
+            string weight = to_string(k.getWeight());
+
+            if (weight.find('.') != string::npos) {
+                for (size_t l = weight.find('.') + 2; l < weight.size(); l++)
+                    weight.erase(l);
+            }
+
+            gv->setEdgeThickness(idEdge, 4);
+            gv->setEdgeColor(idEdge, "green");
+            gv->rearrange();
+        }
+    }
+
 }
 
 void Manager::continueFunction() {
@@ -543,21 +607,8 @@ void Manager::setMyLine(vector<Line> vector) {
 
 }
 
-/*
-void Manager::paintPath(vector<string> path, GraphViewer *gv){
 
 
-        for (size_t i = 0; i < path.size() - 1; i++) {
-            int id = stoi(path.at(i));
-            gv->setEdgeThickness(id, 4);
-            gv->setEdgeColor(id, GREEN);
-        }
-
-
-        gv->rearrange();
-
-
-}*/
 
 
 

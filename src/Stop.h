@@ -2,7 +2,9 @@
 
 #include "Line.h"
 #include <string>
-
+/**
+ * @brief Class that handles the stop
+ */
 class Stop {
     string stopID;
     LineID lineID;

@@ -5,7 +5,9 @@
 #include "MutablePriorityQueue.h"
 #include <vector>
 #include <string>
-
+/**
+ * @brief Class that handles the links
+ */
 class Link;
 
 class Station
@@ -188,6 +190,7 @@ public:
 
 	Link(LineID lineID, int idSource, int idDest); //test
 	/**
+	 *
 	 * @brief Getter of dest
 	 * @return pointer to an object of the class Station
 	 */
