@@ -156,6 +156,13 @@ bool GraphViewer::setEdgeColor(int k, string color) {
 	return con->sendMsg(str);
 }
 
+bool GraphViewer::defineEdgeCurved(bool curved) {
+	char buff[200];
+	sprintf(buff, "defineEdgeCurved %s\n", curved ? "true" : "false");
+	string str(buff);
+	return con->sendMsg(str);
+}
+
 bool GraphViewer::setEdgeThickness(int k, int thickness) {
 	char buff[200];
 	sprintf(buff, "setEdgeThickness %d %d\n", k, thickness);

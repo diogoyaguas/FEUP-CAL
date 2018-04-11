@@ -224,33 +224,35 @@ void Manager::chooseShorterPath(const string &origin, const string &destination,
     int size = 0;
     double distance = graphDistance.getWeight(origin, destination);
 
-    cout << "Origin: " << findStation(origin).getName() << endl << "Destination: " << findStation(destination).getName();
+    cout << "Origin: " << findStation(origin).getName() << endl << "Destination: "
+         << findStation(destination).getName();
 
     for (unsigned int j = 0; j < path.size(); j++) {
 
         string i = path.at(j);
         if (is_digits(i)) {
             station = findStation(i);
-            if(!entry) {
+            if (!entry) {
                 cout << "\n\nEnter in " << station.getName() << ": \n\n";
                 entry = true;
-            } else if(j != path.size() - 1) {
+            } else if (j != path.size() - 1) {
                 cout << "\nChange in " << station.getName() << ": \n\n";
             } else {
 
-                cout << "\nYou arrived to " << station.getName() << " in " << distance/100 << " k1m\n";
+                cout << "\nYou arrived to " << station.getName() << " in " << distance / 100 << " k1m\n";
             }
         } else {
             station = findStop(i);
             size = station.getName().size();
-            cout << setw(8 + size) << setfill(' ') << station.getName() << setw(17 - size) << setfill(' ')<< " | " << getTransport(i) << " on Line " << getLine(station, i) << "\n";
+            cout << setw(8 + size) << setfill(' ') << station.getName() << setw(17 - size) << setfill(' ') << " | "
+                 << getTransport(i) << " on Line " << getLine(station, i) << "\n";
         }
     }
 
     continueFunction();
 }
 
-void Manager::chooseFastestPath(const string &origin, const string &destination, GraphViewer *gv ){
+void Manager::chooseFastestPath(const string &origin, const string &destination, GraphViewer *gv) {
 
     graphTime.dijkstraShortestPath(origin);
     vector<string> path = graphTime.getPath(origin, destination);
@@ -259,17 +261,18 @@ void Manager::chooseFastestPath(const string &origin, const string &destination,
     int size = 0;
     double time = graphTime.getWeight(origin, destination);
 
-    cout << "Origin: " << findStation(origin).getName() << endl << "Destination: " << findStation(destination).getName();
+    cout << "Origin: " << findStation(origin).getName() << endl << "Destination: "
+         << findStation(destination).getName();
 
     for (unsigned int j = 0; j < path.size(); j++) {
 
         string i = path.at(j);
         if (is_digits(i)) {
             station = findStation(i);
-            if(!entry) {
+            if (!entry) {
                 cout << "\n\nEnter in " << station.getName() << ": \n\n";
                 entry = true;
-            } else if(j != path.size() - 1) {
+            } else if (j != path.size() - 1) {
                 cout << "\nChange in " << station.getName() << ": \n\n";
             } else {
 
@@ -278,14 +281,15 @@ void Manager::chooseFastestPath(const string &origin, const string &destination,
         } else {
             station = findStop(i);
             size = station.getName().size();
-            cout << setw(8 + size) << setfill(' ') << station.getName() << setw(17 - size) << setfill(' ')<< " | " << getTransport(i) << " on Line " << getLine(station, i) << "\n";
+            cout << setw(8 + size) << setfill(' ') << station.getName() << setw(17 - size) << setfill(' ') << " | "
+                 << getTransport(i) << " on Line " << getLine(station, i) << "\n";
         }
     }
 
     continueFunction();
 }
 
-void Manager::chooseCheaperPath(const string &origin, const string &destination,  GraphViewer *gv) {
+void Manager::chooseCheaperPath(const string &origin, const string &destination, GraphViewer *gv) {
 
     graphPrice.dijkstraShortestPath(origin);
     vector<string> path = graphPrice.getPath(origin, destination);
@@ -294,26 +298,29 @@ void Manager::chooseCheaperPath(const string &origin, const string &destination,
     int size = 0;
     double euros = graphPrice.getWeight(origin, destination);
 
-    cout << "Origin: " << findStation(origin).getName() << endl << "Destination: " << findStation(destination).getName();
+    cout << "Origin: " << findStation(origin).getName() << endl << "Destination: "
+         << findStation(destination).getName();
 
     for (unsigned int j = 0; j < path.size(); j++) {
 
         string i = path.at(j);
         if (is_digits(i)) {
             station = findStation(i);
-            if(!entry) {
+            if (!entry) {
                 cout << "\n\nEnter in " << station.getName() << ": \n\n";
                 entry = true;
-            } else if(j != path.size() - 1) {
+            } else if (j != path.size() - 1) {
                 cout << "\nChange in " << station.getName() << ": \n\n";
             } else {
 
-                cout << "\nYou arrived to " << station.getName() << " for "<< fixed << setprecision(2) << euros << " €\n";
+                cout << "\nYou arrived to " << station.getName() << " for " << fixed << setprecision(2) << euros
+                     << " €\n";
             }
         } else {
             station = findStop(i);
             size = station.getName().size();
-            cout << setw(8 + size) << setfill(' ') << station.getName() << setw(17 - size) << setfill(' ')<< " | " << getTransport(i) << " on Line " << getLine(station, i) << "\n";
+            cout << setw(8 + size) << setfill(' ') << station.getName() << setw(17 - size) << setfill(' ') << " | "
+                 << getTransport(i) << " on Line " << getLine(station, i) << "\n";
         }
     }
 
@@ -330,17 +337,18 @@ void Manager::chooseLessTranshipmentPath(const string &origin, const string &des
     int size = 0;
     int transhipment = 0;
 
-    cout << "Origin: " << findStation(origin).getName() << endl << "Destination: " << findStation(destination).getName();
+    cout << "Origin: " << findStation(origin).getName() << endl << "Destination: "
+         << findStation(destination).getName();
 
     for (unsigned int j = 0; j < path.size(); j++) {
 
         string i = path.at(j);
         if (is_digits(i)) {
             station = findStation(i);
-            if(!entry) {
+            if (!entry) {
                 cout << "\n\nEnter in " << station.getName() << ": \n\n";
                 entry = true;
-            } else if(j != path.size() - 1) {
+            } else if (j != path.size() - 1) {
                 cout << "\nChange in " << station.getName() << ": \n\n";
                 transhipment++;
             } else {
@@ -350,7 +358,8 @@ void Manager::chooseLessTranshipmentPath(const string &origin, const string &des
         } else {
             station = findStop(i);
             size = station.getName().size();
-            cout << setw(8 + size) << setfill(' ') << station.getName() << setw(17 - size) << setfill(' ')<< " | " << getTransport(i) << " on Line " << getLine(station, i) << "\n";
+            cout << setw(8 + size) << setfill(' ') << station.getName() << setw(17 - size) << setfill(' ') << " | "
+                 << getTransport(i) << " on Line " << getLine(station, i) << "\n";
         }
     }
 
@@ -453,11 +462,13 @@ int Manager::getLine(Station s, const string &id) {
     }
 }
 
-
 void Manager::printGraph(GraphViewer *gv) {
 
-   gv->createWindow(800, 800);
-    gv->defineEdgeColor("gray");
+    gv->createWindow(800, 800);
+
+    gv->defineEdgeCurved(true);
+
+    gv->defineEdgeColor("black");
     gv->defineVertexColor("yellow");
 
     for (auto station :  getStation()) {
@@ -471,25 +482,49 @@ void Manager::printGraph(GraphViewer *gv) {
 
     }
 
+    for (unsigned int i = 0; i < graphDistance.getVertexSet().size(); i++) {
 
-    for (auto station :getStation()) {
+        string j = graphDistance.getVertexSet().at(i)->getInfo();
+
+        Station station;
+
+        if (is_digits(j)) {
+            station = findStation(j);
+        }else station = findStop(j);
 
         int idOrigin = stoi(station.getID());
 
-        for (auto link : station.getConnections()) {
+        vector<Edge<string> > adj = graphDistance.getVertexSet().at(i)->getAdj();
 
-            int idDest = stoi(link.getDest()->getID());
-            int lineID = link.getLineID().lineID;
+        for (auto &k : adj) {
 
-            gv->addEdge(lineID, idOrigin, idDest, EdgeType::UNDIRECTED);
+            string id  = k.getDest()->getInfo();
+
+            if (is_digits(id)) {
+                station = findStation(id);
+            }else station = findStop(id);
+
+            int idDestination = stoi(station.getID());
+
+            if(idOrigin == idDestination) continue;
+
+            int idEdge = 1000 * idOrigin + idDestination;
+
+            string weight = to_string(k.getWeight());
+
+            if(weight.find('.') != string::npos){
+                for (size_t l = weight.find('.') + 2; l < weight.size(); l++)
+                    weight.erase(l);
+            }
+
+            gv->addEdge(idEdge, idOrigin, idDestination, EdgeType::UNDIRECTED);
         }
-
 
     }
 
-
     gv->rearrange();
 }
+
 
 void Manager::continueFunction() {
 

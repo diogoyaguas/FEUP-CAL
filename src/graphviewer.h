@@ -133,6 +133,13 @@ public:
 	bool setVertexColor(int id, string color);
 
 	/**
+	 * Função que define se as arestas do grafo serão desenhadas como curvas ou retas.
+	 *
+	 * @param curved Booleano que representa se as arestas serão curvas (true) ou retas (false), sendo o valor por defeito é true.
+	 */
+	bool defineEdgeCurved(bool curved);
+
+	/**
      * Função que define a cor global das arestas.
      * @param color Nova cor das arestas, utilizar as constantes definidas no graphviewer.h para conveniência.
      */
@@ -187,6 +194,8 @@ private:
 	Connection *con;
 
 	void initialize(int, int, bool, int);
+
+
 };
 
 #endif
