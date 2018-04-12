@@ -17,7 +17,7 @@ void Manager::loadStations() {
 
     string line;
 
-    ifstream file("../src/stations.txt");
+    ifstream file("../1stProject/src/stations.txt");
 
     if (file.is_open()) {
         while (getline(file, line)) {
@@ -58,7 +58,7 @@ void Manager::loadStops() {
 
     string line;
 
-    ifstream file("../src/lines.txt");
+    ifstream file("../1stProject/src/lines.txt");
 
     if (file.is_open()) {
         while (getline(file, line)) {
@@ -131,7 +131,7 @@ void Manager::loadLines() {
 
     string line;
 
-    ifstream file("../src/lines.txt");
+    ifstream file("../1stProject/src/lines.txt");
 
     if (file.is_open()) {
         while (getline(file, line)) {
@@ -472,11 +472,11 @@ int Manager::getLine(Station s, const string &id) {
 
 void Manager::printGraph() {
 
-    gv->setBackground("../res/background.png");
+    gv->setBackground("../1stProject/res/background.png");
     gv->createWindow(800, 800);
     gv->defineEdgeCurved(false);
     gv->defineEdgeColor("grey");
-    gv->defineVertexIcon("../res/station.png");
+    gv->defineVertexIcon("../1stProject/res/station.png");
     for (unsigned int i = 0; i < graphDistance.getVertexSet().size(); i++) {
 
         string id = graphDistance.getVertexSet().at(i)->getInfo();
