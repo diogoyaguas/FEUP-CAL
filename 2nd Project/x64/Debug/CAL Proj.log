@@ -1,0 +1,6 @@
+﻿  Manager.cpp
+c:\users\up201606165\downloads\feup-cal-master (1)\feup-cal-master\src\manager.cpp(393): warning C4715: 'Manager::findStation': not all control paths return a value
+c:\users\up201606165\downloads\feup-cal-master (1)\feup-cal-master\src\manager.cpp(407): warning C4715: 'Manager::findStop': not all control paths return a value
+c:\users\up201606165\downloads\feup-cal-master (1)\feup-cal-master\src\manager.cpp(479): warning C4715: 'Manager::getLine': not all control paths return a value
+  CAL Proj.vcxproj -> C:\Users\up201606165\Downloads\FEUP-CAL-master (1)\FEUP-CAL-master\x64\Debug\CAL Proj.exe
+  CAL Proj.vcxproj -> C:\Users\up201606165\Downloads\FEUP-CAL-master (1)\FEUP-CAL-master\x64\Debug\CAL Proj.pdb (Partial PDB)
