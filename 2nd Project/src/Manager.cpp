@@ -724,6 +724,142 @@ string Manager::chooseExactOrigin(vector<Station> exactStation) {
 
 }
 
+vector<Station> Manager::approximateStringMatchingStation(string name, Station station) {
+
+    bool foundStreet = false;
+    vector<string> stationsStrings;
+    vector<string> approxStationsStrings;
+    vector<Station> approxStations;
+
+    for (unsigned int i = 0; i < station.getStreets().size(); i++) {
+        stationsStrings.push_back(station.getStreets().at(i)->getName());
+    }
+
+    approxStationsStrings = findApproxMatchingStrings(name, stationsStrings);
+
+    for (unsigned int j = 0; j < town.getStreets().size(); j++) {
+        for (unsigned int i = 0; i < approxStationsStrings.size(); i++) {
+            if (town.getStreets().at(j)->getName()
+                == approxStationsStrings.at(i)) {
+                foundStreet = true;
+                approxStations.push_back(town.getStreets().at(j));
+            }
+        }
+    }
+
+    if (foundStreet)
+        cout << "\n> APPROXIMATE STREET(S) FOUND." << endl;
+    else
+        cerr << "\n> APPROXIMATE STREET(S) NOT FOUND." << endl;
+
+    return approxStations;
+}
+
+vector<string> Manager::manageWords(string sentence) {
+
+    string buf;
+    stringstream ss(sentence);
+    vector<string> words;
+
+    while (ss >> buf)
+        words.push_back(buf);
+
+    return words;
+}
+
+vector<string> Manager::findApproxMatchingStrings(string userInput,
+                                                  vector<string> sentencesVec) {
+
+    vector<string> userInputVec = manageWords(userInput);
+
+    vector<map<string, int>> mapVecs;
+
+    for (unsigned int i = 0; i < userInputVec.size(); i++) {
+
+        map<string, int> mapWord;
+
+        for (unsigned int j = 0; j < sentencesVec.size(); j++) {
+
+            vector<string> sentenceInWordsVec = manageWords(sentencesVec.at(j));
+            int difference = -1;
+
+            for (unsigned int k = 0; k < sentenceInWordsVec.size(); k++) {
+
+                if ((sentenceInWordsVec.at(k).size() < userInputVec.at(i).size())
+                    && (sentenceInWordsVec.at(k).size() < 3)) {
+                    continue;
+                }
+
+                int differenceTemp = editDistance(userInputVec.at(i),
+                                                  sentenceInWordsVec.at(k));
+
+                if (difference == -1 || differenceTemp < difference) {
+                    difference = differenceTemp;
+                }
+            }
+
+            pair<string, int> differenceSentence = make_pair(sentencesVec.at(j),
+                                                             difference);
+            mapWord.insert(differenceSentence);
+        }
+
+        mapVecs.push_back(mapWord);
+    }
+
+    multimap<int, string> finalMultiMap;
+
+    for (unsigned int i = 0; i < sentencesVec.size(); i++) {
+
+        int difference = 0;
+
+        for (unsigned int j = 0; j < mapVecs.size(); j++) {
+            difference += mapVecs[j][sentencesVec.at(i)];
+
+        }
+        pair<int, string> p = make_pair(difference, sentencesVec.at(i));
+        finalMultiMap.insert(p);
+
+    }
+
+    vector<string> finalVec;
+
+    for (multimap<int, string>::iterator it = finalMultiMap.begin();
+         it != finalMultiMap.end(); it++) {
+        //cout << it->first << " => " << it->second << '\n';
+
+        if (it->first <= (4 * userInputVec.size()))
+            finalVec.push_back(it->second);
+    }
+
+    return finalVec;
+}
+
+int Manager::editDistance(string pattern, string text) {
+
+    int n = text.length();
+    vector<int> d(n + 1);
+    int old, neww;
+    for (int j = 0; j <= n; j++)
+        d[j] = j;
+    int m = pattern.length();
+    for (int i = 1; i <= m; i++) {
+        old = d[0];
+        d[0] = i;
+        for (int j = 1; j <= n; j++) {
+            if (pattern[i - 1] == text[j - 1])
+                neww = old;
+            else {
+                neww = min(old, d[j]);
+                neww = min(neww, d[j - 1]);
+                neww = neww + 1;
+            }
+            old = d[j];
+            d[j] = neww;
+        }
+    }
+    return d[n];
+}
+
 
 
 

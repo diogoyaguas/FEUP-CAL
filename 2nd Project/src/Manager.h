@@ -174,6 +174,9 @@ public:
 
     static string chooseExactOrigin(vector<Station> stations);
 
+    vector<Station> approximateStringMatchingStation(string name);
+
+    vector<Station> approximateStringMatchingStation(string name, Station station);
 };
 
 
