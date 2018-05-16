@@ -7,6 +7,7 @@
 #include <fstream>
 #include <sstream>
 #include <cstdio>
+#include <map>
 #include "graphviewer.h"
 #include "Station.h"
 #include "Graph.h"
@@ -166,7 +167,7 @@ public:
 
     static vector<Station> searchExactStation(string name);
 
-    static void prekpm(string pattern, int f[]);
+    static void preKpm(string pattern, int f[]);
 
     static bool kpm(string pattern, string target);
 
@@ -174,9 +175,13 @@ public:
 
     static string chooseExactOrigin(vector<Station> stations);
 
-    vector<Station> approximateStringMatchingStation(string name);
+    static vector<Station> approximateStringMatchingStation(string name);
 
-    vector<Station> approximateStringMatchingStation(string name, Station station);
+    static vector<string> findApproxMatchingStrings(const string &userInput, vector<string> sentencesVec);
+
+    static vector<string> manageWords(const string &sentence);
+
+    static int editDistance(string pattern, string text);
 };
 
 

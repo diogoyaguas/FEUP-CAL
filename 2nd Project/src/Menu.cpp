@@ -109,7 +109,7 @@ char MenuBase::processOptions(const std::vector<char> &options) {
         } else if (find(options.begin(), options.end(), temp[0]) == options.end()) {
             cout << "# Invalid input. Please select an option: ";
         } else {
-            option = temp[0]; // Sele��o v�lida
+            option = temp[0];
             break;
         }
     }
@@ -120,11 +120,18 @@ char MenuBase::processOptions(const std::vector<char> &options) {
 void MainMenu::displayMenu() {
 
     while (true) {
-        CleanScreen();
         string idOrigin, idDestination;
 
         idOrigin = Manager::chooseOrigin();
         idDestination = Manager::chooseDestination();
+
+        while(idOrigin == idDestination){
+
+            CleanScreen();
+            cout << "<<< Stations are the same, choose again >>>\n" << endl;
+            idOrigin = Manager::chooseOrigin();
+            idDestination = Manager::chooseDestination();
+        }
 
         printOptions("OPTIONS",
                      {"Check path by minimum deslocation time",
@@ -156,10 +163,9 @@ void MainMenu::displayMenu() {
                 Manager::chooseShorterPath(idOrigin, idDestination);
                 break;
             case '4':
+                //call function to calculate path by number of stops
                 CleanScreen();
                 Manager::chooseLessTranshipmentPath(idOrigin, idDestination);
-                //call function to calculate path by number of stops
-
 
                 break;
             case 'E':

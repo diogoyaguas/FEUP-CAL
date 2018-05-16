@@ -227,6 +227,12 @@ void Manager::chooseShorterPath(const string &origin, const string &destination)
     int size = 0;
     double distance = graphDistance.getWeight(origin, destination);
 
+    if(path.size() < 2) {
+
+        cout << "<<< No path available >>>\n" << endl;
+        return;
+    }
+
     cout << "Origin: " << findStation(origin).getName() << endl << "Destination: "
          << findStation(destination).getName();
 
@@ -268,6 +274,12 @@ void Manager::chooseFastestPath(const string &origin, const string &destination)
     int size = 0;
     double time = graphTime.getWeight(origin, destination);
 
+    if(path.size() < 2) {
+
+        cout << "<<< No path available >>>\n" << endl;
+        return;
+    }
+
     cout << "Origin: " << findStation(origin).getName() << endl << "Destination: "
          << findStation(destination).getName();
 
@@ -307,6 +319,12 @@ void Manager::chooseCheaperPath(const string &origin, const string &destination)
     bool entry = false;
     int size = 0;
     double euros = graphPrice.getWeight(origin, destination);
+
+    if(path.size() < 2) {
+
+        cout << "<<< No path available >>> \n" << endl;
+        return;
+    }
 
     cout << "Origin: " << findStation(origin).getName() << endl << "Destination: "
          << findStation(destination).getName();
@@ -348,6 +366,12 @@ void Manager::chooseLessTranshipmentPath(const string &origin, const string &des
     bool entry = false;
     int size = 0;
     int transhipment = 0;
+
+    if(path.size() < 2) {
+
+        cout << "<<< No path available >>>\n" << endl;
+        return;
+    }
 
     cout << "Origin: " << findStation(origin).getName() << endl << "Destination: "
          << findStation(destination).getName();
@@ -434,6 +458,7 @@ string Manager::chooseOrigin() {
     } else {
 
         origins = searchExactStation(origin);
+        if (origins.empty())origins = approximateStringMatchingStation(origin);
         if (origins.size() == 1) return origin;
         else {
 
@@ -664,7 +689,7 @@ vector<Station> Manager::searchExactStation(string name) {
     return stops;
 }
 
-void Manager::prekpm(string pattern, int f[]) {
+void Manager::preKpm(string pattern, int f[]) {
 
     int m = pattern.length(), k;
     f[0] = -1;
@@ -684,7 +709,7 @@ bool Manager::kpm(string pattern, string target) {
     int m = pattern.length();
     int n = target.length();
     auto *f = new int[m];
-    prekpm(pattern, f);
+    preKpm(pattern, f);
     int i = 0;
     int k = 0;
     while (i < n) {
@@ -705,7 +730,6 @@ bool Manager::kpm(string pattern, string target) {
 string Manager::chooseExactOrigin(vector<Station> exactStation) {
 
     string origin;
-
     cout << "Did you meant to say:" << endl << endl;
     for (auto s : exactStation) {
 
@@ -724,38 +748,30 @@ string Manager::chooseExactOrigin(vector<Station> exactStation) {
 
 }
 
-vector<Station> Manager::approximateStringMatchingStation(string name, Station station) {
+vector<Station> Manager::approximateStringMatchingStation(string name) {
 
-    bool foundStreet = false;
     vector<string> stationsStrings;
     vector<string> approxStationsStrings;
     vector<Station> approxStations;
 
-    for (unsigned int i = 0; i < station.getStreets().size(); i++) {
-        stationsStrings.push_back(station.getStreets().at(i)->getName());
+    for (unsigned int i = 0; i < getStation().size(); i++) {
+        stationsStrings.push_back(getStation().at(i).getName());
     }
 
     approxStationsStrings = findApproxMatchingStrings(name, stationsStrings);
 
-    for (unsigned int j = 0; j < town.getStreets().size(); j++) {
-        for (unsigned int i = 0; i < approxStationsStrings.size(); i++) {
-            if (town.getStreets().at(j)->getName()
-                == approxStationsStrings.at(i)) {
-                foundStreet = true;
-                approxStations.push_back(town.getStreets().at(j));
+    for (unsigned int j = 0; j < getStation().size(); j++) {
+        for (const auto &approxStationsString : approxStationsStrings) {
+            if (getStation().at(j).getName() == approxStationsString) {
+                approxStations.push_back(getStation().at(j));
             }
         }
     }
 
-    if (foundStreet)
-        cout << "\n> APPROXIMATE STREET(S) FOUND." << endl;
-    else
-        cerr << "\n> APPROXIMATE STREET(S) NOT FOUND." << endl;
-
     return approxStations;
 }
 
-vector<string> Manager::manageWords(string sentence) {
+vector<string> Manager::manageWords(const string &sentence) {
 
     string buf;
     stringstream ss(sentence);
@@ -767,38 +783,36 @@ vector<string> Manager::manageWords(string sentence) {
     return words;
 }
 
-vector<string> Manager::findApproxMatchingStrings(string userInput,
-                                                  vector<string> sentencesVec) {
+vector<string> Manager::findApproxMatchingStrings(const string &userInput, vector<string> sentencesVec) {
 
     vector<string> userInputVec = manageWords(userInput);
 
     vector<map<string, int>> mapVecs;
 
-    for (unsigned int i = 0; i < userInputVec.size(); i++) {
+    for (auto &i : userInputVec) {
 
         map<string, int> mapWord;
 
-        for (unsigned int j = 0; j < sentencesVec.size(); j++) {
+        for (auto &j : sentencesVec) {
 
-            vector<string> sentenceInWordsVec = manageWords(sentencesVec.at(j));
+            vector<string> sentenceInWordsVec = manageWords(j);
             int difference = -1;
 
-            for (unsigned int k = 0; k < sentenceInWordsVec.size(); k++) {
+            for (auto &k : sentenceInWordsVec) {
 
-                if ((sentenceInWordsVec.at(k).size() < userInputVec.at(i).size())
-                    && (sentenceInWordsVec.at(k).size() < 3)) {
+                if ((k.size() < i.size())
+                    && (k.size() < 3)) {
                     continue;
                 }
 
-                int differenceTemp = editDistance(userInputVec.at(i),
-                                                  sentenceInWordsVec.at(k));
+                int differenceTemp = editDistance(i, k);
 
                 if (difference == -1 || differenceTemp < difference) {
                     difference = differenceTemp;
                 }
             }
 
-            pair<string, int> differenceSentence = make_pair(sentencesVec.at(j),
+            pair<string, int> differenceSentence = make_pair(j,
                                                              difference);
             mapWord.insert(differenceSentence);
         }
@@ -808,27 +822,25 @@ vector<string> Manager::findApproxMatchingStrings(string userInput,
 
     multimap<int, string> finalMultiMap;
 
-    for (unsigned int i = 0; i < sentencesVec.size(); i++) {
+    for (auto &i : sentencesVec) {
 
         int difference = 0;
 
-        for (unsigned int j = 0; j < mapVecs.size(); j++) {
-            difference += mapVecs[j][sentencesVec.at(i)];
+        for (auto &mapVec : mapVecs) {
+            difference += mapVec[i];
 
         }
-        pair<int, string> p = make_pair(difference, sentencesVec.at(i));
+        pair<int, string> p = make_pair(difference, i);
         finalMultiMap.insert(p);
 
     }
 
     vector<string> finalVec;
 
-    for (multimap<int, string>::iterator it = finalMultiMap.begin();
-         it != finalMultiMap.end(); it++) {
-        //cout << it->first << " => " << it->second << '\n';
+    for (auto &it : finalMultiMap) {
 
-        if (it->first <= (4 * userInputVec.size()))
-            finalVec.push_back(it->second);
+        if (it.first <= (4 * userInputVec.size()))
+            finalVec.push_back(it.second);
     }
 
     return finalVec;
@@ -837,8 +849,8 @@ vector<string> Manager::findApproxMatchingStrings(string userInput,
 int Manager::editDistance(string pattern, string text) {
 
     int n = text.length();
-    vector<int> d(n + 1);
-    int old, neww;
+    vector<int> d(static_cast<unsigned int>(n + 1));
+    int old, newWord;
     for (int j = 0; j <= n; j++)
         d[j] = j;
     int m = pattern.length();
@@ -847,14 +859,14 @@ int Manager::editDistance(string pattern, string text) {
         d[0] = i;
         for (int j = 1; j <= n; j++) {
             if (pattern[i - 1] == text[j - 1])
-                neww = old;
+                newWord = old;
             else {
-                neww = min(old, d[j]);
-                neww = min(neww, d[j - 1]);
-                neww = neww + 1;
+                newWord = min(old, d[j]);
+                newWord = min(newWord, d[j - 1]);
+                newWord = newWord + 1;
             }
             old = d[j];
-            d[j] = neww;
+            d[j] = newWord;
         }
     }
     return d[n];
