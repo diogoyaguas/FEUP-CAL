@@ -164,13 +164,16 @@ public:
      */
     static void continueFunction();
 
-	vector<Station> searchExactString(string name);
+    static vector<Station> searchExactStation(string name);
 
-	void prekpm(string pattern, int f[]);
+    static void prekpm(string pattern, int f[]);
 
-	bool kpm(string pattern, string target);
+    static bool kpm(string pattern, string target);
 
     static void resetColors();
+
+    static string chooseExactOrigin(vector<Station> stations);
+
 };
 
 

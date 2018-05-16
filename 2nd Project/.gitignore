@@ -1,0 +1,13 @@
+﻿﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+*.opendb
+*.db
+*.suo
+.vs/
+cmake-build-debug/CMakeFiles/
+Debug/
+\.idea/
+cmake-build-debug/
+CMakeLists\.txt

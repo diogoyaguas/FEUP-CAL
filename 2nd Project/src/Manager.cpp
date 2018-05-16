@@ -17,7 +17,7 @@ void Manager::loadStations() {
 
     string line;
 
-    ifstream file("src/stations.txt");
+    ifstream file("../src/stations.txt");
 
     if (file.is_open()) {
         while (getline(file, line)) {
@@ -37,7 +37,7 @@ void Manager::loadStations() {
             getline(linestream, data, ';'); // read up-to the first ; (discard ;).
             linestream >> y;
             getline(linestream, data, ';'); // read up-to the first ; (discard ;).
-			getline(linestream, name);
+            getline(linestream, name);
 
             Station station = Station(to_string(id), x, y, name);
 
@@ -58,7 +58,7 @@ void Manager::loadStops() {
 
     string line;
 
-    ifstream file("src/lines.txt");
+    ifstream file("../src/lines.txt");
 
     if (file.is_open()) {
         while (getline(file, line)) {
@@ -80,12 +80,12 @@ void Manager::loadStops() {
             linestream >> lineId.lineID;
             getline(linestream, data, ';');
             linestream >> lineId.type;
-			getline(linestream, data, ';');
-			getline(linestream, lineId.name, ';');
+            getline(linestream, data, ';');
+            getline(linestream, lineId.name, ';');
 
             while (linestream.rdbuf()->in_avail() != 0) {
 
-                
+
                 linestream >> id;
                 idStop = to_string(id);
 
@@ -119,8 +119,8 @@ void Manager::loadStops() {
 
                     }
                 }
-				
-				getline(linestream, data, ';'); // read up-to the first ; (discard ;).
+
+                getline(linestream, data, ';'); // read up-to the first ; (discard ;).
             }
 
         }
@@ -134,7 +134,7 @@ void Manager::loadLines() {
 
     string line;
 
-    ifstream file("src/lines.txt");
+    ifstream file("../src/lines.txt");
 
     if (file.is_open()) {
         while (getline(file, line)) {
@@ -156,8 +156,8 @@ void Manager::loadLines() {
             getline(linestream, data, ';'); // read up-to the first ; (discard ;).
             linestream >> lineId.type;
 
-			getline(linestream, data, ';'); // read up-to the first ; (discard ;).
-			getline(linestream, lineId.name, ';');
+            getline(linestream, data, ';'); // read up-to the first ; (discard ;).
+            getline(linestream, lineId.name, ';');
 
             linestream >> id;
             idStop = to_string(id);
@@ -412,26 +412,35 @@ bool Manager::is_digits(const std::string &str) {
 
 string Manager::chooseOrigin() {
 
-	string origin;
+    string origin;
+    vector<Station> origins;
+    vector<Station> stations = getStation();
 
-	vector<Station> stations = getStation();
+    cout << "STATIONS:" << endl << endl;
+    for (auto station : stations) {
 
-	cout << "STATIONS:" << endl << endl;
-	for (auto station : stations) {
+        cout << station.getID() << " - " << station.getName() << endl;
 
-		cout << station.getID() << " - " << station.getName() << endl;
+    }
 
-	}
+    cout << "\nWhere are you ?" << endl << "::: ";
+    cin >> origin;
+    if (is_digits(origin)) {
+        while (!VerifyChoice(origin, stations)) {
+            cout << endl << "# Invalid id. Please select again: ";
+            cin >> origin;
+        }
 
-	cout << "\nWhere are you ?" << endl << "::: ";
-	cin >> origin;
-	if (is_digits(origin)) {
-		while (!VerifyChoice(origin, stations)) {
-			cout << endl << "# Invalid id. Please select again: ";
-			cin >> origin;
-		}
-	
-}
+    } else {
+
+        origins = searchExactStation(origin);
+        if (origins.size() == 1) return origin;
+        else {
+
+            origin = chooseExactOrigin(origins);
+
+        }
+    }
 
     return origin;
 
@@ -480,11 +489,11 @@ int Manager::getLine(Station s, const string &id) {
 
 void Manager::printGraph() {
 
-    gv->setBackground("res/background.png");
+    gv->setBackground("../res/background.png");
     gv->createWindow(800, 800);
     gv->defineEdgeCurved(false);
     gv->defineEdgeColor("grey");
-    gv->defineVertexIcon("res/station.png");
+    gv->defineVertexIcon("../res/station.png");
     for (unsigned int i = 0; i < graphDistance.getVertexSet().size(); i++) {
 
         string id = graphDistance.getVertexSet().at(i)->getInfo();
@@ -578,56 +587,54 @@ void Manager::paintPath(vector<string> path) {
 
 void Manager::resetColors() {
 
-	for (int id : myEdges) {
+    for (int id : myEdges) {
 
-		gv->removeEdge(id);
+        gv->removeEdge(id);
 
-	}
-    
-		for (unsigned int i = 0; i < graphDistance.getVertexSet().size(); i++) {
+    }
 
-			string j = graphDistance.getVertexSet().at(i)->getInfo();
+    for (unsigned int i = 0; i < graphDistance.getVertexSet().size(); i++) {
 
-			Station station;
+        string j = graphDistance.getVertexSet().at(i)->getInfo();
 
-			if (is_digits(j)) {
-				station = findStation(j);
-			}
-			else station = findStop(j);
+        Station station;
 
-			int idOrigin = stoi(station.getID());
+        if (is_digits(j)) {
+            station = findStation(j);
+        } else station = findStop(j);
 
-			vector<Edge<string> > adj = graphDistance.getVertexSet().at(i)->getAdj();
+        int idOrigin = stoi(station.getID());
 
-			for (auto &k : adj) {
+        vector<Edge<string> > adj = graphDistance.getVertexSet().at(i)->getAdj();
 
-				string id = k.getDest()->getInfo();
+        for (auto &k : adj) {
 
-				if (is_digits(id)) {
-					station = findStation(id);
-				}
-				else station = findStop(id);
+            string id = k.getDest()->getInfo();
 
-				int idDestination = stoi(station.getID());
+            if (is_digits(id)) {
+                station = findStation(id);
+            } else station = findStop(id);
 
-				if (idOrigin == idDestination) continue;
+            int idDestination = stoi(station.getID());
 
-				int idEdge = 1000 * idOrigin + idDestination;
+            if (idOrigin == idDestination) continue;
 
-				string weight = to_string(k.getWeight());
+            int idEdge = 1000 * idOrigin + idDestination;
 
-				if (weight.find('.') != string::npos) {
-					for (size_t l = weight.find('.') + 2; l < weight.size(); l++)
-						weight.erase(l);
-				}
+            string weight = to_string(k.getWeight());
 
-				gv->addEdge(idEdge, idOrigin, idDestination, EdgeType::UNDIRECTED);
-				myEdges.push_back(idEdge);
-			}
+            if (weight.find('.') != string::npos) {
+                for (size_t l = weight.find('.') + 2; l < weight.size(); l++)
+                    weight.erase(l);
+            }
 
-		}
+            gv->addEdge(idEdge, idOrigin, idDestination, EdgeType::UNDIRECTED);
+            myEdges.push_back(idEdge);
+        }
 
-		gv->rearrange();
+    }
+
+    gv->rearrange();
 
 }
 
@@ -642,59 +649,79 @@ void Manager::continueFunction() {
     }
 }
 
-vector<Station> Manager::searchExactString(string name) {
+vector<Station> Manager::searchExactStation(string name) {
 
-	vector<Station> stops;
+    vector<Station> stops;
 
-	for (auto s : myStation) {
+    for (auto s : myStation) {
 
-			if (kpm(name, s.getName())) {
+        if (kpm(name, s.getName())) {
 
-				stops.push_back(s);
-		}
-	}
+            stops.push_back(s);
+        }
+    }
 
-	return stops;
+    return stops;
 }
 
 void Manager::prekpm(string pattern, int f[]) {
 
-	int m = pattern.length(), k;
-	f[0] = -1;
-	for (int i = 1; i < m; i++) {
-		k = f[i - 1];
-		while (k >= 0) {
-			if (pattern[k] == pattern[i - 1])
-				break;
-			else
-				k = f[k];
-		}
-		f[i] = k + 1;
-	}
+    int m = pattern.length(), k;
+    f[0] = -1;
+    for (int i = 1; i < m; i++) {
+        k = f[i - 1];
+        while (k >= 0) {
+            if (pattern[k] == pattern[i - 1])
+                break;
+            else
+                k = f[k];
+        }
+        f[i] = k + 1;
+    }
 }
 
 bool Manager::kpm(string pattern, string target) {
-	int m = pattern.length();
-	int n = target.length();
-	int* f = new int[m];
-	prekpm(pattern, f);
-	int i = 0;
-	int k = 0;
-	while (i < n) {
-		if (k == -1) {
-			i++;
-			k = 0;
-		}
-		else if (target[i] == pattern[k]) {
-			i++;
-			k++;
-			if (k == m)
-				return 1;
-		}
-		else
-			k = f[k];
-	}
-	return 0;
+    int m = pattern.length();
+    int n = target.length();
+    auto *f = new int[m];
+    prekpm(pattern, f);
+    int i = 0;
+    int k = 0;
+    while (i < n) {
+        if (k == -1) {
+            i++;
+            k = 0;
+        } else if (target[i] == pattern[k]) {
+            i++;
+            k++;
+            if (k == m)
+                return true;
+        } else
+            k = f[k];
+    }
+    return false;
+}
+
+string Manager::chooseExactOrigin(vector<Station> exactStation) {
+
+    string origin;
+
+    cout << "Did you meant to say:" << endl << endl;
+    for (auto s : exactStation) {
+
+        cout << s.getID() << " - " << s.getName() << endl;
+
+    }
+
+    cout << "\nWhere are you ?" << endl << "::: ";
+    cin >> origin;
+    while (!VerifyChoice(origin, exactStation)) {
+        cout << endl << "# Invalid id. Please select again: ";
+        cin >> origin;
+    }
+
+    return origin;
+
 }
 
 
