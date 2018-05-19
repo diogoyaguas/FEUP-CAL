@@ -47,6 +47,12 @@ public:
      */
     LineID getLineID() { return lineID; }
 
+	/**
+	* @brief Getter of stopsID
+	* @return vector of class LineID
+	*/
+	vector<string> getStopsID() { return stopsID; }
+
 private:
     LineID lineID;
     vector<string> stopsID;

@@ -30,18 +30,59 @@ public:
 	*/
 	static char processOptions(const std::vector<char>& opcoes);
 };
+
 /**
- * @brief Derived class of MenuBase. Contains the function that displays the menu
+ * @brief Derived class of MenuBase. Contains the function that displays the menu to choose the mode of operation
+ */
+class MenuModeChoice : public MenuBase {
+public:
+	/**
+	* @brief Displays the menu of the program
+	*/
+	static void displayMenu();
+};
+
+/**
+* @brief Derived class of MenuBase. Contains the function that displays the menu to select how to pick a origin and destination
+*/
+class MenuStopOrLine : public MenuBase {
+public:
+	/**
+	* @brief Displays the menu of the program
+	*/
+	static void displayMenu();
+};
+
+/**
+ * @brief Derived class of MenuBase. Contains the function that displays the main menu
  */
 class MainMenu : public MenuBase {
 
 public:
 	/**
 	 * @brief Displays the menu of the program
-	 * @param gv
 	 */
 	static void displayMenu();
+};
 
+/**
+* @brief Derived class of MenuBase. Contains the function that displays the menu to choose the mode of operation
+*/
+class MenuCheckLines : public MenuBase {
+public:
+	/**
+	* @brief Displays the menu of the program
+	*/
+	static void displayMenu();
+};
 
-
+/**
+* @brief Derived class of MenuBase. Contains the function that displays the menu to choose the mode of operation
+*/
+class MenuPickFromLine : public MenuBase {
+public:
+	/**
+	* @brief Displays the menu of the program
+	*/
+	static void displayMenu();
 };

@@ -9,7 +9,7 @@ int main() {
 
     manager.loadData();
     manager.printGraph();
-    MainMenu::displayMenu();
+	MenuModeChoice::displayMenu();
 
     return 0;
 }

@@ -117,6 +117,67 @@ char MenuBase::processOptions(const std::vector<char> &options) {
     return option;
 }
 
+void MenuModeChoice::displayMenu() {
+	while (true) {
+
+		printOptions("OPTIONS",
+			{ "Calculate Route",
+			"Check what lines run through a certain stop" });
+
+		vector<char> options = { '1', '2', 'E' };
+
+		char option = processOptions(options);
+
+		switch (option) {
+
+		case '1':
+			CleanScreen();
+			MenuStopOrLine::displayMenu();
+			break;
+		case '2':
+			CleanScreen();
+			MenuCheckLines::displayMenu();
+			break;
+		case 'E':
+			exit(0);
+		default:
+			break;
+
+		}
+	}
+}
+
+void MenuStopOrLine::displayMenu()
+{
+	while (true) {
+		
+		printOptions("OPTIONS",
+			{ "Pick origin and destination from all stops",
+			"Pick origin and destination from certain lines" });
+
+		vector<char> options = { '1', '2', 'E' };
+
+		char option = processOptions(options);
+
+		switch (option) {
+
+		case '1':
+			CleanScreen();
+			MainMenu::displayMenu();
+			break;
+		case '2':
+			CleanScreen();
+			MenuPickFromLine::displayMenu();
+			break;
+		case 'E':
+			exit(0);
+		default:
+			break;
+
+		}
+	}
+}
+
 void MainMenu::displayMenu() {
 
     while (true) {
@@ -177,4 +238,93 @@ void MainMenu::displayMenu() {
     }
 
 
+}
+
+void MenuPickFromLine::displayMenu() {
+
+	while (true) {
+		Line lineOrigin, lineDestination;
+		string idOrigin, idDestination;
+
+		lineOrigin = Manager::chooseOriginLine();
+		idOrigin = Manager::chooseOrigin(lineOrigin);
+
+		lineDestination = Manager::chooseDestinationLine();
+		idDestination = Manager::chooseDestination(lineDestination);
+
+		while (idOrigin == idDestination) {
+
+			CleanScreen();
+			cout << "<<< Stations are the same, choose again >>>\n" << endl;
+			lineOrigin = Manager::chooseOriginLine();
+			idOrigin = Manager::chooseOrigin(lineOrigin);
+			lineDestination = Manager::chooseDestinationLine();
+			idDestination = Manager::chooseDestination(lineDestination);
+		}
+
+		printOptions("OPTIONS",
+			{ "Check path by minimum deslocation time",
+			"Check path by lowest ticket price",
+			"Check path by shortest distance",
+			"Check path by number of stops" });
+
+		vector<char> options = { '1', '2', '3', '4', 'E' };
+
+		char option = processOptions(options);
+
+		switch (option) {
+
+		case '1':
+			//call function to calculate path by deslocation time
+			//the function called will ask the user where he is and where he wants to go and then, if the
+			//choice is valid, will call the algorithm needed
+			CleanScreen();
+			Manager::chooseFastestPath(idOrigin, idDestination);
+			break;
+		case '2':
+			//call funtion to calculate path by ticket price
+			CleanScreen();
+			Manager::chooseCheaperPath(idOrigin, idDestination);
+			break;
+		case '3':
+			//call function to calculate path by distance
+			CleanScreen();
+			Manager::chooseShorterPath(idOrigin, idDestination);
+			break;
+		case '4':
+			//call function to calculate path by number of stops
+			CleanScreen();
+			Manager::chooseLessTranshipmentPath(idOrigin, idDestination);
+
+			break;
+		case 'E':
+			exit(0);
+		default:
+			break;
+
+		}
+	}
+}
+
+void MenuCheckLines::displayMenu()
+{
+	while (true) {
+		string idOrigin, idDestination;
+
+		idOrigin = Manager::chooseOrigin();
+
+		vector<Line> lines = Manager::getLinesFromStation(idOrigin);
+
+		if (lines.size() == 0) cout << "No lines run through this station!\n";
+		else {
+			cout << "The following lines run through this station:\n";
+
+			for (Line line : lines)
+			{
+				cout << line.getLineID().name << endl; 
+			}
+
+			Manager::continueFunction();
+		}
+	}
 }

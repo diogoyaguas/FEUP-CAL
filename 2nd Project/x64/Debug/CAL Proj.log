@@ -1,6 +1,9 @@
 ﻿  Manager.cpp
-c:\users\up201606165\downloads\feup-cal-master (1)\feup-cal-master\src\manager.cpp(393): warning C4715: 'Manager::findStation': not all control paths return a value
-c:\users\up201606165\downloads\feup-cal-master (1)\feup-cal-master\src\manager.cpp(407): warning C4715: 'Manager::findStop': not all control paths return a value
-c:\users\up201606165\downloads\feup-cal-master (1)\feup-cal-master\src\manager.cpp(479): warning C4715: 'Manager::getLine': not all control paths return a value
-  CAL Proj.vcxproj -> C:\Users\up201606165\Downloads\FEUP-CAL-master (1)\FEUP-CAL-master\x64\Debug\CAL Proj.exe
-  CAL Proj.vcxproj -> C:\Users\up201606165\Downloads\FEUP-CAL-master (1)\FEUP-CAL-master\x64\Debug\CAL Proj.pdb (Partial PDB)
+c:\users\ricar\desktop\github repos\cal proj\2nd project\src\manager.cpp(237): warning C4715: 'Manager::VerifyChoice': not all control paths return a value
+c:\users\ricar\desktop\github repos\cal proj\2nd project\src\manager.cpp(435): warning C4715: 'Manager::findStation': not all control paths return a value
+c:\users\ricar\desktop\github repos\cal proj\2nd project\src\manager.cpp(449): warning C4715: 'Manager::findStop': not all control paths return a value
+c:\users\ricar\desktop\github repos\cal proj\2nd project\src\manager.cpp(460): warning C4715: 'Manager::findLine': not all control paths return a value
+c:\users\ricar\desktop\github repos\cal proj\2nd project\src\manager.cpp(471): warning C4715: 'Manager::findIdStation': not all control paths return a value
+c:\users\ricar\desktop\github repos\cal proj\2nd project\src\manager.cpp(706): warning C4715: 'Manager::getLine': not all control paths return a value
+Manager.obj : error LNK2001: unresolved external symbol "private: static class std::vector<class Line,class std::allocator<class Line> > Manager::myLines" (?myLines@Manager@@0V?$vector@VLine@@V?$allocator@VLine@@@std@@@std@@A)
+C:\Users\ricar\Desktop\GitHub Repos\CAL Proj\2nd Project\x64\Debug\CAL Proj.exe : fatal error LNK1120: 1 unresolved externals
