@@ -19,6 +19,15 @@ using namespace std;
  */
 class Manager {
 
+
+    typedef pair<int, Station> APR;
+
+    struct APR_Greater_Than {
+        bool operator()(APR a, APR b) const {
+            return a.first > b.first;
+        }
+    };
+
 private:
     static vector<Station> myStation;
     static vector<int> myEdges;
@@ -177,11 +186,11 @@ public:
 
     static vector<Station> approximateStringMatchingStation(string name);
 
-    static vector<string> findApproxMatchingStrings(const string &userInput, vector<string> sentencesVec);
-
     static vector<string> manageWords(const string &sentence);
 
     static int editDistance(string pattern, string text);
+
+    static int findApproxMatchingStrings(const string &pattern, string text);
 };
 
 

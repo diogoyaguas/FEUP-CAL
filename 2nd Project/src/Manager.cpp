@@ -2,6 +2,7 @@
 #include <chrono>
 #include <thread>
 #include <iomanip>
+#include <iterator>
 
 GraphViewer *Manager::gv = new GraphViewer(600, 600, false);
 vector<Station> Manager::myStation;
@@ -750,123 +751,85 @@ string Manager::chooseExactOrigin(vector<Station> exactStation) {
 
 vector<Station> Manager::approximateStringMatchingStation(string name) {
 
-    vector<string> stationsStrings;
-    vector<string> approxStationsStrings;
-    vector<Station> approxStations;
+    APR current;
+    vector<APR> heap;
+    vector<Station> topToReturn;
+    for (auto s: getStation())
+    {
+        string temp = s.getName();
+        int actualValue = findApproxMatchingStrings(name, s.getName());
 
-    for (unsigned int i = 0; i < getStation().size(); i++) {
-        stationsStrings.push_back(getStation().at(i).getName());
+        current.first = actualValue;
+        current.second = s;
+        heap.push_back(current);
     }
-
-    approxStationsStrings = findApproxMatchingStrings(name, stationsStrings);
-
-    for (unsigned int j = 0; j < getStation().size(); j++) {
-        for (const auto &approxStationsString : approxStationsStrings) {
-            if (getStation().at(j).getName() == approxStationsString) {
-                approxStations.push_back(getStation().at(j));
-            }
-        }
+    make_heap(heap.begin(), heap.end(), APR_Greater_Than());
+    heap = vector<APR>(heap.begin(), heap.begin() + 5);
+    for (auto &it : heap) {
+        topToReturn.push_back(it.second);
     }
-
-    return approxStations;
+    return topToReturn;
 }
 
 vector<string> Manager::manageWords(const string &sentence) {
 
-    string buf;
-    stringstream ss(sentence);
-    vector<string> words;
+    istringstream iss(sentence);
+    vector<string> tokens{ istream_iterator<string>{iss}, istream_iterator<string>{} };
 
-    while (ss >> buf)
-        words.push_back(buf);
-
-    return words;
+    if (tokens.empty()) {
+        tokens.emplace_back("");
+    }
+    return tokens;
 }
 
-vector<string> Manager::findApproxMatchingStrings(const string &userInput, vector<string> sentencesVec) {
+int Manager::findApproxMatchingStrings(const string &pattern,string text){
 
-    vector<string> userInputVec = manageWords(userInput);
-
-    vector<map<string, int>> mapVecs;
-
-    for (auto &i : userInputVec) {
-
-        map<string, int> mapWord;
-
-        for (auto &j : sentencesVec) {
-
-            vector<string> sentenceInWordsVec = manageWords(j);
-            int difference = -1;
-
-            for (auto &k : sentenceInWordsVec) {
-
-                if ((k.size() < i.size())
-                    && (k.size() < 3)) {
-                    continue;
-                }
-
-                int differenceTemp = editDistance(i, k);
-
-                if (difference == -1 || differenceTemp < difference) {
-                    difference = differenceTemp;
-                }
+    int totalEditDistance = 0;
+    int currentEditDistance;
+    int currentTotalDistance = 0;
+    vector<string> textSplitted = manageWords(text);
+    vector<string> patternSplitted = manageWords(pattern);
+    if (textSplitted.size() != patternSplitted.size()){
+        totalEditDistance += abs((int)(textSplitted.size() - patternSplitted.size()));
+    }
+    for (auto &itP : patternSplitted) {
+        for (auto &itT : textSplitted) {
+            currentEditDistance = editDistance(itP, itT);
+            if (currentEditDistance == 0){
+                currentTotalDistance = currentTotalDistance/2;
+                break;
             }
-
-            pair<string, int> differenceSentence = make_pair(j,
-                                                             difference);
-            mapWord.insert(differenceSentence);
+            currentTotalDistance += currentEditDistance;
         }
-
-        mapVecs.push_back(mapWord);
+        totalEditDistance+=currentTotalDistance;
     }
 
-    multimap<int, string> finalMultiMap;
-
-    for (auto &i : sentencesVec) {
-
-        int difference = 0;
-
-        for (auto &mapVec : mapVecs) {
-            difference += mapVec[i];
-
-        }
-        pair<int, string> p = make_pair(difference, i);
-        finalMultiMap.insert(p);
-
-    }
-
-    vector<string> finalVec;
-
-    for (auto &it : finalMultiMap) {
-
-        if (it.first <= (4 * userInputVec.size()))
-            finalVec.push_back(it.second);
-    }
-
-    return finalVec;
+    return totalEditDistance;
 }
 
 int Manager::editDistance(string pattern, string text) {
 
     int n = text.length();
     vector<int> d(static_cast<unsigned int>(n + 1));
-    int old, newWord;
+    int old, neww;
     for (int j = 0; j <= n; j++)
         d[j] = j;
     int m = pattern.length();
-    for (int i = 1; i <= m; i++) {
+    for (int i = 1; i <= m; i++)
+    {
         old = d[0];
         d[0] = i;
-        for (int j = 1; j <= n; j++) {
-            if (pattern[i - 1] == text[j - 1])
-                newWord = old;
-            else {
-                newWord = min(old, d[j]);
-                newWord = min(newWord, d[j - 1]);
-                newWord = newWord + 1;
+        for (int j = 1; j <= n; j++)
+        {
+            if (pattern[i - 1] == text[j - 1]) neww = old;
+            else
+            {
+                neww = min(old, d[j]);
+                neww = min(neww, d[j - 1]);
+                neww = neww + 1;
             }
             old = d[j];
-            d[j] = newWord;
+            d[j] = neww;
         }
     }
     return d[n];
