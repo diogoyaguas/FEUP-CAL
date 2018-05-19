@@ -209,6 +209,8 @@ void Manager::loadData() {
 
 bool Manager::VerifyChoice(string id, vector<Station> stations) {
 
+    id = twoDigitsIdToOne(id);
+
     for (auto station : stations) {
 
         if (station.getID() == id) {
@@ -228,7 +230,7 @@ void Manager::chooseShorterPath(const string &origin, const string &destination)
     int size = 0;
     double distance = graphDistance.getWeight(origin, destination);
 
-    if(path.size() < 2) {
+    if (path.size() < 2) {
 
         cout << "<<< No path available >>>\n" << endl;
         return;
@@ -255,7 +257,7 @@ void Manager::chooseShorterPath(const string &origin, const string &destination)
             station = findStop(i);
             size = station.getName().size();
             cout << setw(8 + size) << setfill(' ') << station.getName() << setw(17 - size) << setfill(' ') << " | "
-                 << getTransport(i) << " on Line " << getLine(station, i) << "\n";
+                 << getTransport(i) << " on " << getLine(station, i) << "\n";
         }
     }
 
@@ -275,7 +277,7 @@ void Manager::chooseFastestPath(const string &origin, const string &destination)
     int size = 0;
     double time = graphTime.getWeight(origin, destination);
 
-    if(path.size() < 2) {
+    if (path.size() < 2) {
 
         cout << "<<< No path available >>>\n" << endl;
         return;
@@ -321,7 +323,7 @@ void Manager::chooseCheaperPath(const string &origin, const string &destination)
     int size = 0;
     double euros = graphPrice.getWeight(origin, destination);
 
-    if(path.size() < 2) {
+    if (path.size() < 2) {
 
         cout << "<<< No path available >>> \n" << endl;
         return;
@@ -368,7 +370,7 @@ void Manager::chooseLessTranshipmentPath(const string &origin, const string &des
     int size = 0;
     int transhipment = 0;
 
-    if(path.size() < 2) {
+    if (path.size() < 2) {
 
         cout << "<<< No path available >>>\n" << endl;
         return;
@@ -431,6 +433,17 @@ Station Manager::findStop(const string &id) {
     }
 }
 
+const string &Manager::findIdStation(string name) {
+
+    for (Station s: getStation()) {
+
+        if (s.getName() == name) {
+
+            return s.getID();
+        }
+    }
+}
+
 bool Manager::is_digits(const std::string &str) {
     return str.find_first_not_of("0123456789") == std::string::npos;
 }
@@ -444,7 +457,7 @@ string Manager::chooseOrigin() {
     cout << "STATIONS:" << endl << endl;
     for (auto station : stations) {
 
-        cout << station.getID() << " - " << station.getName() << endl;
+        cout << setfill('0') << setw(2) << station.getID() << " - " << station.getName() << endl;
 
     }
 
@@ -456,11 +469,13 @@ string Manager::chooseOrigin() {
             cin >> origin;
         }
 
+        origin = twoDigitsIdToOne(origin);
+
     } else {
 
         origins = searchExactStation(origin);
         if (origins.empty())origins = approximateStringMatchingStation(origin);
-        if (origins.size() == 1) return origin;
+        if (origins.size() == 1) return findIdStation(origin);
         else {
 
             origin = chooseExactOrigin(origins);
@@ -474,14 +489,29 @@ string Manager::chooseOrigin() {
 
 string Manager::chooseDestination() {
     string destination;
-
+    vector<Station> destinations;
     vector<Station> stations = getStation();
 
-    cout << "Where do you want to go ? (Choose the id of the station) " << endl << "::: ";
+    cout << "\nWhere do you want to go ? (Choose the id of the station) " << endl << "::: ";
     cin >> destination;
-    while (!VerifyChoice(destination, stations)) {
-        cout << endl << "# Invalid id. Please select again: ";
-        cin >> destination;
+    if (is_digits(destination)) {
+        while (!VerifyChoice(destination, stations)) {
+            cout << endl << "# Invalid id. Please select again: ";
+            cin >> destination;
+        }
+
+        destination = twoDigitsIdToOne(destination);
+
+    } else {
+
+        destinations = searchExactStation(destination);
+        if (destinations.empty())destinations = approximateStringMatchingStation(destination);
+        if (destinations.size() == 1) return findIdStation(destination);
+        else {
+
+            destination = chooseExactOrigin(destinations);
+
+        }
     }
 
     return destination;
@@ -599,7 +629,9 @@ void Manager::paintPath(vector<string> path) {
         } else destination = findStop(k);
 
         int id = stoi(origin.getID()) * 1000 + stoi(destination.getID());
+        int other_id = stoi(destination.getID()) * 1000 + stoi(origin.getID());
 
+        gv->removeEdge(other_id);
         gv->setEdgeThickness(id, 4);
         string transport = getTransport(path.at(i));
         if (transport == "Bus") gv->setEdgeColor(id, "BLUE");
@@ -731,10 +763,12 @@ bool Manager::kpm(string pattern, string target) {
 string Manager::chooseExactOrigin(vector<Station> exactStation) {
 
     string origin;
-    cout << "Did you meant to say:" << endl << endl;
+
+    sort(exactStation.begin(), exactStation.end(), sortStations);
+    cout << "\nDid you meant to say:" << endl << endl;
     for (auto s : exactStation) {
 
-        cout << s.getID() << " - " << s.getName() << endl;
+        cout << setfill('0') << setw(2) << s.getID() << " - " << s.getName() << endl;
 
     }
 
@@ -754,8 +788,7 @@ vector<Station> Manager::approximateStringMatchingStation(string name) {
     APR current;
     vector<APR> heap;
     vector<Station> topToReturn;
-    for (auto s: getStation())
-    {
+    for (auto s: getStation()) {
         string temp = s.getName();
         int actualValue = findApproxMatchingStrings(name, s.getName());
 
@@ -774,7 +807,7 @@ vector<Station> Manager::approximateStringMatchingStation(string name) {
 vector<string> Manager::manageWords(const string &sentence) {
 
     istringstream iss(sentence);
-    vector<string> tokens{ istream_iterator<string>{iss}, istream_iterator<string>{} };
+    vector<string> tokens{istream_iterator<string>{iss}, istream_iterator<string>{}};
 
     if (tokens.empty()) {
         tokens.emplace_back("");
@@ -782,26 +815,26 @@ vector<string> Manager::manageWords(const string &sentence) {
     return tokens;
 }
 
-int Manager::findApproxMatchingStrings(const string &pattern,string text){
+int Manager::findApproxMatchingStrings(const string &pattern, string text) {
 
     int totalEditDistance = 0;
     int currentEditDistance;
     int currentTotalDistance = 0;
     vector<string> textSplitted = manageWords(text);
     vector<string> patternSplitted = manageWords(pattern);
-    if (textSplitted.size() != patternSplitted.size()){
-        totalEditDistance += abs((int)(textSplitted.size() - patternSplitted.size()));
+    if (textSplitted.size() != patternSplitted.size()) {
+        totalEditDistance += abs((int) (textSplitted.size() - patternSplitted.size()));
     }
     for (auto &itP : patternSplitted) {
         for (auto &itT : textSplitted) {
             currentEditDistance = editDistance(itP, itT);
-            if (currentEditDistance == 0){
-                currentTotalDistance = currentTotalDistance/2;
+            if (currentEditDistance == 0) {
+                currentTotalDistance = currentTotalDistance / 2;
                 break;
             }
             currentTotalDistance += currentEditDistance;
         }
-        totalEditDistance+=currentTotalDistance;
+        totalEditDistance += currentTotalDistance;
     }
 
     return totalEditDistance;
@@ -815,15 +848,12 @@ int Manager::editDistance(string pattern, string text) {
     for (int j = 0; j <= n; j++)
         d[j] = j;
     int m = pattern.length();
-    for (int i = 1; i <= m; i++)
-    {
+    for (int i = 1; i <= m; i++) {
         old = d[0];
         d[0] = i;
-        for (int j = 1; j <= n; j++)
-        {
+        for (int j = 1; j <= n; j++) {
             if (pattern[i - 1] == text[j - 1]) neww = old;
-            else
-            {
+            else {
                 neww = min(old, d[j]);
                 neww = min(neww, d[j - 1]);
                 neww = neww + 1;
@@ -833,6 +863,18 @@ int Manager::editDistance(string pattern, string text) {
         }
     }
     return d[n];
+}
+
+bool Manager::sortStations(Station s1, Station s2) { return stoi(s1.getID()) < stoi(s2.getID()); }
+
+string Manager::twoDigitsIdToOne(string id) {
+
+    if (id.size() == 2 && id[0] == '0') {
+
+        id = id[1];
+    }
+
+    return id;
 }
 
 

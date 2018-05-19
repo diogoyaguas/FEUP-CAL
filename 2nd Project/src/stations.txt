@@ -1,12 +1,12 @@
-1;59;60;Trindade
-2;59;75;Marques
-3;77;120;IPO
-4;21;58;Francos
-5;78;54;Bolhao
-6;44;30;Palacio Cristal
-7;13;60;Ramalde
-8;62;37;Sao Bento
-9;78;37;Batalha
+01;59;60;Trindade
+02;59;75;Marques
+03;77;120;IPO
+04;21;58;Francos
+05;78;54;Bolhao
+06;44;30;Palacio Cristal
+07;13;60;Ramalde
+08;62;37;Sao Bento
+09;78;37;Batalha
 10;87;49;Heroismo
 11;100;44;Campanha
 12;62;0;General Torres

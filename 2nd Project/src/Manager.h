@@ -191,6 +191,12 @@ public:
     static int editDistance(string pattern, string text);
 
     static int findApproxMatchingStrings(const string &pattern, string text);
+
+    static const string & findIdStation(string name);
+
+    static bool sortStations(Station s1, Station s2);
+
+    static string twoDigitsIdToOne(string id);
 };
 
 
