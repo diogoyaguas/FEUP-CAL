@@ -7,6 +7,7 @@
 GraphViewer *Manager::gv = new GraphViewer(600, 600, false);
 vector<Station> Manager::myStation;
 vector<int> Manager::myEdges;
+vector<Line> Manager::myLines;
 Graph<string> Manager::graphDistance = {};
 Graph<string> Manager::graphTime = {};
 Graph<string> Manager::graphPrice = {};
@@ -18,7 +19,7 @@ void Manager::loadStations() {
 
     string line;
 
-    ifstream file("src/stations.txt");
+    ifstream file("../src/stations.txt");
 
     if (file.is_open()) {
         while (getline(file, line)) {
@@ -56,12 +57,11 @@ void Manager::loadStations() {
 }
 
 
-
 void Manager::loadStops() {
 
     string line;
 
-    ifstream file("src/lines.txt");
+    ifstream file("../src/lines.txt");
 
     if (file.is_open()) {
         while (getline(file, line)) {
@@ -137,7 +137,7 @@ void Manager::loadLines() {
 
     string line;
 
-    ifstream file("src/lines.txt");
+    ifstream file("../src/lines.txt");
 
     if (file.is_open()) {
         while (getline(file, line)) {
@@ -168,7 +168,7 @@ void Manager::loadLines() {
             linestream >> timeToStation;
 
             stopID = to_string(lineId.lineID) + lineId.type + to_string(id);
-			stopsId.push_back(stopID);
+            stopsId.push_back(stopID);
 
             while (linestream.rdbuf()->in_avail() != 0) {
 
@@ -181,7 +181,7 @@ void Manager::loadLines() {
                 linestream >> timeToStation;
 
                 stopID = to_string(lineId.lineID) + lineId.type + to_string(id);
-				stopsId.push_back(stopID);
+                stopsId.push_back(stopID);
 
                 graphDistance.addEdge(idOriginStation, stopID, 'd');
                 graphDistance.addEdge(stopID, idOriginStation, 'd');
@@ -197,8 +197,8 @@ void Manager::loadLines() {
 
             }
 
-			Line line = Line(lineId, stopsId);
-			myLines.push_back(line);
+            Line station_line = Line(lineId, stopsId);
+            myLines.push_back(station_line);
         }
 
         file.close();
@@ -229,12 +229,12 @@ bool Manager::VerifyChoice(string id, vector<Station> stations) {
 }
 
 bool Manager::VerifyChoice(string id, vector<Line> lines) {
-	for (auto line : lines) {
-		if (line.getLineID().name == id) {
-			return true;
-		}
-	}
-	return false;
+    for (auto line : lines) {
+        if (line.getLineID().name == id) {
+            return true;
+        }
+    }
+    return false;
 }
 
 void Manager::chooseShorterPath(const string &origin, const string &destination) {
@@ -448,15 +448,14 @@ Station Manager::findStop(const string &id) {
     }
 }
 
-Line Manager::findLine(const string & name)
-{
-	for (Line l : myLines) {
+Line Manager::findLine(const string &name) {
+    for (Line l : myLines) {
 
-		if (l.getLineID().name == name) {
+        if (l.getLineID().name == name) {
 
-			return l;
-		}
-	}
+            return l;
+        }
+    }
 }
 
 const string &Manager::findIdStation(string name) {
@@ -513,51 +512,49 @@ string Manager::chooseOrigin() {
 
 }
 
-string Manager::chooseOrigin(Line lineOrigin)
-{
-	string origin;
-	vector<Station> origins;
-	vector<Station> stations = getStation();
+string Manager::chooseOrigin(Line lineOrigin) {
+    string origin;
+    vector<Station> origins;
+    vector<Station> stations = getStation();
 
-	//remove stations not belonging to line
-	for (auto it = stations.begin(); it != stations.end(); it++) {
-		if (it->findStop(lineOrigin.getLineID()) == nullptr) {
-			it = stations.erase(it);
-			it--;
-		}
-	}
+    //remove stations not belonging to line
+    for (auto it = stations.begin(); it != stations.end(); it++) {
+        if (it->findStop(lineOrigin.getLineID()) == nullptr) {
+            it = stations.erase(it);
+            it--;
+        }
+    }
 
-	cout << "STATIONS:" << endl << endl;
-	for (auto station : stations) {
+    cout << "STATIONS:" << endl << endl;
+    for (auto station : stations) {
 
-		cout << setfill('0') << setw(2) << station.getID() << " - " << station.getName() << endl;
+        cout << setfill('0') << setw(2) << station.getID() << " - " << station.getName() << endl;
 
-	}
+    }
 
-	cout << "\nWhere do you want to go ? (Choose the id of the station) " << endl << "::: ";
-	cin >> origin;
-	if (is_digits(origin)) {
-		while (!VerifyChoice(origin, stations)) {
-			cout << endl << "# Invalid id. Please select again: ";
-			cin >> origin;
-		}
+    cout << "\nWhere do you want to go ? (Choose the id of the station) " << endl << "::: ";
+    cin >> origin;
+    if (is_digits(origin)) {
+        while (!VerifyChoice(origin, stations)) {
+            cout << endl << "# Invalid id. Please select again: ";
+            cin >> origin;
+        }
 
-		origin = twoDigitsIdToOne(origin);
+        origin = twoDigitsIdToOne(origin);
 
-	}
-	else {
+    } else {
 
-		origins = searchExactStation(origin, stations);
-		if (origins.empty())origins = approximateStringMatchingStation(origin, stations);
-		if (origins.size() == 1) return findIdStation(origin);
-		else {
+        origins = searchExactStation(origin, stations);
+        if (origins.empty())origins = approximateStringMatchingStation(origin, stations);
+        if (origins.size() == 1) return findIdStation(origin);
+        else {
 
-			origin = chooseExactOrigin(origins);
+            origin = chooseExactOrigin(origins);
 
-		}
-	}
+        }
+    }
 
-	return origin;
+    return origin;
 }
 
 string Manager::chooseDestination() {
@@ -591,93 +588,90 @@ string Manager::chooseDestination() {
 
 }
 
-string Manager::chooseDestination(Line lineDestination)
-{
-	string destination;
-	vector<Station> destinations;
-	vector<Station> stations = getStation();
+string Manager::chooseDestination(Line lineDestination) {
+    string destination;
+    vector<Station> destinations;
+    vector<Station> stations = getStation();
 
-	//remove stations not belonging to line
-	for (auto it = stations.begin(); it != stations.end(); it++) {
-		if (it->findStop(lineDestination.getLineID()) == nullptr) {
-			it = stations.erase(it);
-			it--;
-		}
-	}
+    //remove stations not belonging to line
+    for (auto it = stations.begin(); it != stations.end(); it++) {
+        if (it->findStop(lineDestination.getLineID()) == nullptr) {
+            it = stations.erase(it);
+            it--;
+        }
+    }
 
-	cout << "\nWhere do you want to go ? (Choose the id of the station) " << endl << "::: ";
-	cin >> destination;
-	if (is_digits(destination)) {
-		while (!VerifyChoice(destination, stations)) {
-			cout << endl << "# Invalid id. Please select again: ";
-			cin >> destination;
-		}
+    cout << "\nWhere do you want to go ? (Choose the id of the station) " << endl << "::: ";
+    cin >> destination;
+    if (is_digits(destination)) {
+        while (!VerifyChoice(destination, stations)) {
+            cout << endl << "# Invalid id. Please select again: ";
+            cin >> destination;
+        }
 
-		destination = twoDigitsIdToOne(destination);
+        destination = twoDigitsIdToOne(destination);
 
-	}
-	else {
+    } else {
 
-		destinations = searchExactStation(destination, stations);
-		if (destinations.empty())destinations = approximateStringMatchingStation(destination, stations);
-		if (destinations.size() == 1) return findIdStation(destination);
-		else {
+        destinations = searchExactStation(destination, stations);
+        if (destinations.empty())destinations = approximateStringMatchingStation(destination, stations);
+        if (destinations.size() == 1) return findIdStation(destination);
+        else {
 
-			destination = chooseExactOrigin(destinations);
+            destination = chooseExactOrigin(destinations);
 
-		}
-	}
+        }
+    }
 
-	return destination;
+    return destination;
 }
 
-Line Manager::chooseOriginLine()
-{
-	Line originLine;
-	vector<Line> lines = myLines;
-	vector<Line> results;
+Line Manager::chooseOriginLine() {
+    Line originLine;
+    vector<Line> lines = myLines;
+    vector<Line> results;
 
-	string origin;
+    string origin;
 
-	cout << "STATIONS:" << endl << endl;
-	for (Line line : lines) {
-		LineID lineID = line.getLineID();
-		if (lineID.type == 'a') cout << setfill('0') << "Bus - ";
-		else if (lineID.type == 'b') cout << setfill('0') << "Metro - ";
-		else if (lineID.type == 'b') cout << setfill('0') << "Train - ";
-		cout << setw(2) << lineID.lineID << " - " << lineID.name << endl;
-	}
+    cout << "LINES:" << endl << endl;
+    for (Line line : lines) {
+        LineID lineID = line.getLineID();
+        cout << setfill('0') << setw(2) << lineID.lineID << " - ";
+        if (lineID.type == 'a') cout << setfill('0') << " Bus ";
+        else if (lineID.type == 'b') cout << setfill('0') << "Metro";
+        else if (lineID.type == 'c') cout << setfill('0') << "Train";
+        cout << " - " << lineID.name << endl;
+    }
 
-	cout << "\nIn what line is your departure station in?" << endl << "::: ";
-	cin >> origin;
+    cout << "\nIn what line is your departure station in?" << endl << "::: ";
+    cin >> origin;
 
-	results = searchExactLine(origin);
-	if (results.empty()) results = approximateStringMatchingLine(origin);
-	if (results.size() == 1) return findLine(origin);
-	else {
-		origin = chooseExactLineOrigin(results);
-	}
+    results = searchExactLine(origin);
+    if (results.empty()) results = approximateStringMatchingLine(origin);
+    if (results.size() == 1) return findLine(origin);
+    else {
+        origin = chooseExactLineOrigin(results);
+    }
 
-	return originLine;
+    return originLine;
 }
 
-Line Manager::chooseDestinationLine()
-{
-	Line destinationLine;
-	vector<Line> results;
+Line Manager::chooseDestinationLine() {
+    Line destinationLine;
+    vector<Line> results;
 
-	string destination;
+    string destination;
 
-	cout << "\nIn what line is your arrival station in?" << endl << "::: ";
-	cin >> destination;
-	results = searchExactLine(destination);
-	if (results.empty()) results = approximateStringMatchingLine(destination);
-	if (results.size() == 1) return findLine(destination);
-	else {
-		destination = chooseExactLineOrigin(results);
-	}
+    cout << "\nIn what line is your arrival station in?" << endl << "::: ";
+    cin >> destination;
+    results = searchExactLine(destination);
+    if (results.empty()) results = approximateStringMatchingLine(destination);
+    if (results.size() == 1) return findLine(destination);
+    else {
+        destination = chooseExactLineOrigin(results);
+    }
 
-	return destinationLine;
+    return destinationLine;
 }
 
 string Manager::getTransport(const string &id) {
@@ -884,34 +878,32 @@ vector<Station> Manager::searchExactStation(string name) {
     return stops;
 }
 
-vector<Station> Manager::searchExactStation(string name, vector<Station> stations)
-{
-	vector<Station> stops;
+vector<Station> Manager::searchExactStation(string name, vector<Station> stations) {
+    vector<Station> stops;
 
-	for (auto s : stations) {
+    for (auto s : stations) {
 
-		if (kpm(name, s.getName())) {
+        if (kpm(name, s.getName())) {
 
-			stops.push_back(s);
-		}
-	}
+            stops.push_back(s);
+        }
+    }
 
-	return stops;
+    return stops;
 }
 
-vector<Line> Manager::searchExactLine(string name)
-{
-	vector<Line> lines;
+vector<Line> Manager::searchExactLine(string name) {
+    vector<Line> lines;
 
-	for (auto l : myLines) {
+    for (auto l : myLines) {
 
-		if (kpm(name, l.getLineID().name)) {
+        if (kpm(name, l.getLineID().name)) {
 
-			lines.push_back(l);
-		}
-	}
+            lines.push_back(l);
+        }
+    }
 
-	return lines;
+    return lines;
 }
 
 void Manager::preKpm(string pattern, int f[]) {
@@ -975,28 +967,27 @@ string Manager::chooseExactOrigin(vector<Station> exactStation) {
 
 }
 
-string Manager::chooseExactLineOrigin(vector<Line> lines)
-{
-	string origin;
+string Manager::chooseExactLineOrigin(vector<Line> lines) {
+    string origin;
 
-	sort(lines.begin(), lines.end(), sortLines);
-	cout << "\nDid you meant to say:" << endl << endl;
+    sort(lines.begin(), lines.end(), sortLines);
+    cout << "\nDid you meant to say:" << endl << endl;
 
-	for (auto l : lines) {
-		if (l.getLineID().type == 'a') cout << setfill('0') << "Bus - ";
-		else if (l.getLineID().type == 'b') cout << setfill('0') << "Metro - ";
-		else if (l.getLineID().type == 'b') cout << setfill('0') << "Train - ";
-		cout << setw(2) << l.getLineID().lineID << " - " << l.getLineID().name << endl;
-	}
+    for (auto l : lines) {
+        if (l.getLineID().type == 'a') cout << setfill('0') << "Bus - ";
+        else if (l.getLineID().type == 'b') cout << setfill('0') << "Metro - ";
+        else if (l.getLineID().type == 'b') cout << setfill('0') << "Train - ";
+        cout << setw(2) << l.getLineID().lineID << " - " << l.getLineID().name << endl;
+    }
 
-	cout << "\nWhere are you ?" << endl << "::: ";
-	cin >> origin;
-	while (!VerifyChoice(origin, lines)) {
-		cout << endl << "# Invalid id. Please select again: ";
-		cin >> origin;
-	}
+    cout << "\nWhere are you ?" << endl << "::: ";
+    cin >> origin;
+    while (!VerifyChoice(origin, lines)) {
+        cout << endl << "# Invalid id. Please select again: ";
+        cin >> origin;
+    }
 
-	return origin;
+    return origin;
 }
 
 vector<Station> Manager::approximateStringMatchingStation(string name) {
@@ -1020,46 +1011,44 @@ vector<Station> Manager::approximateStringMatchingStation(string name) {
     return topToReturn;
 }
 
-vector<Station> Manager::approximateStringMatchingStation(string name, vector<Station> stations)
-{
-	APR current;
-	vector<APR> heap;
-	vector<Station> topToReturn;
-	for (auto s : stations) {
-		string temp = s.getName();
-		int actualValue = findApproxMatchingStrings(name, s.getName());
+vector<Station> Manager::approximateStringMatchingStation(string name, vector<Station> stations) {
+    APR current;
+    vector<APR> heap;
+    vector<Station> topToReturn;
+    for (auto s : stations) {
+        string temp = s.getName();
+        int actualValue = findApproxMatchingStrings(name, s.getName());
 
-		current.first = actualValue;
-		current.second = s;
-		heap.push_back(current);
-	}
-	make_heap(heap.begin(), heap.end(), APR_Greater_Than());
-	heap = vector<APR>(heap.begin(), heap.begin() + 5);
-	for (auto &it : heap) {
-		topToReturn.push_back(it.second);
-	}
-	return topToReturn;
+        current.first = actualValue;
+        current.second = s;
+        heap.push_back(current);
+    }
+    make_heap(heap.begin(), heap.end(), APR_Greater_Than());
+    heap = vector<APR>(heap.begin(), heap.begin() + 5);
+    for (auto &it : heap) {
+        topToReturn.push_back(it.second);
+    }
+    return topToReturn;
 }
 
-vector<Line> Manager::approximateStringMatchingLine(string name)
-{
-	APR2 current;
-	vector<APR2> heap;
-	vector<Line> topToReturn;
-	for (auto l : myLines) {
-		string temp = l.getLineID().name;
-		int actualValue = findApproxMatchingStrings(name, l.getLineID().name);
+vector<Line> Manager::approximateStringMatchingLine(string name) {
+    APR2 current;
+    vector<APR2> heap;
+    vector<Line> topToReturn;
+    for (auto l : myLines) {
+        string temp = l.getLineID().name;
+        int actualValue = findApproxMatchingStrings(name, l.getLineID().name);
 
-		current.first = actualValue;
-		current.second = l;
-		heap.push_back(current);
-	}
-	make_heap(heap.begin(), heap.end(), APR2_Greater_Than());
-	heap = vector<APR2>(heap.begin(), heap.begin() + 5);
-	for (auto &it : heap) {
-		topToReturn.push_back(it.second);
-	}
-	return topToReturn;
+        current.first = actualValue;
+        current.second = l;
+        heap.push_back(current);
+    }
+    make_heap(heap.begin(), heap.end(), APR2_Greater_Than());
+    heap = vector<APR2>(heap.begin(), heap.begin() + 5);
+    for (auto &it : heap) {
+        topToReturn.push_back(it.second);
+    }
+    return topToReturn;
 }
 
 vector<string> Manager::manageWords(const string &sentence) {
@@ -1137,20 +1126,18 @@ string Manager::twoDigitsIdToOne(string id) {
     return id;
 }
 
-vector<Line> Manager::getLinesFromStation(string name)
-{
-	vector<Line> lines = myLines;
-	Station s = findStation(name);
+vector<Line> Manager::getLinesFromStation(string name) {
+    vector<Line> lines = myLines;
+    Station s = findStation(name);
 
-	for (auto it = lines.begin(); it != lines.end(); it++)
-	{
-		if (s.findStop(it->getLineID()) == nullptr) {
-			it = lines.erase(it);
-			it--;
-		}
-	}
+    for (auto it = lines.begin(); it != lines.end(); it++) {
+        if (s.findStop(it->getLineID()) == nullptr) {
+            it = lines.erase(it);
+            it--;
+        }
+    }
 
-	return lines;
+    return lines;
 }
 
 
