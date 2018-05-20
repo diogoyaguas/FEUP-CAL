@@ -45,7 +45,7 @@ public:
      * @brief Getter of lineID
      * @return object of class LineID
      */
-    LineID getLineID() { return lineID; }
+    LineID getLineID()const { return lineID; }
 
 	/**
 	* @brief Getter of stopsID

@@ -149,33 +149,33 @@ void MenuModeChoice::displayMenu() {
 
 void MenuStopOrLine::displayMenu() {
 
-        printOptions("OPTIONS",
-                     {"Pick origin and destination from all stops",
-                      "Pick origin and destination from certain lines"});
+    printOptions("OPTIONS",
+                 {"Pick origin and destination from all stops",
+                  "Pick origin and destination from certain lines"});
 
-        vector<char> options = {'1', '2', 'E'};
+    vector<char> options = {'1', '2', 'E'};
 
-        char option = processOptions(options);
+    char option = processOptions(options);
 
-        switch (option) {
+    switch (option) {
 
-            case '1':
-                CleanScreen();
-                MainMenu::displayMenu();
-                break;
-            case '2':
-                CleanScreen();
-                MenuPickFromLine::displayMenu();
-                break;
-            case 'E':
-                exit(0);
-            default:
-                break;
+        case '1':
+            CleanScreen();
+            MenuChoosePath::displayMenu();
+            break;
+        case '2':
+            CleanScreen();
+            MenuPickFromLine::displayMenu();
+            break;
+        case 'E':
+            break;
+        default:
+            break;
 
-        }
+    }
 }
 
-void MainMenu::displayMenu() {
+void MenuChoosePath::displayMenu() {
 
     string idOrigin, idDestination;
 
@@ -225,7 +225,7 @@ void MainMenu::displayMenu() {
             Manager::chooseLessTranshipmentPath(idOrigin, idDestination);
             break;
         case 'E':
-            exit(0);
+            break;
         default:
             break;
 
@@ -250,6 +250,7 @@ void MenuPickFromLine::displayMenu() {
         cout << "<<< Stations are the same, choose again >>>\n" << endl;
         lineOrigin = Manager::chooseOriginLine();
         idOrigin = Manager::chooseOrigin(lineOrigin);
+
         lineDestination = Manager::chooseDestinationLine();
         idDestination = Manager::chooseDestination(lineDestination);
     }
@@ -287,10 +288,9 @@ void MenuPickFromLine::displayMenu() {
             //call function to calculate path by number of stops
             CleanScreen();
             Manager::chooseLessTranshipmentPath(idOrigin, idDestination);
-
             break;
         case 'E':
-            exit(0);
+            break;
         default:
             break;
 
@@ -298,22 +298,21 @@ void MenuPickFromLine::displayMenu() {
 }
 
 void MenuCheckLines::displayMenu() {
-    while (true) {
-        string idOrigin, idDestination;
+    string idOrigin, idDestination;
 
-        idOrigin = Manager::chooseOrigin();
+    idOrigin = Manager::chooseOrigin();
 
-        vector<Line> lines = Manager::getLinesFromStation(idOrigin);
+    vector<Line> lines = Manager::getLinesFromStation(idOrigin);
 
-        if (lines.size() == 0) cout << "No lines run through this station!\n";
-        else {
-            cout << "The following lines run through this station:\n";
+    if (lines.empty()) cout << "\nNo lines run through this station!\n";
+    else {
+        cout << "\nThe following lines run through this station:\n\n";
 
-            for (Line line : lines) {
-                cout << line.getLineID().name << endl;
-            }
-
-            Manager::continueFunction();
+        for (const Line &line : lines) {
+            cout << " | " << line.getLineID().name << endl;
         }
+
+        cin.ignore(1000, '\n');
+        Manager::continueFunction();
     }
 }

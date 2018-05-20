@@ -18,9 +18,9 @@ class Graph;
 template<class T>
 class Vertex;
 
-const double busSpeed = 300.0;
-const double metroSpeed = 500.0;
-const double trainSpeed = 800.0;
+const double busSpeed = 1800.0;
+const double metroSpeed = 10000.0;
+const double trainSpeed = 1800.0;
 
 /*
  * ************************************************

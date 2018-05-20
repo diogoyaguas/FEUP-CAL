@@ -56,7 +56,6 @@ void Manager::loadStations() {
     }
 }
 
-
 void Manager::loadStops() {
 
     string line;
@@ -229,8 +228,12 @@ bool Manager::VerifyChoice(string id, vector<Station> stations) {
 }
 
 bool Manager::VerifyChoice(string id, vector<Line> lines) {
-    for (auto line : lines) {
-        if (line.getLineID().name == id) {
+
+    if (id.empty()) return false;
+
+    for (const auto &line : lines) {
+        string lineID = to_string(line.getLineID().lineID);
+        if (lineID == id) {
             return true;
         }
     }
@@ -449,11 +452,23 @@ Station Manager::findStop(const string &id) {
 }
 
 Line Manager::findLine(const string &name) {
-    for (Line l : myLines) {
 
-        if (l.getLineID().name == name) {
+    if (is_digits(name) && name.size() < 3) {
 
-            return l;
+        for (const Line &l : myLines) {
+
+            if (l.getLineID().lineID == stoi(name)) {
+
+                return l;
+            }
+        }
+    } else {
+        for (const Line &l : myLines) {
+
+            if (l.getLineID().name == name) {
+
+                return l;
+            }
         }
     }
 }
@@ -525,14 +540,14 @@ string Manager::chooseOrigin(Line lineOrigin) {
         }
     }
 
-    cout << "STATIONS:" << endl << endl;
+    cout << "\nSTATIONS:" << endl << endl;
     for (auto station : stations) {
 
         cout << setfill('0') << setw(2) << station.getID() << " - " << station.getName() << endl;
 
     }
 
-    cout << "\nWhere do you want to go ? (Choose the id of the station) " << endl << "::: ";
+    cout << "\nWhere are you ?" << endl << "::: ";
     cin >> origin;
     if (is_digits(origin)) {
         while (!VerifyChoice(origin, stations)) {
@@ -601,6 +616,13 @@ string Manager::chooseDestination(Line lineDestination) {
         }
     }
 
+    cout << "\nSTATIONS:" << endl << endl;
+    for (auto station : stations) {
+
+        cout << setfill('0') << setw(2) << station.getID() << " - " << station.getName() << endl;
+
+    }
+
     cout << "\nWhere do you want to go ? (Choose the id of the station) " << endl << "::: ";
     cin >> destination;
     if (is_digits(destination)) {
@@ -627,14 +649,12 @@ string Manager::chooseDestination(Line lineDestination) {
 }
 
 Line Manager::chooseOriginLine() {
-    Line originLine;
-    vector<Line> lines = myLines;
-    vector<Line> results;
 
+    vector<Line> results;
     string origin;
 
     cout << "LINES:" << endl << endl;
-    for (Line line : lines) {
+    for (const Line &line : getLines()) {
         LineID lineID = line.getLineID();
         cout << setfill('0') << setw(2) << lineID.lineID << " - ";
         if (lineID.type == 'a') cout << setfill('0') << " Bus ";
@@ -644,34 +664,47 @@ Line Manager::chooseOriginLine() {
     }
 
     cout << "\nIn what line is your departure station in?" << endl << "::: ";
-    cin >> origin;
-
-    results = searchExactLine(origin);
-    if (results.empty()) results = approximateStringMatchingLine(origin);
-    if (results.size() == 1) return findLine(origin);
-    else {
-        origin = chooseExactLineOrigin(results);
+    getline(cin, origin);
+    if (is_digits(origin) && origin.size() < 3) {
+        while (!VerifyChoice(origin, getLines())) {
+            cout << endl << "# Invalid id. Please select again: ";
+            cin >> origin;
+        }
+        origin = twoDigitsIdToOne(origin);
+    } else {
+        results = searchExactLine(origin);
+        if (results.empty()) results = approximateStringMatchingLine(origin);
+        if (results.size() == 1) return findLine(origin);
+        else {
+            origin = chooseExactLineOrigin(results);
+        }
     }
-
-    return originLine;
+    return findLine(origin);
 }
 
 Line Manager::chooseDestinationLine() {
-    Line destinationLine;
-    vector<Line> results;
 
+    vector<Line> results;
     string destination;
 
     cout << "\nIn what line is your arrival station in?" << endl << "::: ";
-    cin >> destination;
-    results = searchExactLine(destination);
-    if (results.empty()) results = approximateStringMatchingLine(destination);
-    if (results.size() == 1) return findLine(destination);
-    else {
-        destination = chooseExactLineOrigin(results);
+    cin.ignore(1000, '\n');
+    getline(cin, destination);
+    if (is_digits(destination) && destination.size() < 3) {
+        while (!VerifyChoice(destination, getLines())) {
+            cout << endl << "# Invalid id. Please select again: ";
+            cin >> destination;
+        }
+        destination = twoDigitsIdToOne(destination);
+    } else {
+        results = searchExactLine(destination);
+        if (results.empty()) results = approximateStringMatchingLine(destination);
+        if (results.size() == 1) return findLine(destination);
+        else {
+            destination = chooseExactLineOrigin(results);
+        }
     }
-
-    return destinationLine;
+    return findLine(destination);
 }
 
 string Manager::getTransport(const string &id) {
@@ -701,11 +734,11 @@ int Manager::getLine(Station s, const string &id) {
 
 void Manager::printGraph() {
 
-    gv->setBackground("res/background.png");
+    gv->setBackground("..(res/background.png");
     gv->createWindow(800, 800);
     gv->defineEdgeCurved(false);
     gv->defineEdgeColor("grey");
-    gv->defineVertexIcon("res/station.png");
+    gv->defineVertexIcon("../res/station.png");
     for (unsigned int i = 0; i < graphDistance.getVertexSet().size(); i++) {
 
         string id = graphDistance.getVertexSet().at(i)->getInfo();
@@ -879,6 +912,7 @@ vector<Station> Manager::searchExactStation(string name) {
 }
 
 vector<Station> Manager::searchExactStation(string name, vector<Station> stations) {
+
     vector<Station> stops;
 
     for (auto s : stations) {
@@ -893,13 +927,14 @@ vector<Station> Manager::searchExactStation(string name, vector<Station> station
 }
 
 vector<Line> Manager::searchExactLine(string name) {
+
     vector<Line> lines;
 
-    for (auto l : myLines) {
+    for (auto const &l : getLines()) {
 
         if (kpm(name, l.getLineID().name)) {
 
-            lines.push_back(l);
+            lines.emplace_back(l);
         }
     }
 
@@ -973,15 +1008,17 @@ string Manager::chooseExactLineOrigin(vector<Line> lines) {
     sort(lines.begin(), lines.end(), sortLines);
     cout << "\nDid you meant to say:" << endl << endl;
 
-    for (auto l : lines) {
-        if (l.getLineID().type == 'a') cout << setfill('0') << "Bus - ";
-        else if (l.getLineID().type == 'b') cout << setfill('0') << "Metro - ";
-        else if (l.getLineID().type == 'b') cout << setfill('0') << "Train - ";
-        cout << setw(2) << l.getLineID().lineID << " - " << l.getLineID().name << endl;
+    for (const Line &line : getLines()) {
+        LineID lineID = line.getLineID();
+        cout << setfill('0') << setw(2) << lineID.lineID << " - ";
+        if (lineID.type == 'a') cout << setfill('0') << " Bus ";
+        else if (lineID.type == 'b') cout << setfill('0') << "Metro";
+        else if (lineID.type == 'c') cout << setfill('0') << "Train";
+        cout << " - " << lineID.name << endl;
     }
 
-    cout << "\nWhere are you ?" << endl << "::: ";
-    cin >> origin;
+    cout << "\nIn what line is your departure station in?" << endl << "::: ";
+    getline(cin, origin);
     while (!VerifyChoice(origin, lines)) {
         cout << endl << "# Invalid id. Please select again: ";
         cin >> origin;
@@ -1035,7 +1072,7 @@ vector<Line> Manager::approximateStringMatchingLine(string name) {
     APR2 current;
     vector<APR2> heap;
     vector<Line> topToReturn;
-    for (auto l : myLines) {
+    for (const auto &l : getLines()) {
         string temp = l.getLineID().name;
         int actualValue = findApproxMatchingStrings(name, l.getLineID().name);
 
@@ -1114,7 +1151,7 @@ int Manager::editDistance(string pattern, string text) {
 
 bool Manager::sortStations(Station s1, Station s2) { return stoi(s1.getID()) < stoi(s2.getID()); }
 
-bool Manager::sortLines(Line l1, Line l2) { return stoi(l1.getLineID().name) < stoi(l2.getLineID().name); }
+bool Manager::sortLines(Line l1, Line l2) { return l1.getLineID().lineID < l2.getLineID().lineID; }
 
 string Manager::twoDigitsIdToOne(string id) {
 

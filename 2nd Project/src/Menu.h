@@ -56,7 +56,7 @@ public:
 /**
  * @brief Derived class of MenuBase. Contains the function that displays the main menu
  */
-class MainMenu : public MenuBase {
+class MenuChoosePath : public MenuBase {
 
 public:
 	/**
