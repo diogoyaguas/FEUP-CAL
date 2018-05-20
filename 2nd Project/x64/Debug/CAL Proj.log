@@ -1,9 +1,7 @@
 ﻿  Manager.cpp
-c:\users\ricar\desktop\github repos\cal proj\2nd project\src\manager.cpp(237): warning C4715: 'Manager::VerifyChoice': not all control paths return a value
-c:\users\ricar\desktop\github repos\cal proj\2nd project\src\manager.cpp(435): warning C4715: 'Manager::findStation': not all control paths return a value
-c:\users\ricar\desktop\github repos\cal proj\2nd project\src\manager.cpp(449): warning C4715: 'Manager::findStop': not all control paths return a value
-c:\users\ricar\desktop\github repos\cal proj\2nd project\src\manager.cpp(460): warning C4715: 'Manager::findLine': not all control paths return a value
-c:\users\ricar\desktop\github repos\cal proj\2nd project\src\manager.cpp(471): warning C4715: 'Manager::findIdStation': not all control paths return a value
-c:\users\ricar\desktop\github repos\cal proj\2nd project\src\manager.cpp(706): warning C4715: 'Manager::getLine': not all control paths return a value
-Manager.obj : error LNK2001: unresolved external symbol "private: static class std::vector<class Line,class std::allocator<class Line> > Manager::myLines" (?myLines@Manager@@0V?$vector@VLine@@V?$allocator@VLine@@@std@@@std@@A)
-C:\Users\ricar\Desktop\GitHub Repos\CAL Proj\2nd Project\x64\Debug\CAL Proj.exe : fatal error LNK1120: 1 unresolved externals
+c:\users\diogo\clionprojects\feup-cal\2nd project\src\manager.cpp(438): warning C4715: 'Manager::findStation': not all control paths return a value
+c:\users\diogo\clionprojects\feup-cal\2nd project\src\manager.cpp(452): warning C4715: 'Manager::findStop': not all control paths return a value
+c:\users\diogo\clionprojects\feup-cal\2nd project\src\manager.cpp(474): warning C4715: 'Manager::findLine': not all control paths return a value
+c:\users\diogo\clionprojects\feup-cal\2nd project\src\manager.cpp(487): warning C4715: 'Manager::findIdStation': not all control paths return a value
+c:\users\diogo\clionprojects\feup-cal\2nd project\src\manager.cpp(733): warning C4715: 'Manager::getLine': not all control paths return a value
+  CAL Proj.vcxproj -> C:\Users\diogo\CLionProjects\FEUP-CAL\2nd Project\x64\Debug\CAL Proj.exe

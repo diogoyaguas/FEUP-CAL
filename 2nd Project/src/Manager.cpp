@@ -19,7 +19,7 @@ void Manager::loadStations() {
 
     string line;
 
-    ifstream file("../src/stations.txt");
+    ifstream file("src/stations.txt");
 
     if (file.is_open()) {
         while (getline(file, line)) {
@@ -60,7 +60,7 @@ void Manager::loadStops() {
 
     string line;
 
-    ifstream file("../src/lines.txt");
+    ifstream file("src/lines.txt");
 
     if (file.is_open()) {
         while (getline(file, line)) {
@@ -136,7 +136,7 @@ void Manager::loadLines() {
 
     string line;
 
-    ifstream file("../src/lines.txt");
+    ifstream file("src/lines.txt");
 
     if (file.is_open()) {
         while (getline(file, line)) {
@@ -276,7 +276,7 @@ void Manager::chooseShorterPath(const string &origin, const string &destination)
             station = findStop(i);
             size = station.getName().size();
             cout << setw(8 + size) << setfill(' ') << station.getName() << setw(17 - size) << setfill(' ') << " | "
-                 << getTransport(i) << " on " << getLine(station, i) << "\n";
+                 << getTransport(i) << " " << getLine(station, i) << "\n";
         }
     }
 
@@ -317,13 +317,13 @@ void Manager::chooseFastestPath(const string &origin, const string &destination)
                 cout << "\nChange in " << station.getName() << ": \n\n";
             } else {
 
-                cout << "\nYou arrived to " << station.getName() << " in " << (int) time << " minutes\n";
+                cout << "\nYou arrived to " << station.getName() << " in " << (int) time / 5 << " minutes\n";
             }
         } else {
             station = findStop(i);
             size = station.getName().size();
             cout << setw(8 + size) << setfill(' ') << station.getName() << setw(17 - size) << setfill(' ') << " | "
-                 << getTransport(i) << " on Line " << getLine(station, i) << "\n";
+                 << getTransport(i) << " " << getLine(station, i) << "\n";
         }
     }
 
@@ -363,14 +363,14 @@ void Manager::chooseCheaperPath(const string &origin, const string &destination)
                 cout << "\nChange in " << station.getName() << ": \n\n";
             } else {
 
-                cout << "\nYou arrived to " << station.getName() << " for " << fixed << setprecision(2) << euros
+                cout << "\nYou arrived to " << station.getName() << " for " << fixed << setprecision(2) << ceil(euros) / 4
                      << " euros\n";
             }
         } else {
             station = findStop(i);
             size = station.getName().size();
             cout << setw(8 + size) << setfill(' ') << station.getName() << setw(17 - size) << setfill(' ') << " | "
-                 << getTransport(i) << " on Line " << getLine(station, i) << "\n";
+                 << getTransport(i) << " " << getLine(station, i) << "\n";
         }
     }
 
@@ -417,7 +417,7 @@ void Manager::chooseLessTranshipmentPath(const string &origin, const string &des
             station = findStop(i);
             size = station.getName().size();
             cout << setw(8 + size) << setfill(' ') << station.getName() << setw(17 - size) << setfill(' ') << " | "
-                 << getTransport(i) << " on Line " << getLine(station, i) << "\n";
+                 << getTransport(i) << " " << getLine(station, i) << "\n";
         }
     }
     paintPath(path);
@@ -473,13 +473,15 @@ Line Manager::findLine(const string &name) {
     }
 }
 
-const string &Manager::findIdStation(string name) {
+const string Manager::findIdStation(string name) {
+
+	string id;
 
     for (Station s: getStation()) {
 
         if (s.getName() == name) {
 
-            return s.getID();
+			return s.getID();
         }
     }
 }
@@ -502,7 +504,7 @@ string Manager::chooseOrigin() {
     }
 
     cout << "\nWhere are you ?" << endl << "::: ";
-    cin >> origin;
+	getline(cin, origin);
     if (is_digits(origin)) {
         while (!VerifyChoice(origin, stations)) {
             cout << endl << "# Invalid id. Please select again: ";
@@ -515,7 +517,7 @@ string Manager::chooseOrigin() {
 
         origins = searchExactStation(origin);
         if (origins.empty())origins = approximateStringMatchingStation(origin);
-        if (origins.size() == 1) return findIdStation(origin);
+        if (origins.size() == 1 && origins.at(0).getName().compare(origin) != 0) return findIdStation(origins.at(0).getName());
         else {
 
             origin = chooseExactOrigin(origins);
@@ -533,10 +535,9 @@ string Manager::chooseOrigin(Line lineOrigin) {
     vector<Station> stations = getStation();
 
     //remove stations not belonging to line
-    for (auto it = stations.begin(); it != stations.end(); it++) {
-        if (it->findStop(lineOrigin.getLineID()) == nullptr) {
-            it = stations.erase(it);
-            it--;
+	for (unsigned int i = 0; i < stations.size(); i++) {
+        if (stations.at(i).findStop(lineOrigin.getLineID()) == nullptr) {
+			stations.erase(stations.begin() + i);
         }
     }
 
@@ -548,7 +549,7 @@ string Manager::chooseOrigin(Line lineOrigin) {
     }
 
     cout << "\nWhere are you ?" << endl << "::: ";
-    cin >> origin;
+	getline(cin, origin);
     if (is_digits(origin)) {
         while (!VerifyChoice(origin, stations)) {
             cout << endl << "# Invalid id. Please select again: ";
@@ -561,7 +562,7 @@ string Manager::chooseOrigin(Line lineOrigin) {
 
         origins = searchExactStation(origin, stations);
         if (origins.empty())origins = approximateStringMatchingStation(origin, stations);
-        if (origins.size() == 1) return findIdStation(origin);
+        if (origins.size() == 1 && origins.at(0).getName().compare(origin) != 0) origin = findIdStation(origins.at(0).getName());
         else {
 
             origin = chooseExactOrigin(origins);
@@ -578,7 +579,7 @@ string Manager::chooseDestination() {
     vector<Station> stations = getStation();
 
     cout << "\nWhere do you want to go ? (Choose the id of the station) " << endl << "::: ";
-    cin >> destination;
+	getline(cin, destination);
     if (is_digits(destination)) {
         while (!VerifyChoice(destination, stations)) {
             cout << endl << "# Invalid id. Please select again: ";
@@ -591,7 +592,7 @@ string Manager::chooseDestination() {
 
         destinations = searchExactStation(destination);
         if (destinations.empty())destinations = approximateStringMatchingStation(destination);
-        if (destinations.size() == 1) return findIdStation(destination);
+        if (destinations.size() == 1 && destinations.at(0).getName().compare(destination) != 0) return findIdStation(destinations.at(0).getName());
         else {
 
             destination = chooseExactOrigin(destinations);
@@ -609,12 +610,11 @@ string Manager::chooseDestination(Line lineDestination) {
     vector<Station> stations = getStation();
 
     //remove stations not belonging to line
-    for (auto it = stations.begin(); it != stations.end(); it++) {
-        if (it->findStop(lineDestination.getLineID()) == nullptr) {
-            it = stations.erase(it);
-            it--;
-        }
-    }
+	for (unsigned int i = 0; i < stations.size(); i++) {
+		if (stations.at(i).findStop(lineDestination.getLineID()) == nullptr) {
+			stations.erase(stations.begin() + i);
+		}
+	}
 
     cout << "\nSTATIONS:" << endl << endl;
     for (auto station : stations) {
@@ -624,7 +624,7 @@ string Manager::chooseDestination(Line lineDestination) {
     }
 
     cout << "\nWhere do you want to go ? (Choose the id of the station) " << endl << "::: ";
-    cin >> destination;
+	getline(cin, destination);
     if (is_digits(destination)) {
         while (!VerifyChoice(destination, stations)) {
             cout << endl << "# Invalid id. Please select again: ";
@@ -637,7 +637,7 @@ string Manager::chooseDestination(Line lineDestination) {
 
         destinations = searchExactStation(destination, stations);
         if (destinations.empty())destinations = approximateStringMatchingStation(destination, stations);
-        if (destinations.size() == 1) return findIdStation(destination);
+        if (destinations.size() == 1 && destinations.at(0).getName().compare(destination) != 0) return findIdStation(destinations.at(0).getName());
         else {
 
             destination = chooseExactOrigin(destinations);
@@ -674,7 +674,7 @@ Line Manager::chooseOriginLine() {
     } else {
         results = searchExactLine(origin);
         if (results.empty()) results = approximateStringMatchingLine(origin);
-        if (results.size() == 1) return findLine(origin);
+        if (results.size() == 1 && results.at(0).getLineID().name.compare(origin) != 0) return findLine(results.at(0).getLineID().name);
         else {
             origin = chooseExactLineOrigin(results);
         }
@@ -699,7 +699,7 @@ Line Manager::chooseDestinationLine() {
     } else {
         results = searchExactLine(destination);
         if (results.empty()) results = approximateStringMatchingLine(destination);
-        if (results.size() == 1) return findLine(destination);
+        if (results.size() == 1 && results.at(0).getLineID().name.compare(destination) != 0) return findLine(results.at(0).getLineID().name);
         else {
             destination = chooseExactLineOrigin(results);
         }
@@ -721,24 +721,24 @@ string Manager::getTransport(const string &id) {
     } else return "";
 }
 
-int Manager::getLine(Station s, const string &id) {
+string Manager::getLine(Station s, const string &id) {
 
     for (auto p: s.getStops()) {
 
         if (id == p.getStopID()) {
 
-            return p.getLineID().lineID;
+            return p.getLineID().name;
         }
     }
 }
 
 void Manager::printGraph() {
 
-    gv->setBackground("..(res/background.png");
+    gv->setBackground("res/background.png");
     gv->createWindow(800, 800);
     gv->defineEdgeCurved(false);
     gv->defineEdgeColor("grey");
-    gv->defineVertexIcon("../res/station.png");
+    gv->defineVertexIcon("res/station.png");
     for (unsigned int i = 0; i < graphDistance.getVertexSet().size(); i++) {
 
         string id = graphDistance.getVertexSet().at(i)->getInfo();

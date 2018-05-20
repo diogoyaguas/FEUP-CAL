@@ -222,49 +222,147 @@ public:
      * @param id - id of the wanted stop
      * @return int - id of the line
      */
-    static int getLine(Station s, const string &id);
+    static string getLine(Station s, const string &id);
 
     /**
      * @brief Function that allows the program to continue and return to main menu after a function was finished
      */
     static void continueFunction();
 
+    /**
+     * @brief Search for a Station with exact name
+     * @param name
+     * @return vector of objects from the class Station
+     */
     static vector<Station> searchExactStation(string name);
 
+    /**
+     * @brief Search for a Station with exact name
+     * @param name
+     * @param stations
+     * @return vector of objects from the class Station
+     */
     static vector<Station> searchExactStation(string name, vector<Station> stations);
 
+    /**
+     * @brief Search for a Line with exact name
+     * @param name
+     * @return vector of objects from the class Line
+     */
     static vector<Line> searchExactLine(string name);
 
+    /**
+     * @param pattern
+     * @param f
+     */
     static void preKpm(string pattern, int f[]);
 
+    /**
+     * @param pattern
+     * @param target
+     * @return true or false
+     */
     static bool kpm(string pattern, string target);
 
+    /**
+     * @brief Reset colors of edges
+     */
     static void resetColors();
 
+    /**
+     * @brief Choose exact origin by name
+     * @param stations
+     * @return id of Station
+     */
     static string chooseExactOrigin(vector<Station> stations);
 
+    /**
+     * @brief Choose exact origin line by name
+     * @param lines
+     * @return id of Line
+     */
     static string chooseExactLineOrigin(vector<Line> lines);
 
+    /**
+     * @brief Approximate matching string to Station's name
+     * @param name
+     * @return vector of objects from the class Station
+     */
     static vector<Station> approximateStringMatchingStation(string name);
 
+    /**
+     * @brief Approximate matching string to Station's name
+     * @param name
+     * @param stations
+     * @return vector of objects from the class Station
+     */
     static vector<Station> approximateStringMatchingStation(string name, vector<Station> stations);
 
+    /**
+     * @brief Approximate matching string to Line's name
+     * @param name
+     * @return vector of objects from the class Line
+     */
     static vector<Line> approximateStringMatchingLine(string name);
 
+    /**
+     * @brief Manage words
+     * @param sentence
+     * @return vector of strings
+     */
     static vector<string> manageWords(const string &sentence);
 
+    /**
+     * @brief Edit distance to compare strings
+     * @param pattern
+     * @param text
+     * @return int distance
+     */
     static int editDistance(string pattern, string text);
 
+    /**
+     * @brief Find approximate matching strings
+     * @param pattern
+     * @param text
+     * @return int total edit distance
+     */
     static int findApproxMatchingStrings(const string &pattern, string text);
 
-    static const string &findIdStation(string name);
+    /**
+     * @brief Find id Station
+     * @param name
+     * @return id Station
+     */
+    static const string findIdStation(string name);
 
+    /**
+     * @brief Sort vector Station
+     * @param s1
+     * @param s2
+     * @return true or false
+     */
     static bool sortStations(Station s1, Station s2);
 
+    /**
+     * @brief Sort vector Lines
+     * @param l1
+     * @param l2
+     * @return true or false
+     */
     static bool sortLines(Line l1, Line l2);
 
+    /**
+     * @brief Transform a two digits number into one digit
+     * @param id
+     * @return string with one digiti number
+     */
     static string twoDigitsIdToOne(string id);
 
+    /**
+     * @brief Getter of Lines from a Station
+     * @param name
+     * @return Lines from a Station
+     */
     static vector<Line> getLinesFromStation(string name);
 };
 
