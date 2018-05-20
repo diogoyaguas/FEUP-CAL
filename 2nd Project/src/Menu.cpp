@@ -198,6 +198,7 @@ void MenuChoosePath::displayMenu() {
 
     vector<char> options = {'1', '2', '3', '4', 'E'};
 
+    cin.ignore(1000, '\n');
     char option = processOptions(options);
 
     switch (option) {

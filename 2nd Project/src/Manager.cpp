@@ -508,7 +508,7 @@ string Manager::chooseOrigin() {
     if (is_digits(origin)) {
         while (!VerifyChoice(origin, stations)) {
             cout << endl << "# Invalid id. Please select again: ";
-            cin >> origin;
+            getline(cin,origin);
         }
 
         origin = twoDigitsIdToOne(origin);
@@ -517,7 +517,7 @@ string Manager::chooseOrigin() {
 
         origins = searchExactStation(origin);
         if (origins.empty())origins = approximateStringMatchingStation(origin);
-        if (origins.size() == 1 && origins.at(0).getName().compare(origin) != 0) return findIdStation(origins.at(0).getName());
+        if (origins.size() == 1 && origins.at(0).getName() == origin) return findIdStation(origins.at(0).getName());
         else {
 
             origin = chooseExactOrigin(origins);
@@ -553,7 +553,7 @@ string Manager::chooseOrigin(Line lineOrigin) {
     if (is_digits(origin)) {
         while (!VerifyChoice(origin, stations)) {
             cout << endl << "# Invalid id. Please select again: ";
-            cin >> origin;
+            getline(cin,origin);
         }
 
         origin = twoDigitsIdToOne(origin);
@@ -562,7 +562,7 @@ string Manager::chooseOrigin(Line lineOrigin) {
 
         origins = searchExactStation(origin, stations);
         if (origins.empty())origins = approximateStringMatchingStation(origin, stations);
-        if (origins.size() == 1 && origins.at(0).getName().compare(origin) != 0) origin = findIdStation(origins.at(0).getName());
+        if (origins.size() == 1 && origins.at(0).getName() == origin) origin = findIdStation(origins.at(0).getName());
         else {
 
             origin = chooseExactOrigin(origins);
@@ -583,7 +583,7 @@ string Manager::chooseDestination() {
     if (is_digits(destination)) {
         while (!VerifyChoice(destination, stations)) {
             cout << endl << "# Invalid id. Please select again: ";
-            cin >> destination;
+            getline(cin,destination);
         }
 
         destination = twoDigitsIdToOne(destination);
@@ -592,7 +592,7 @@ string Manager::chooseDestination() {
 
         destinations = searchExactStation(destination);
         if (destinations.empty())destinations = approximateStringMatchingStation(destination);
-        if (destinations.size() == 1 && destinations.at(0).getName().compare(destination) != 0) return findIdStation(destinations.at(0).getName());
+        if (destinations.size() == 1 && destinations.at(0).getName() == destination) return findIdStation(destinations.at(0).getName());
         else {
 
             destination = chooseExactOrigin(destinations);
@@ -628,7 +628,7 @@ string Manager::chooseDestination(Line lineDestination) {
     if (is_digits(destination)) {
         while (!VerifyChoice(destination, stations)) {
             cout << endl << "# Invalid id. Please select again: ";
-            cin >> destination;
+            getline(cin,destination);
         }
 
         destination = twoDigitsIdToOne(destination);
@@ -637,7 +637,7 @@ string Manager::chooseDestination(Line lineDestination) {
 
         destinations = searchExactStation(destination, stations);
         if (destinations.empty())destinations = approximateStringMatchingStation(destination, stations);
-        if (destinations.size() == 1 && destinations.at(0).getName().compare(destination) != 0) return findIdStation(destinations.at(0).getName());
+        if (destinations.size() == 1 && destinations.at(0).getName() == destination) return findIdStation(destinations.at(0).getName());
         else {
 
             destination = chooseExactOrigin(destinations);
@@ -668,13 +668,13 @@ Line Manager::chooseOriginLine() {
     if (is_digits(origin) && origin.size() < 3) {
         while (!VerifyChoice(origin, getLines())) {
             cout << endl << "# Invalid id. Please select again: ";
-            cin >> origin;
+            getline(cin,origin);
         }
         origin = twoDigitsIdToOne(origin);
     } else {
         results = searchExactLine(origin);
         if (results.empty()) results = approximateStringMatchingLine(origin);
-        if (results.size() == 1 && results.at(0).getLineID().name.compare(origin) != 0) return findLine(results.at(0).getLineID().name);
+        if (results.size() == 1 && results.at(0).getLineID().name == origin) return findLine(results.at(0).getLineID().name);
         else {
             origin = chooseExactLineOrigin(results);
         }
@@ -688,18 +688,17 @@ Line Manager::chooseDestinationLine() {
     string destination;
 
     cout << "\nIn what line is your arrival station in?" << endl << "::: ";
-    cin.ignore(1000, '\n');
     getline(cin, destination);
     if (is_digits(destination) && destination.size() < 3) {
         while (!VerifyChoice(destination, getLines())) {
             cout << endl << "# Invalid id. Please select again: ";
-            cin >> destination;
+            getline(cin,destination);
         }
         destination = twoDigitsIdToOne(destination);
     } else {
         results = searchExactLine(destination);
         if (results.empty()) results = approximateStringMatchingLine(destination);
-        if (results.size() == 1 && results.at(0).getLineID().name.compare(destination) != 0) return findLine(results.at(0).getLineID().name);
+        if (results.size() == 1 && results.at(0).getLineID().name == destination) return findLine(results.at(0).getLineID().name);
         else {
             destination = chooseExactLineOrigin(results);
         }
@@ -992,10 +991,10 @@ string Manager::chooseExactOrigin(vector<Station> exactStation) {
     }
 
     cout << "\nWhere are you ?" << endl << "::: ";
-    cin >> origin;
+    getline(cin,origin);
     while (!VerifyChoice(origin, exactStation)) {
         cout << endl << "# Invalid id. Please select again: ";
-        cin >> origin;
+        getline(cin,origin);
     }
 
     return origin;
@@ -1021,7 +1020,7 @@ string Manager::chooseExactLineOrigin(vector<Line> lines) {
     getline(cin, origin);
     while (!VerifyChoice(origin, lines)) {
         cout << endl << "# Invalid id. Please select again: ";
-        cin >> origin;
+        getline(cin,origin);
     }
 
     return origin;
