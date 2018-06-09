@@ -14,3 +14,8 @@ Ricardo Manuel Ferreira Teixeira
 * Student Number: 201604911
 * E-Mail: up201604911@fe.up.pt
 <br><br>
+
+### Grades
+
+*  1st Project - 17.2
+*  2nd Project - 17.9
