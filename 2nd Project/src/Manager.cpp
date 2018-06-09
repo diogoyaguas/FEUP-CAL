@@ -1166,10 +1166,9 @@ vector<Line> Manager::getLinesFromStation(string name) {
     vector<Line> lines = myLines;
     Station s = findStation(name);
 
-    for (auto it = lines.begin(); it != lines.end(); it++) {
-        if (s.findStop(it->getLineID()) == nullptr) {
-            it = lines.erase(it);
-            it--;
+    for (unsigned int i = 0; i < lines.size(); i++) {
+        if (s.findStop(lines.at(i).getLineID())) {
+            lines.erase(lines.begin() + i);
         }
     }
 

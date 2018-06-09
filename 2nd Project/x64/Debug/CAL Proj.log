@@ -1,7 +1,0 @@
-﻿  Manager.cpp
-c:\users\diogo\clionprojects\feup-cal\2nd project\src\manager.cpp(438): warning C4715: 'Manager::findStation': not all control paths return a value
-c:\users\diogo\clionprojects\feup-cal\2nd project\src\manager.cpp(452): warning C4715: 'Manager::findStop': not all control paths return a value
-c:\users\diogo\clionprojects\feup-cal\2nd project\src\manager.cpp(487): warning C4715: 'Manager::findIdStation': not all control paths return a value
-c:\users\diogo\clionprojects\feup-cal\2nd project\src\manager.cpp(474): warning C4715: 'Manager::findLine': not all control paths return a value
-c:\users\diogo\clionprojects\feup-cal\2nd project\src\manager.cpp(732): warning C4715: 'Manager::getLine': not all control paths return a value
-  CAL Proj.vcxproj -> C:\Users\diogo\CLionProjects\FEUP-CAL\2nd Project\x64\Debug\CAL Proj.exe
