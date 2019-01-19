@@ -4,7 +4,7 @@ Project for the Algorithm Design and Analysis (CAL) class of the Master in Infor
 ### Team Members
 Diogo Filipe da Silva Yaguas<br>
 * Student Number: 201606165
-* E-Mail: 201606165@fe.up.pt
+* E-Mail: up201606165@fe.up.pt
 
 Joana Maria Cerqueira da Silva
 * Student Number: 201208979
