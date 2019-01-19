@@ -17,5 +17,5 @@ Ricardo Manuel Ferreira Teixeira
 
 ### Grades
 
-*  1st Project - 17.2
-*  2nd Project - 17.9
+*  First Project - 17.2
+*  Second Project - 17.9
